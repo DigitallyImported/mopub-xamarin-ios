@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{88682743-6CAE-498C-BCBB-9B5F69A36C82}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>mopubiosbinding</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>MoPubIOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\MRAID.bundle\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="mopub.linkwith.cs">
+      <DependentUpon>mopub.a</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="..\..\mopub\mopub.framework\MPAdBrowserController.nib">
+      <Link>Resources\MPAdBrowserController.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX.png">
+      <Link>Resources\MPCloseButtonX.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX%402x.png">
+      <Link>Resources\MPCloseButtonX%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX%403x.png">
+      <Link>Resources\MPCloseButtonX%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\mopub\mopub.framework\MRAID.bundle\mraid.js">
+      <Link>Resources\MRAID.bundle\mraid.js</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingNativeLibrary Include="mopub.a" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
+  </ItemGroup>
+</Project>
