@@ -23,7 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		14705C073C96243B8DB9BE21 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D46F146E6F0B1E0DF12CE8B /* libPods.a */; };
-		3C3435B01AB11E5D00C10860 /* mopub.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3435AF1AB11E5D00C10860 /* mopub.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +39,6 @@
 		2D46F146E6F0B1E0DF12CE8B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C3435AA1AB11E5D00C10860 /* mopub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mopub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C3435AE1AB11E5D00C10860 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3C3435AF1AB11E5D00C10860 /* mopub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mopub.h; sourceTree = "<group>"; };
 		902E9A3DA8932D52D86EFA04 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F9432A18072DA75DD8EDD094 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +76,6 @@
 		3C3435AC1AB11E5D00C10860 /* mopub */ = {
 			isa = PBXGroup;
 			children = (
-				3C3435AF1AB11E5D00C10860 /* mopub.h */,
 				3C3435AD1AB11E5D00C10860 /* Supporting Files */,
 			);
 			path = mopub;
@@ -116,7 +113,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C3435B01AB11E5D00C10860 /* mopub.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +343,7 @@
 				INFOPLIST_FILE = mopub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -363,6 +360,7 @@
 				INFOPLIST_FILE = mopub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -410,6 +408,7 @@
 				3C3435C81AB1406B00C10860 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

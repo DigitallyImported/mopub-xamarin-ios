@@ -1,12 +1,21 @@
 PODS:
+  - Google-Mobile-Ads-SDK (6.12.2)
   - mopub-ios-sdk (3.5.0):
     - mopub-ios-sdk/MoPubSDK (= 3.5.0)
+  - mopub-ios-sdk/AdMob (3.5.0):
+    - Google-Mobile-Ads-SDK (= 6.12.2)
+    - mopub-ios-sdk/MoPubSDK
+  - mopub-ios-sdk/iAd (3.5.0):
+    - mopub-ios-sdk/MoPubSDK
   - mopub-ios-sdk/MoPubSDK (3.5.0)
 
 DEPENDENCIES:
   - mopub-ios-sdk
+  - mopub-ios-sdk/AdMob
+  - mopub-ios-sdk/iAd
 
 SPEC CHECKSUMS:
+  Google-Mobile-Ads-SDK: 9761186eb5dc5e1493e71dcce2b525159f763d42
   mopub-ios-sdk: 1f7ce097edac6b03dd7d507ccd46ee6f584ee1ff
 
 COCOAPODS: 0.36.0

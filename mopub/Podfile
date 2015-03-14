@@ -1,1 +1,3 @@
 pod 'mopub-ios-sdk'
+pod 'mopub-ios-sdk/iAd'
+pod 'mopub-ios-sdk/AdMob'
