@@ -35,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Resources\MRAID.bundle\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,26 +47,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="..\..\mopub\mopub.framework\MPAdBrowserController.nib">
-      <Link>Resources\MPAdBrowserController.nib</Link>
-    </BundleResource>
-    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX.png">
-      <Link>Resources\MPCloseButtonX.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX%402x.png">
-      <Link>Resources\MPCloseButtonX%402x.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\..\mopub\mopub.framework\MPCloseButtonX%403x.png">
-      <Link>Resources\MPCloseButtonX%403x.png</Link>
-    </BundleResource>
-    <BundleResource Include="..\..\mopub\mopub.framework\MRAID.bundle\mraid.js">
-      <Link>Resources\MRAID.bundle\mraid.js</Link>
-    </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <ObjcBindingNativeLibrary Include="mopub.a" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MPAdBrowserController.nib" />
+    <BundleResource Include="Resources\MPCloseButtonX.png" />
+    <BundleResource Include="Resources\MPCloseButtonX%402x.png" />
+    <BundleResource Include="Resources\MPCloseButtonX%403x.png" />
+    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
   </ItemGroup>
 </Project>
