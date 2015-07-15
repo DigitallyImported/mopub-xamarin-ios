@@ -84,7 +84,7 @@ static CGFloat const kBaseBackoffTimeMultiplier = 1.5;
 {
     NSTimeInterval adAge = [ad.creationDate timeIntervalSinceNow];
 
-    return abs(adAge) < maxAge;
+    return fabs(adAge) < maxAge;
 }
 
 #pragma mark - Ad Requests

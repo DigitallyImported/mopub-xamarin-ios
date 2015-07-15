@@ -77,6 +77,7 @@
 
 +(instancetype)sharedProvider;
 - (id)singletonForClass:(Class)klass provider:(MPSingletonProviderBlock)provider;
+- (id)singletonForClass:(Class)klass provider:(MPSingletonProviderBlock)provider context:(id)context;
 
 #pragma mark - Banners
 - (MPBannerAdManager *)buildMPBannerAdManagerWithDelegate:(id<MPBannerAdManagerDelegate>)delegate;
@@ -92,8 +93,7 @@
 - (MPInterstitialCustomEvent *)buildInterstitialCustomEventFromCustomClass:(Class)customClass
                                                                   delegate:(id<MPInterstitialCustomEventDelegate>)delegate;
 - (MPHTMLInterstitialViewController *)buildMPHTMLInterstitialViewControllerWithDelegate:(id<MPInterstitialViewControllerDelegate>)delegate
-                                                                        orientationType:(MPInterstitialOrientationType)type
-                                                                   customMethodDelegate:(id)customMethodDelegate;
+                                                                        orientationType:(MPInterstitialOrientationType)type;
 - (MPMRAIDInterstitialViewController *)buildMPMRAIDInterstitialViewControllerWithDelegate:(id<MPInterstitialViewControllerDelegate>)delegate
                                                                             configuration:(MPAdConfiguration *)configuration;
 
@@ -107,8 +107,7 @@
 - (MPAdWebView *)buildMPAdWebViewWithFrame:(CGRect)frame
                                   delegate:(id<UIWebViewDelegate>)delegate;
 - (MPAdWebViewAgent *)buildMPAdWebViewAgentWithAdWebViewFrame:(CGRect)frame
-                                                     delegate:(id<MPAdWebViewAgentDelegate>)delegate
-                                         customMethodDelegate:(id)customMethodDelegate;
+                                                     delegate:(id<MPAdWebViewAgentDelegate>)delegate;
 
 #pragma mark - MRAID
 - (MPClosableView *)buildMRAIDMPClosableViewWithFrame:(CGRect)frame webView:(UIWebView *)webView delegate:(id<MPClosableViewDelegate>)delegate;

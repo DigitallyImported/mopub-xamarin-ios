@@ -10,6 +10,7 @@
 #import "MPLogProvider.h"
 
 NSString * const kMPClearErrorLogFormatWithAdUnitID = @"No ads found for ad unit: %@";
+NSString * const kMPWarmingUpErrorLogFormatWithAdUnitID = @"Ad unit %@ is currently warming up. Please try again in a few minutes.";
 NSString * const kMPSystemLogPrefix = @"MOPUB: %@";
 
 static MPLogLevel systemLogLevel = MPLogLevelInfo;

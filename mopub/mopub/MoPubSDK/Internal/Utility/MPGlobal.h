@@ -17,6 +17,7 @@ UIWindow *MPKeyWindow(void);
 CGFloat MPStatusBarHeight(void);
 CGRect MPApplicationFrame(void);
 CGRect MPScreenBounds(void);
+CGSize MPScreenResolution(void);
 CGFloat MPDeviceScaleFactor(void);
 NSDictionary *MPDictionaryFromQueryString(NSString *query);
 NSString *MPSHA1Digest(NSString *string);
@@ -78,8 +79,6 @@ typedef NSUInteger MPInterstitialOrientationType;
 @interface UIDevice (MPAdditions)
 
 - (NSString *)hardwareDeviceName;
-- (BOOL)supportsOrientationMask:(UIInterfaceOrientationMask)orientationMask;
-- (BOOL)doesOrientation:(UIInterfaceOrientation)orientation matchOrientationMask:(UIInterfaceOrientationMask)orientationMask;
 
 @end
 
@@ -89,6 +88,8 @@ typedef NSUInteger MPInterstitialOrientationType;
 
 // Correct way to hide/show the status bar on pre-ios 7.
 - (void)mp_preIOS7setApplicationStatusBarHidden:(BOOL)hidden;
+- (BOOL)mp_supportsOrientationMask:(UIInterfaceOrientationMask)orientationMask;
+- (BOOL)mp_doesOrientation:(UIInterfaceOrientation)orientation matchOrientationMask:(UIInterfaceOrientationMask)orientationMask;
 
 @end
 

@@ -99,7 +99,7 @@
 - (void)loadAdWithURL:(NSURL *)URL
 {
     self.playedAd = NO;
-    
+
     if (self.loading) {
         MPLogWarn(@"Rewarded video manager is already loading an ad. "
                   @"Wait for previous load to finish.");
@@ -119,6 +119,14 @@
     self.configuration = configuration;
 
     MPLogInfo(@"Rewarded video ad is fetching ad network type: %@", self.configuration.networkType);
+
+    if (self.configuration.adUnitWarmingUp) {
+        MPLogInfo(kMPWarmingUpErrorLogFormatWithAdUnitID, self.adUnitID);
+        self.loading = NO;
+        NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorAdUnitWarmingUp userInfo:nil];
+        [self.delegate rewardedVideoDidFailToLoadForAdManager:self error:error];
+        return;
+    }
 
     if ([self.configuration.networkType isEqualToString:kAdTypeClear]) {
         MPLogInfo(kMPClearErrorLogFormatWithAdUnitID, self.adUnitID);

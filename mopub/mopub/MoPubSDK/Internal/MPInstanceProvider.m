@@ -43,6 +43,18 @@
 
 @interface MPInstanceProvider ()
 
+// A nested dictionary. The top-level dictionary maps Class objects to second-level dictionaries.
+// The second level dictionaries map identifiers to singleton objects.
+//
+// An example:
+//  {
+//      SomeClass:
+//      {
+//          @"default": <singleton_a>
+//          @"other_context": <singleton_b>
+//      }
+//  }
+//
 @property (nonatomic, strong) NSMutableDictionary *singletons;
 
 @end
@@ -71,13 +83,23 @@ static MPInstanceProvider *sharedAdProvider = nil;
     return self;
 }
 
-
 - (id)singletonForClass:(Class)klass provider:(MPSingletonProviderBlock)provider
 {
-    id singleton = [self.singletons objectForKey:klass];
+    return [self singletonForClass:klass provider:provider context:@"default"];
+}
+
+- (id)singletonForClass:(Class)klass provider:(MPSingletonProviderBlock)provider context:(id)context
+{
+    id singleton = [[self.singletons objectForKey:klass] objectForKey:context];
     if (!singleton) {
         singleton = provider();
-        [self.singletons setObject:singleton forKey:(id<NSCopying>)klass];
+        NSMutableDictionary *singletonsForClass = [self.singletons objectForKey:klass];
+        if (!singletonsForClass) {
+            NSMutableDictionary *singletonsForContext = [NSMutableDictionary dictionaryWithObjectsAndKeys:singleton, context, nil];
+            [self.singletons setObject:singletonsForContext forKey:(id<NSCopying>)klass];
+        } else {
+            [singletonsForClass setObject:singleton forKey:context];
+        }
     }
     return singleton;
 }
@@ -150,12 +172,10 @@ static MPInstanceProvider *sharedAdProvider = nil;
 
 - (MPHTMLInterstitialViewController *)buildMPHTMLInterstitialViewControllerWithDelegate:(id<MPInterstitialViewControllerDelegate>)delegate
                                                                         orientationType:(MPInterstitialOrientationType)type
-                                                                   customMethodDelegate:(id)customMethodDelegate
 {
     MPHTMLInterstitialViewController *controller = [[MPHTMLInterstitialViewController alloc] init];
     controller.delegate = delegate;
     controller.orientationType = type;
-    controller.customMethodDelegate = customMethodDelegate;
     return controller;
 }
 
@@ -201,9 +221,9 @@ static MPInstanceProvider *sharedAdProvider = nil;
     return webView;
 }
 
-- (MPAdWebViewAgent *)buildMPAdWebViewAgentWithAdWebViewFrame:(CGRect)frame delegate:(id<MPAdWebViewAgentDelegate>)delegate customMethodDelegate:(id)customMethodDelegate
+- (MPAdWebViewAgent *)buildMPAdWebViewAgentWithAdWebViewFrame:(CGRect)frame delegate:(id<MPAdWebViewAgentDelegate>)delegate
 {
-    return [[MPAdWebViewAgent alloc] initWithAdWebViewFrame:frame delegate:delegate customMethodDelegate:customMethodDelegate];
+    return [[MPAdWebViewAgent alloc] initWithAdWebViewFrame:frame delegate:delegate];
 }
 
 #pragma mark - MRAID

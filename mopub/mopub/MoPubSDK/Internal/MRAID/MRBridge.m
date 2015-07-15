@@ -77,14 +77,14 @@ static NSString * const kMraidURLScheme = @"mraid";
 {
     NSString *JSON = [NSString stringWithFormat:@"{%@}", property];
     [self executeJavascript:@"window.mraidbridge.fireChangeEvent(%@);", JSON];
-    MPLogDebug(@"JSON: %@", JSON);
+    MPLogTrace(@"JSON: %@", JSON);
 }
 
 - (void)fireChangeEventsForProperties:(NSArray *)properties
 {
     NSString *JSON = [NSString stringWithFormat:@"{%@}", [properties componentsJoinedByString:@", "]];
     [self executeJavascript:@"window.mraidbridge.fireChangeEvent(%@);", JSON];
-    MPLogDebug(@"JSON: %@", JSON);
+    MPLogTrace(@"JSON: %@", JSON);
 }
 
 - (void)fireErrorEventForAction:(NSString *)action withMessage:(NSString *)message
@@ -167,10 +167,14 @@ static NSString * const kMraidURLScheme = @"mraid";
 
     if (!isLoading && (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked)) {
         BOOL iframe = ![request.URL isEqual:request.mainDocumentURL];
-        if (iframe) {
+
+        // If we load a URL from an iFrame that did not originate from a click or
+        // is a deep link, handle normally and return safeToAutoloadLink.
+        if (iframe && !((navigationType == UIWebViewNavigationTypeLinkClicked) && ([scheme isEqualToString:@"https"] || [scheme isEqualToString:@"http"]))) {
             return safeToAutoloadLink;
         }
 
+        // Otherwise, open the URL in a new web view.
         [self.delegate bridge:self handleDisplayForDestinationURL:url];
         return NO;
     }

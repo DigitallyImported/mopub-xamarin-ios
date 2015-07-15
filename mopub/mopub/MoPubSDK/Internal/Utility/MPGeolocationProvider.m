@@ -95,6 +95,15 @@ const NSTimeInterval kMPLocationUpdateInterval = 10.0 * 60.0;
 
 #pragma mark - Public
 
+- (CLLocation *)lastKnownLocation
+{
+    if (!self.locationUpdatesEnabled) {
+        return nil;
+    }
+
+    return _lastKnownLocation;
+}
+
 - (void)setLocationUpdatesEnabled:(BOOL)enabled
 {
     _locationUpdatesEnabled = enabled;

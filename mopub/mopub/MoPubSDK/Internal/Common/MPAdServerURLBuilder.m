@@ -14,6 +14,7 @@
 #import "MPIdentityProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPReachability.h"
+#import "MPAPIEndpoints.h"
 
 static NSString * const kMoPubInterfaceOrientationPortrait = @"p";
 static NSString * const kMoPubInterfaceOrientationLandscape = @"l";
@@ -39,6 +40,8 @@ static NSInteger const kAdSequenceNone = -1;
 + (NSString *)queryParameterForDeviceName;
 + (NSString *)queryParameterForDesiredAdAssets:(NSArray *)assets;
 + (NSString *)queryParameterForAdSequence:(NSInteger)adSequence;
++ (NSString *)queryParameterForPhysicalScreenSize;
++ (NSString *)queryParameterForBundleIdentifier;
 + (BOOL)advertisingTrackingEnabled;
 
 @end
@@ -90,8 +93,8 @@ static NSInteger const kAdSequenceNone = -1;
              desiredAssets:(NSArray *)assets
                 adSequence:(NSInteger)adSequence
 {
-    NSString *URLString = [NSString stringWithFormat:@"http://%@/m/ad?v=%@&udid=%@&id=%@&%@=%@",
-                           testing ? HOSTNAME_FOR_TESTING : HOSTNAME,
+    NSString *URLString = [NSString stringWithFormat:@"%@?v=%@&udid=%@&id=%@&%@=%@",
+                           [MPAPIEndpoints baseURLStringWithPath:MOPUB_API_PATH_AD_REQUEST testing:testing],
                            MP_SERVER_VERSION,
                            [MPIdentityProvider identifier],
                            [adUnitID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
@@ -113,6 +116,8 @@ static NSInteger const kAdSequenceNone = -1;
     URLString = [URLString stringByAppendingString:[self queryParameterForDeviceName]];
     URLString = [URLString stringByAppendingString:[self queryParameterForDesiredAdAssets:assets]];
     URLString = [URLString stringByAppendingString:[self queryParameterForAdSequence:adSequence]];
+    URLString = [URLString stringByAppendingString:[self queryParameterForPhysicalScreenSize]];
+    URLString = [URLString stringByAppendingString:[self queryParameterForBundleIdentifier]];
 
     return [NSURL URLWithString:URLString];
 }
@@ -195,6 +200,10 @@ static NSInteger const kAdSequenceNone = -1;
         if (bestLocation == locationFromProvider) {
             result = [result stringByAppendingString:@"&llsdk=1"];
         }
+
+        NSTimeInterval locationLastUpdatedMillis = [[NSDate date] timeIntervalSinceDate:bestLocation.timestamp] * 1000.0;
+
+        result = [result stringByAppendingFormat:@"&llf=%.0f", locationLastUpdatedMillis];
     }
 
     return result;
@@ -267,6 +276,19 @@ static NSInteger const kAdSequenceNone = -1;
 + (NSString *)queryParameterForAdSequence:(NSInteger)adSequence
 {
     return (adSequence >= 0) ? [NSString stringWithFormat:@"&seq=%ld", (long)adSequence] : @"";
+}
+
++ (NSString *)queryParameterForPhysicalScreenSize
+{
+    CGSize screenSize = MPScreenResolution();
+
+    return [NSString stringWithFormat:@"&w=%.0f&h=%.0f", screenSize.width, screenSize.height];
+}
+
++ (NSString *)queryParameterForBundleIdentifier
+{
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    return bundleIdentifier ? [NSString stringWithFormat:@"&bundle=%@", [bundleIdentifier URLEncodedString]] : @"";
 }
 
 + (BOOL)advertisingTrackingEnabled

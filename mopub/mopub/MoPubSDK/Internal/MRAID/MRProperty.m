@@ -8,6 +8,7 @@
 
 #import "MRProperty.h"
 #import <EventKit/EventKit.h>
+#import "MPConstants.h"
 
 @implementation MRProperty
 
@@ -17,6 +18,26 @@
 
 - (NSString *)jsonString {
     return @"{}";
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@implementation MRHostSDKVersionProperty : MRProperty
+
+@synthesize version = _version;
+
++ (instancetype)defaultProperty
+{
+    MRHostSDKVersionProperty *property = [[self alloc] init];
+    property.version = MP_SDK_VERSION;
+    return property;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"hostSDKVersion: '%@'", self.version];
 }
 
 @end

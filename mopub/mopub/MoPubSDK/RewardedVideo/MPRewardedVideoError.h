@@ -11,6 +11,7 @@ typedef enum {
     MPRewardedVideoAdErrorUnknown = -1,
 
     MPRewardedVideoAdErrorTimeout = -1000,
+    MPRewardedVideoAdErrorAdUnitWarmingUp = -1001,
     MPRewardedVideoAdErrorNoAdsAvailable = -1100,
     MPRewardedVideoAdErrorInvalidCustomEvent = -1200,
     MPRewardedVideoAdErrorMismatchingAdTypes = -1300,
