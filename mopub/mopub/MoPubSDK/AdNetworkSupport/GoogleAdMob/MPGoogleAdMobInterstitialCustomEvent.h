@@ -12,7 +12,7 @@
 #endif
 
 /*
- * Certified with version 6.12.2 of the Google AdMob Ads SDK.
+ * Certified with version 7.1.0 of the Google AdMob Ads SDK.
  */
 
 @interface MPGoogleAdMobInterstitialCustomEvent : MPInterstitialCustomEvent

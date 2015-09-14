@@ -9,16 +9,14 @@
 
 #define MP_DEBUG_MODE               1
 
-#define HOSTNAME                    @"ads.mopub.com"
-#define HOSTNAME_FOR_TESTING        @"testing.ads.mopub.com"
 #define DEFAULT_PUB_ID              @"agltb3B1Yi1pbmNyDAsSBFNpdGUYkaoMDA"
 #define MP_SERVER_VERSION           @"8"
 #define MP_BUNDLE_IDENTIFIER        @"com.mopub.mopub"
 
 #ifdef MP_FABRIC
-    #define MP_SDK_VERSION              @"3.5.0+kit"
+    #define MP_SDK_VERSION              @"3.12.0+kit"
 #else
-    #define MP_SDK_VERSION              @"3.5.0"
+    #define MP_SDK_VERSION              @"3.12.0"
 #endif
 
 // Sizing constants.

@@ -8,6 +8,7 @@
 
 @interface MPMoPubNativeAdAdapter : NSObject <MPNativeAdAdapter>
 
+@property (nonatomic, weak) id<MPNativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSArray *impressionTrackers;
 @property (nonatomic, strong) NSURL *engagementTrackingURL;
 

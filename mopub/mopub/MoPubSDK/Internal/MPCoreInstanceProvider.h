@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "MPGlobal.h"
-
+#import "MPURLResolver.h"
 
 @class MPAdConfiguration;
 
@@ -17,7 +17,6 @@
 @protocol MPAdServerCommunicatorDelegate;
 
 // URL Handling
-@class MPURLResolver;
 @class MPAdDestinationDisplayAgent;
 @protocol MPAdDestinationDisplayAgentDelegate;
 
@@ -28,6 +27,8 @@
 @class MPTimer;
 @class MPGeolocationProvider;
 @class CLLocationManager;
+@class MPLogEventRecorder;
+@class MPNetworkManager;
 
 typedef id(^MPSingletonProviderBlock)();
 
@@ -43,10 +44,11 @@ typedef id(^MPSingletonProviderBlock)();
 - (MPAdServerCommunicator *)buildMPAdServerCommunicatorWithDelegate:(id<MPAdServerCommunicatorDelegate>)delegate;
 
 #pragma mark - URL Handling
-- (MPURLResolver *)buildMPURLResolver;
+- (MPURLResolver *)buildMPURLResolverWithURL:(NSURL *)URL completion:(MPURLResolverCompletionBlock)completion;
 - (MPAdDestinationDisplayAgent *)buildMPAdDestinationDisplayAgentWithDelegate:(id<MPAdDestinationDisplayAgentDelegate>)delegate;
 
 #pragma mark - Utilities
+- (UIDevice *)sharedCurrentDevice;
 - (MPGeolocationProvider *)sharedMPGeolocationProvider;
 - (CLLocationManager *)buildCLLocationManager;
 - (id<MPAdAlertManagerProtocol>)buildMPAdAlertManagerWithDelegate:(id)delegate;
@@ -54,6 +56,8 @@ typedef id(^MPSingletonProviderBlock)();
 - (NSOperationQueue *)sharedOperationQueue;
 - (MPAnalyticsTracker *)sharedMPAnalyticsTracker;
 - (MPReachability *)sharedMPReachability;
+- (MPLogEventRecorder *)sharedLogEventRecorder;
+- (MPNetworkManager *)sharedNetworkManager;
 
 // This call may return nil and may not update if the user hot-swaps the device's sim card.
 - (NSDictionary *)sharedCarrierInfo;

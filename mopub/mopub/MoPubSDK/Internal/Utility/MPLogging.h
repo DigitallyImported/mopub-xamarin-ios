@@ -9,6 +9,7 @@
 #import "MPConstants.h"
 
 extern NSString * const kMPClearErrorLogFormatWithAdUnitID;
+extern NSString * const kMPWarmingUpErrorLogFormatWithAdUnitID;
 
 // Lower = finer-grained logs.
 typedef enum

@@ -13,7 +13,9 @@
 #import "NSJSONSerialization+MPAdditions.h"
 
 NSString * const kAdTypeHeaderKey = @"X-Adtype";
+NSString * const kAdUnitWarmingUpHeaderKey = @"X-Warmup";
 NSString * const kClickthroughHeaderKey = @"X-Clickthrough";
+NSString * const kCreativeIdHeaderKey = @"X-CreativeId";
 NSString * const kCustomSelectorHeaderKey = @"X-Customselector";
 NSString * const kCustomEventClassNameHeaderKey = @"X-Custom-Event-Class-Name";
 NSString * const kCustomEventClassDataHeaderKey = @"X-Custom-Event-Class-Data";
@@ -88,6 +90,8 @@ NSString * const kAdTypeNative = @"json";
 
         self.adType = [self adTypeFromHeaders:headers];
 
+        self.adUnitWarmingUp = [[headers objectForKey:kAdUnitWarmingUpHeaderKey] boolValue];
+
         self.networkType = [self networkTypeFromHeaders:headers];
         self.networkType = self.networkType ? self.networkType : @"";
 
@@ -127,6 +131,10 @@ NSString * const kAdTypeNative = @"json";
         self.isVastVideoPlayer = [[headers objectForKey:kIsVastVideoPlayerKey] boolValue];
 
         self.creationTimestamp = [NSDate date];
+
+        self.creativeId = [headers objectForKey:kCreativeIdHeaderKey];
+
+        self.headerAdType = [headers objectForKey:kAdTypeHeaderKey];
     }
     return self;
 }

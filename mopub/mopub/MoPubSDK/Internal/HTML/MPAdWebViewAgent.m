@@ -38,7 +38,6 @@
 - (void)performActionForMoPubSpecificURL:(NSURL *)URL;
 - (BOOL)shouldIntercept:(NSURL *)URL navigationType:(UIWebViewNavigationType)navigationType;
 - (void)interceptURL:(NSURL *)URL;
-- (void)handleMoPubCustomURL:(NSURL *)URL;
 
 @end
 
@@ -47,21 +46,19 @@
 @synthesize configuration = _configuration;
 @synthesize delegate = _delegate;
 @synthesize destinationDisplayAgent = _destinationDisplayAgent;
-@synthesize customMethodDelegate = _customMethodDelegate;
 @synthesize shouldHandleRequests = _shouldHandleRequests;
 @synthesize view = _view;
 @synthesize adAlertManager = _adAlertManager;
 @synthesize userInteractedWithWebView = _userInteractedWithWebView;
 @synthesize userInteractionRecognizer = _userInteractionRecognizer;
 
-- (id)initWithAdWebViewFrame:(CGRect)frame delegate:(id<MPAdWebViewAgentDelegate>)delegate customMethodDelegate:(id)customMethodDelegate;
+- (id)initWithAdWebViewFrame:(CGRect)frame delegate:(id<MPAdWebViewAgentDelegate>)delegate;
 {
     self = [super init];
     if (self) {
         self.view = [[MPInstanceProvider sharedProvider] buildMPAdWebViewWithFrame:frame delegate:self];
         self.destinationDisplayAgent = [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
         self.delegate = delegate;
-        self.customMethodDelegate = customMethodDelegate;
         self.shouldHandleRequests = YES;
         self.adAlertManager = [[MPCoreInstanceProvider sharedProvider] buildMPAdAlertManagerWithDelegate:self];
 
@@ -228,40 +225,9 @@
         case MPMoPubHostCommandFailLoad:
             [self.delegate adDidFailToLoadAd:self.view];
             break;
-        case MPMoPubHostCommandCustom:
-            [self handleMoPubCustomURL:URL];
-            break;
         default:
             MPLogWarn(@"MPAdWebView - unsupported MoPub URL: %@", [URL absoluteString]);
             break;
-    }
-}
-
-- (void)handleMoPubCustomURL:(NSURL *)URL
-{
-    NSDictionary *queryParameters = [URL mp_queryAsDictionary];
-    NSString *selectorName = [queryParameters objectForKey:@"fnc"];
-    NSString *oneArgumentSelectorName = [selectorName stringByAppendingString:@":"];
-    SEL zeroArgumentSelector = NSSelectorFromString(selectorName);
-    SEL oneArgumentSelector = NSSelectorFromString(oneArgumentSelectorName);
-
-    if ([self.customMethodDelegate respondsToSelector:zeroArgumentSelector]) {
-        SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING(
-            [self.customMethodDelegate performSelector:zeroArgumentSelector withObject:nil]
-        );
-    } else if ([self.customMethodDelegate respondsToSelector:oneArgumentSelector]) {
-        NSData *data = [[queryParameters objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *dataDictionary = nil;
-        if (data) {
-            dataDictionary = [NSJSONSerialization mp_JSONObjectWithData:data options:NSJSONReadingMutableContainers clearNullObjects:YES error:nil];
-        }
-
-        SUPPRESS_PERFORM_SELECTOR_LEAK_WARNING(
-            [self.customMethodDelegate performSelector:oneArgumentSelector withObject:dataDictionary]
-        );
-    } else {
-        MPLogError(@"Custom method delegate does not implement custom selectors %@ or %@.",
-                   selectorName, oneArgumentSelectorName);
     }
 }
 

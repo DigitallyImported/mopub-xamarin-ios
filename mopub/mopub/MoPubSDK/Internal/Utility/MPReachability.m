@@ -85,7 +85,7 @@ typedef enum {
     return retVal;
 }
 
-+ (MPReachability*) reachabilityForLocalWiFi;
++ (MPReachability *)reachabilityForLocalWiFi;
 {
     struct sockaddr_in localWifiAddress;
     bzero(&localWifiAddress, sizeof(localWifiAddress));
@@ -98,6 +98,16 @@ typedef enum {
         retVal->localWiFiRef = YES;
     }
     return retVal;
+}
+
++ (MPReachability *)reachabilityForInternetConnection
+{
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+
+    return [self reachabilityWithAddress:&zeroAddress];
 }
 
 #pragma mark Network Flag Handling
@@ -165,6 +175,11 @@ typedef enum {
 - (BOOL)hasWifi
 {
     return [self currentReachabilityStatus] == MPReachabilityReachableViaWiFi;
+}
+
+- (BOOL)hasCellular
+{
+    return [self currentReachabilityStatus] == MPReachabilityReachableViaWWAN;
 }
 
 @end

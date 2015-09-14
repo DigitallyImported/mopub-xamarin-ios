@@ -13,8 +13,6 @@
 #import "MPCoreInstanceProvider.h"
 #import "MPLastResortDelegate.h"
 
-#import "UIViewController+MPAdditions.h"
-
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MessageUI/MessageUI.h>
@@ -151,7 +149,7 @@
         [self.currentOpenMailVC addAttachmentData:markupData mimeType:@"text/html" fileName:@"mp_adalert_markup.html"];
     }
 
-    [[self.delegate viewControllerForPresentingMailVC] mp_presentModalViewController:self.currentOpenMailVC animated:MP_ANIMATED];
+    [[self.delegate viewControllerForPresentingMailVC] presentViewController:self.currentOpenMailVC animated:MP_ANIMATED completion:nil];
 
     if ([self.delegate respondsToSelector:@selector(adAlertManagerDidProcessAlert:)]) {
         [self.delegate adAlertManagerDidProcessAlert:self];
@@ -181,7 +179,7 @@
         self.processedAlert = NO;
     }
 
-    [[self.delegate viewControllerForPresentingMailVC] mp_dismissModalViewControllerAnimated:MP_ANIMATED];
+    [[self.delegate viewControllerForPresentingMailVC] dismissViewControllerAnimated:MP_ANIMATED completion:nil];
 }
 
 #pragma mark - Public

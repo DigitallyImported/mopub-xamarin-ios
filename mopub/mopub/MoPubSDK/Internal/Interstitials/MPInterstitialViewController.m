@@ -9,7 +9,6 @@
 
 #import "MPGlobal.h"
 #import "MPLogging.h"
-#import "UIViewController+MPAdditions.h"
 
 static const CGFloat kCloseButtonPadding = 6.0;
 static NSString * const kCloseButtonXImageName = @"MPCloseButtonX.png";
@@ -162,13 +161,15 @@ static NSString * const kCloseButtonXImageName = @"MPCloseButtonX.png";
 
     [self willDismissInterstitial];
 
-    UIViewController *presentingViewController = [self mp_presentingViewController];
+    UIViewController *presentingViewController = self.presentingViewController;
     // TODO: Is this check necessary?
-    if ([presentingViewController mp_presentedViewController] == self) {
-        [presentingViewController mp_dismissModalViewControllerAnimated:MP_ANIMATED];
+    if (presentingViewController.presentedViewController == self) {
+        [presentingViewController dismissViewControllerAnimated:MP_ANIMATED completion:^{
+            [self didDismissInterstitial];
+        }];
+    } else {
+        [self didDismissInterstitial];
     }
-
-    [self didDismissInterstitial];
 }
 
 #pragma mark - Hidding status bar (pre-iOS 7)

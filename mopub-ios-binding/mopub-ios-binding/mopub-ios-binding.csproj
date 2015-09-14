@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{88682743-6CAE-498C-BCBB-9B5F69A36C82}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>mopubiosbinding</RootNamespace>
+    <RootNamespace>MoPub</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>MoPubIOS</AssemblyName>
   </PropertyGroup>
@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Resources\MRAID.bundle\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,10 +54,13 @@
     <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
     <BundleResource Include="Resources\MPAdBrowserController.nib" />
     <BundleResource Include="Resources\MPCloseButtonX.png" />
     <BundleResource Include="Resources\MPCloseButtonX%402x.png" />
     <BundleResource Include="Resources\MPCloseButtonX%403x.png" />
-    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
+    <BundleResource Include="Resources\MPDAAIcon.png" />
+    <BundleResource Include="Resources\MPDAAIcon%402x.png" />
+    <BundleResource Include="Resources\MPDAAIcon%403x.png" />
   </ItemGroup>
 </Project>

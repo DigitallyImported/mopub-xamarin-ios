@@ -237,6 +237,25 @@ static const CGFloat kMoPubImpressionTimerInterval = 0.25;
     [self loadImageForURL:imageURL intoImageView:imageView];
 }
 
+- (void)loadDAAIconIntoImageView:(UIImageView *)imageView
+{
+    // Remove all gesture recognizers from the view so
+    // this doesn't accidentally trigger previous recognizers.
+    NSArray *gestureRecognizers = imageView.gestureRecognizers;
+
+    for (UIGestureRecognizer *recognizer in gestureRecognizers) {
+        [imageView removeGestureRecognizer:recognizer];
+        [recognizer removeTarget:nil action:NULL];
+    }
+
+    if ([self.adAdapter respondsToSelector:@selector(loadDAAIconIntoImageView:)]) {
+        [self.adAdapter loadDAAIconIntoImageView:imageView];
+        imageView.hidden = NO;
+    } else {
+        imageView.hidden = YES;
+    }
+}
+
 - (void)loadTextIntoLabel:(UILabel *)label
 {
     label.text = [self.properties objectForKey:kAdTextKey];

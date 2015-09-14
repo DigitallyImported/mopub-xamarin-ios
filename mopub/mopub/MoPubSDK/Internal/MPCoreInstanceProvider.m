@@ -17,6 +17,8 @@
 #import "MPTimer.h"
 #import "MPAnalyticsTracker.h"
 #import "MPGeolocationProvider.h"
+#import "MPLogEventRecorder.h"
+#import "MPNetworkManager.h"
 
 #define MOPUB_CARRIER_INFO_DEFAULTS_KEY @"com.mopub.carrierinfo"
 
@@ -151,9 +153,9 @@ static MPCoreInstanceProvider *sharedProvider = nil;
 
 #pragma mark - URL Handling
 
-- (MPURLResolver *)buildMPURLResolver
+- (MPURLResolver *)buildMPURLResolverWithURL:(NSURL *)URL completion:(MPURLResolverCompletionBlock)completion;
 {
-    return [MPURLResolver resolver];
+    return [MPURLResolver resolverWithURL:URL completion:completion];
 }
 
 - (MPAdDestinationDisplayAgent *)buildMPAdDestinationDisplayAgentWithDelegate:(id<MPAdDestinationDisplayAgentDelegate>)delegate
@@ -162,6 +164,11 @@ static MPCoreInstanceProvider *sharedProvider = nil;
 }
 
 #pragma mark - Utilities
+
+- (UIDevice *)sharedCurrentDevice
+{
+    return [UIDevice currentDevice];
+}
 
 - (MPGeolocationProvider *)sharedMPGeolocationProvider
 {
@@ -223,6 +230,21 @@ static MPCoreInstanceProvider *sharedProvider = nil;
 {
     return [self singletonForClass:[MPReachability class] provider:^id{
         return [MPReachability reachabilityForLocalWiFi];
+    }];
+}
+
+- (MPLogEventRecorder *)sharedLogEventRecorder
+{
+    return [self singletonForClass:[MPLogEventRecorder class] provider:^id{
+        MPLogEventRecorder *recorder = [[MPLogEventRecorder alloc] init];
+        return recorder;
+    }];
+}
+
+- (MPNetworkManager *)sharedNetworkManager
+{
+    return [self singletonForClass:[MPNetworkManager class] provider:^id{
+        return [MPNetworkManager sharedNetworkManager];
     }];
 }
 

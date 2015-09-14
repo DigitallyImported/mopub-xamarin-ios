@@ -13,6 +13,9 @@
 #define kDefaultActionURLKey        @"clk"
 #define kClickTrackerURLKey         @"clktracker"
 
+static NSString *kDAAIconImageName = @"MPDAAIcon";
+static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
+
 @interface MPMoPubNativeAdAdapter () <MPAdDestinationDisplayAgentDelegate>
 
 @property (nonatomic, readonly, strong) MPAdDestinationDisplayAgent *destinationDisplayAgent;
@@ -72,19 +75,11 @@
     NSError *error = nil;
 
     if (!controller) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cannot display content without a root view controller."
-                                                             forKey:MPNativeAdErrorContentDisplayErrorReasonKey];
-        error = [NSError errorWithDomain:MoPubNativeAdsSDKDomain
-                                    code:MPNativeAdErrorContentDisplayError
-                                userInfo:userInfo];
+        error = MPNativeAdNSErrorForContentDisplayErrorMissingRootController();
     }
 
     if (!URL || ![URL isKindOfClass:[NSURL class]] || ![URL.absoluteString length]) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cannot display content without a valid URL."
-                                                             forKey:MPNativeAdErrorContentDisplayErrorReasonKey];
-        error = [NSError errorWithDomain:MoPubNativeAdsSDKDomain
-                                    code:MPNativeAdErrorContentDisplayError
-                                userInfo:userInfo];
+        error = MPNativeAdNSErrorForContentDisplayErrorInvalidURL();
     }
 
     if (error) {
@@ -96,17 +91,33 @@
         return;
     }
 
-    self.rootViewController = controller;
     self.actionCompletionBlock = completionBlock;
 
     [self.destinationDisplayAgent displayDestinationForURL:URL];
+}
+
+#pragma mark - DAA Icon
+
+- (void)daaIconTapped
+{
+    [self.destinationDisplayAgent displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
+}
+
+- (void)loadDAAIconIntoImageView:(UIImageView *)imageView
+{
+    imageView.image = [UIImage imageNamed:MPResourcePathForResource(kDAAIconImageName)];
+
+    // Attach a gesture recognizer to handle loading the daa icon URL.
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(daaIconTapped)];
+    imageView.userInteractionEnabled = YES;
+    [imageView addGestureRecognizer:tapRecognizer];
 }
 
 #pragma mark - <MPAdDestinationDisplayAgent>
 
 - (UIViewController *)viewControllerForPresentingModalView
 {
-    return self.rootViewController;
+    return [self.delegate viewControllerForPresentingModalView];
 }
 
 - (void)displayAgentWillPresentModal

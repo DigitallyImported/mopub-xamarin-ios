@@ -11,7 +11,9 @@
 #import "MPGeolocationProvider.h"
 #import "MPRewardedVideo.h"
 
-@interface MoPub ()
+#import "FABKitProtocol.h"
+
+@interface MoPub () <FABKit>
 
 @property (nonatomic, strong) NSArray *globalMediationSettings;
 
@@ -29,6 +31,16 @@
     return sharedInstance;
 }
 
++ (NSString *)bundleIdentifier
+{
+    return MP_BUNDLE_IDENTIFIER;
+}
+
++ (NSString *)kitDisplayVersion
+{
+    return MP_SDK_VERSION;
+}
+
 - (void)setLocationUpdatesEnabled:(BOOL)locationUpdatesEnabled
 {
     _locationUpdatesEnabled = locationUpdatesEnabled;
@@ -40,6 +52,7 @@
 
 }
 
+// Keep -version and -bundleIdentifier methods around for Fabric backwards compatibility.
 - (NSString *)version
 {
     return MP_SDK_VERSION;

@@ -79,6 +79,8 @@ CGRect MPClosableViewCustomCloseButtonFrame(CGSize size, MPClosableViewCloseButt
 
         _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _closeButton.backgroundColor = [UIColor clearColor];
+        _closeButton.accessibilityLabel = @"Close Interstitial Ad";
+
         [_closeButton addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
         [self setCloseButtonType:closeButtonType];
