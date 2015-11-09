@@ -8,19 +8,17 @@
 #import "MPNativeAdError.h"
 #import "MPAdDestinationDisplayAgent.h"
 #import "MPCoreInstanceProvider.h"
+#import "MPStaticNativeAdImpressionTimer.h"
+#import "MPNativeAdConstants.h"
+#import "MPGlobal.h"
 
-#define kImpressionTrackerURLsKey   @"imptracker"
-#define kDefaultActionURLKey        @"clk"
-#define kClickTrackerURLKey         @"clktracker"
+static const NSTimeInterval kMoPubRequiredSecondsForImpression = 1.0;
+static const CGFloat kMoPubRequiredViewVisibilityPercentage = 0.5;
 
-static NSString *kDAAIconImageName = @"MPDAAIcon";
-static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
+@interface MPMoPubNativeAdAdapter () <MPAdDestinationDisplayAgentDelegate, MPStaticNativeAdImpressionTimerDelegate>
 
-@interface MPMoPubNativeAdAdapter () <MPAdDestinationDisplayAgentDelegate>
-
-@property (nonatomic, readonly, strong) MPAdDestinationDisplayAgent *destinationDisplayAgent;
-@property (nonatomic, weak) UIViewController *rootViewController;
-@property (nonatomic, copy) void (^actionCompletionBlock)(BOOL, NSError *);
+@property (nonatomic) MPStaticNativeAdImpressionTimer *impressionTimer;
+@property (nonatomic, readonly) MPAdDestinationDisplayAgent *destinationDisplayAgent;
 
 @end
 
@@ -32,20 +30,40 @@ static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
 - (instancetype)initWithAdProperties:(NSMutableDictionary *)properties
 {
     if (self = [super init]) {
-        BOOL valid = YES;
 
+        // Let's make sure the data types of all the provided native ad properties are strings before creating the adapter
+
+        NSArray *keysToCheck = @[kAdIconImageKey, kAdMainImageKey, kAdTextKey, kAdTitleKey, kAdCTATextKey];
+
+        for (NSString *key in keysToCheck) {
+            id value = properties[key];
+            if (value != nil && ![value isKindOfClass:[NSString class]]) {
+                return nil;
+            }
+        }
+
+        BOOL valid = YES;
         NSArray *impressionTrackers = [properties objectForKey:kImpressionTrackerURLsKey];
         if (![impressionTrackers isKindOfClass:[NSArray class]] || [impressionTrackers count] < 1) {
             valid = NO;
         } else {
-            _impressionTrackers = impressionTrackers;
+            _impressionTrackerURLs = MPConvertStringArrayToURLArray(impressionTrackers);
         }
 
-        NSString *engagementTracker = [properties objectForKey:kClickTrackerURLKey];
-        if (engagementTracker == nil) {
-            valid = NO;
+        NSObject *clickTracker = [properties objectForKey:kClickTrackerURLKey];
+
+        // The click tracker could either be a single URL or an array of URLS.
+        if ([clickTracker isKindOfClass:[NSArray class]]) {
+            _clickTrackerURLs = MPConvertStringArrayToURLArray((NSArray *)clickTracker);
+        } else if ([clickTracker isKindOfClass:[NSString class]]) {
+            NSURL *url = [NSURL URLWithString:(NSString *)clickTracker];
+            if (url) {
+                _clickTrackerURLs = @[ url ];
+            } else {
+                valid = NO;
+            }
         } else {
-            _engagementTrackingURL = [NSURL URLWithString:engagementTracker];
+            valid = NO;
         }
 
         _defaultActionURL = [NSURL URLWithString:[properties objectForKey:kDefaultActionURLKey]];
@@ -57,7 +75,12 @@ static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
             return nil;
         }
 
+        // Add the DAA icon settings to our properties dictionary.
+        [properties setObject:MPResourcePathForResource(kDAAIconImageName) forKey:kAdDAAIconImageKey];
+
         _destinationDisplayAgent = [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
+        _impressionTimer = [[MPStaticNativeAdImpressionTimer alloc] initWithRequiredSecondsForImpression:kMoPubRequiredSecondsForImpression requiredViewVisibilityPercentage:kMoPubRequiredViewVisibilityPercentage];
+        _impressionTimer.delegate = self;
     }
 
     return self;
@@ -69,51 +92,41 @@ static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
     [_destinationDisplayAgent setDelegate:nil];
 }
 
-- (void)displayContentForURL:(NSURL *)URL rootViewController:(UIViewController *)controller
-                  completion:(void (^)(BOOL success, NSError *error))completionBlock
+#pragma mark - <MPNativeAdAdapter>
+
+- (void)willAttachToView:(UIView *)view
 {
-    NSError *error = nil;
+    [self.impressionTimer startTrackingView:view];
+}
 
+- (void)displayContentForURL:(NSURL *)URL rootViewController:(UIViewController *)controller
+{
     if (!controller) {
-        error = MPNativeAdNSErrorForContentDisplayErrorMissingRootController();
-    }
-
-    if (!URL || ![URL isKindOfClass:[NSURL class]] || ![URL.absoluteString length]) {
-        error = MPNativeAdNSErrorForContentDisplayErrorInvalidURL();
-    }
-
-    if (error) {
-
-        if (completionBlock) {
-            completionBlock(NO, error);
-        }
-
         return;
     }
 
-    self.actionCompletionBlock = completionBlock;
+    if (!URL || ![URL isKindOfClass:[NSURL class]] || ![URL.absoluteString length]) {
+        return;
+    }
 
     [self.destinationDisplayAgent displayDestinationForURL:URL];
 }
 
 #pragma mark - DAA Icon
 
-- (void)daaIconTapped
+- (void)displayContentForDAAIconTap
 {
     [self.destinationDisplayAgent displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
 }
 
-- (void)loadDAAIconIntoImageView:(UIImageView *)imageView
-{
-    imageView.image = [UIImage imageNamed:MPResourcePathForResource(kDAAIconImageName)];
+#pragma mark - <MPStaticNativeAdImpressionTimerDelegate>
 
-    // Attach a gesture recognizer to handle loading the daa icon URL.
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(daaIconTapped)];
-    imageView.userInteractionEnabled = YES;
-    [imageView addGestureRecognizer:tapRecognizer];
+- (void)trackImpression
+{
+    [self.delegate nativeAdWillLogImpression:self];
 }
 
-#pragma mark - <MPAdDestinationDisplayAgent>
+#pragma mark - <MPAdDestinationDisplayAgentDelegate>
 
 - (UIViewController *)viewControllerForPresentingModalView
 {
@@ -122,25 +135,17 @@ static NSString *kDAAIconTapDestinationURL = @"https://www.mopub.com/optout";
 
 - (void)displayAgentWillPresentModal
 {
-
+    [self.delegate nativeAdWillPresentModalForAdapter:self];
 }
 
 - (void)displayAgentWillLeaveApplication
 {
-    if (self.actionCompletionBlock) {
-        self.actionCompletionBlock(YES, nil);
-        self.actionCompletionBlock = nil;
-    }
-
+    [self.delegate nativeAdWillLeaveApplicationFromAdapter:self];
 }
 
 - (void)displayAgentDidDismissModal
 {
-    if (self.actionCompletionBlock) {
-        self.actionCompletionBlock(YES, nil);
-        self.actionCompletionBlock = nil;
-    }
-
-    self.rootViewController = nil;
+    [self.delegate nativeAdDidDismissModalForAdapter:self];
 }
+
 @end

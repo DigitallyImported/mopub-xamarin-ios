@@ -5,7 +5,7 @@ using Foundation;
 using ObjCRuntime;
 using UIKit;
 
-namespace MoPub
+namespace MoPubSDK
 {
 	// @interface MPAdConversionTracker : NSObject <NSUrlConnectionDataDelegate>
 	[BaseType (typeof(NSObject))]

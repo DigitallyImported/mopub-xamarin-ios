@@ -25,9 +25,4 @@
                              testing:(BOOL)testing;
 - (void)presentInterstitialFromViewController:(UIViewController *)controller;
 
-// Deprecated
-- (void)customEventDidLoadAd;
-- (void)customEventDidFailToLoadAd;
-- (void)customEventActionWillBegin;
-
 @end

@@ -26,7 +26,6 @@
 #import "MPNativeAdRendering.h"
 #import "MPNativeAdRequest.h"
 #import "MPNativeAdRequestTargeting.h"
-#import "MPTableViewAdManager.h"
 #import "MPCollectionViewAdPlacer.h"
 #import "MPTableViewAdPlacer.h"
 #import "MPClientAdPositioning.h"
@@ -37,6 +36,14 @@
 #import "MPRewardedVideoReward.h"
 #import "MPRewardedVideoCustomEvent.h"
 #import "MPRewardedVideoError.h"
+#import "MPStaticNativeAdRendererSettings.h"
+#import "MPNativeAdRendererConfiguration.h"
+#import "MPNativeAdRendererSettings.h"
+#import "MPNativeAdRenderer.h"
+#import "MPStaticNativeAdRenderer.h"
+#import "MOPUBNativeVideoAdRendererSettings.h"
+#import "MOPUBNativeVideoAdRenderer.h"
+#import "MPNativeAdRenderingImageLoader.h"
 
 // Import these frameworks for module support.
 #import <AdSupport/AdSupport.h>

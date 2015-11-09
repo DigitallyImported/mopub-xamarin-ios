@@ -67,9 +67,7 @@
 
     // Here, you can specify a list of device IDs that will receive test ads.
     // Running in the simulator will automatically show test ads.
-    request.testDevices = [NSArray arrayWithObjects:
-                           // more UDIDs here,
-                           nil];
+    request.testDevices = @[/*more UDIDs here*/];
 
     request.requestAgent = @"MoPub";
 

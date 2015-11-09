@@ -1,4 +1,4 @@
-namespace MoPub
+namespace MoPubSDK
 {
 	public enum MPNativeAdOrientation : uint
 	{

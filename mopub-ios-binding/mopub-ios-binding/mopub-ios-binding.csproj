@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MoPub</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>MoPubIOS</AssemblyName>
+    <AssemblyName>MoPubSDK</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Resources\MRAID.bundle\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,13 +53,26 @@
     <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
+    <BundleResource Include="Resources\.DS_Store" />
     <BundleResource Include="Resources\MPAdBrowserController.nib" />
+    <BundleResource Include="Resources\MPCloseBtn.png" />
+    <BundleResource Include="Resources\MPCloseBtn%402x.png" />
+    <BundleResource Include="Resources\MPCloseBtn%403x.png" />
     <BundleResource Include="Resources\MPCloseButtonX.png" />
     <BundleResource Include="Resources\MPCloseButtonX%402x.png" />
     <BundleResource Include="Resources\MPCloseButtonX%403x.png" />
     <BundleResource Include="Resources\MPDAAIcon.png" />
     <BundleResource Include="Resources\MPDAAIcon%402x.png" />
     <BundleResource Include="Resources\MPDAAIcon%403x.png" />
+    <BundleResource Include="Resources\MPMutedBtn%401x.png" />
+    <BundleResource Include="Resources\MPMutedBtn%402x.png" />
+    <BundleResource Include="Resources\MPMutedBtn%403x.png" />
+    <BundleResource Include="Resources\MPPlayBtn.png" />
+    <BundleResource Include="Resources\MPPlayBtn%402x.png" />
+    <BundleResource Include="Resources\MPPlayBtn%403x.png" />
+    <BundleResource Include="Resources\MPUnmutedBtn%401x.png" />
+    <BundleResource Include="Resources\MPUnmutedBtn%402x.png" />
+    <BundleResource Include="Resources\MPUnmutedBtn%403x.png" />
+    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
   </ItemGroup>
 </Project>

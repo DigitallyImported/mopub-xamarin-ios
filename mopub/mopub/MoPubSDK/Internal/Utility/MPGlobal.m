@@ -185,6 +185,21 @@ NSString *MPResourcePathForResource(NSString *resourceName)
 #endif
 }
 
+NSArray *MPConvertStringArrayToURLArray(NSArray *strArray)
+{
+    NSMutableArray *urls = [NSMutableArray array];
+
+    for (NSObject *str in strArray) {
+        if ([str isKindOfClass:[NSString class]]) {
+            NSURL *url = [NSURL URLWithString:(NSString *)str];
+            if (url) {
+                [urls addObject:url];
+            }
+        }
+    }
+
+    return urls;
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation NSString (MPAdditions)

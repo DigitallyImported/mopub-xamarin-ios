@@ -24,6 +24,7 @@ NSString *MPSHA1Digest(NSString *string);
 BOOL MPViewIsVisible(UIView *view);
 BOOL MPViewIntersectsParentWindowWithPercent(UIView *view, CGFloat percentVisible);
 NSString *MPResourcePathForResource(NSString *resourceName);
+NSArray *MPConvertStringArrayToURLArray(NSArray *strArray);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +46,8 @@ NSString *MPResourcePathForResource(NSString *resourceName);
 #define MP_IOS_5_1  50100
 #define MP_IOS_6_0  60000
 #define MP_IOS_7_0  70000
+#define MP_IOS_8_0  80000
+#define MP_IOS_9_0  90000
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
