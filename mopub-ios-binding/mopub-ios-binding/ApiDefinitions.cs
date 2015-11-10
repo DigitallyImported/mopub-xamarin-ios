@@ -764,19 +764,6 @@ namespace MoPubSDK
 		NSSet DesiredAssets { get; set; }
 	}
 
-	// @interface MPTableViewAdManager : NSObject
-	[BaseType (typeof(NSObject))]
-	interface MPTableViewAdManager
-	{
-		// -(id)initWithTableView:(UITableView *)tableView __attribute__((deprecated("")));
-		[Export ("initWithTableView:")]
-		IntPtr Constructor (UITableView tableView);
-
-		// -(UITableViewCell *)adCellForAd:(MPNativeAd *)adObject cellClass:(Class)cellClass __attribute__((deprecated("")));
-		[Export ("adCellForAd:cellClass:")]
-		UITableViewCell AdCellForAd (MPNativeAd adObject, Class cellClass);
-	}
-
 	// @interface MPAdPositioning : NSObject <NSCopying>
 	[BaseType (typeof(NSObject))]
 	interface MPAdPositioning : INSCopying
