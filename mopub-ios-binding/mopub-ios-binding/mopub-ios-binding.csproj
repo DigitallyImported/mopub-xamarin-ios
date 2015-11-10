@@ -34,45 +34,16 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="mopub.linkwith.cs">
-      <DependentUpon>mopub.a</DependentUpon>
-    </Compile>
+    <ObjcBindingNativeFramework Include="..\..\mopub-framework\Carthage\Build\iOS\MoPub.framework" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
-  <ItemGroup>
-    <ObjcBindingNativeLibrary Include="mopub.a" />
-  </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Resources\.DS_Store" />
-    <BundleResource Include="Resources\MPAdBrowserController.nib" />
-    <BundleResource Include="Resources\MPCloseBtn.png" />
-    <BundleResource Include="Resources\MPCloseBtn%402x.png" />
-    <BundleResource Include="Resources\MPCloseBtn%403x.png" />
-    <BundleResource Include="Resources\MPCloseButtonX.png" />
-    <BundleResource Include="Resources\MPCloseButtonX%402x.png" />
-    <BundleResource Include="Resources\MPCloseButtonX%403x.png" />
-    <BundleResource Include="Resources\MPDAAIcon.png" />
-    <BundleResource Include="Resources\MPDAAIcon%402x.png" />
-    <BundleResource Include="Resources\MPDAAIcon%403x.png" />
-    <BundleResource Include="Resources\MPMutedBtn%401x.png" />
-    <BundleResource Include="Resources\MPMutedBtn%402x.png" />
-    <BundleResource Include="Resources\MPMutedBtn%403x.png" />
-    <BundleResource Include="Resources\MPPlayBtn.png" />
-    <BundleResource Include="Resources\MPPlayBtn%402x.png" />
-    <BundleResource Include="Resources\MPPlayBtn%403x.png" />
-    <BundleResource Include="Resources\MPUnmutedBtn%401x.png" />
-    <BundleResource Include="Resources\MPUnmutedBtn%402x.png" />
-    <BundleResource Include="Resources\MPUnmutedBtn%403x.png" />
-    <BundleResource Include="Resources\MRAID.bundle\mraid.js" />
+    <Compile Include="MoPub.framework.linkwith.cs" />
   </ItemGroup>
 </Project>
