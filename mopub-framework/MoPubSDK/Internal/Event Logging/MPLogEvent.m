@@ -21,12 +21,14 @@ NSString * const IOS_MANUFACTURER_NAME = @"Apple";
  * Event names.
  */
 NSString * const MPLogEventNameAdRequest = @"ad_request";
+NSString * const MPLogEventNameClickthroughDwellTime = @"clickthrough_dwell_time";
 
 /*
  * Event categories.
  */
 NSString * const MPLogEventCategoryRequests = @"requests";
 NSString * const MPLogEventCategoryNativeVideo = @"native_video";
+NSString * const MPLogEventCategoryAdInteractions = @"ad_interactions";
 
 @interface MPAdConfigurationLogEventProperties ()
 
@@ -39,6 +41,7 @@ NSString * const MPLogEventCategoryNativeVideo = @"native_video";
     if (self = [super init]) {
         _adType = configuration.headerAdType;
         _adCreativeId = configuration.creativeId;
+        _dspCreativeId = configuration.dspCreativeId;
         _adNetworkType = configuration.networkType;
         _adSize = configuration.preferredSize;
 
@@ -215,6 +218,7 @@ NSString * const MPLogEventCategoryNativeVideo = @"native_video";
 
     [d mp_safeSetObject:[self adUnitId] forKey:@"ad_unit_id"];
     [d mp_safeSetObject:[self adCreativeId] forKey:@"ad_creative_id"];
+    [d mp_safeSetObject:[self dspCreativeId] forKey:@"dsp_creative_id"];
     [d mp_safeSetObject:[self adType] forKey:@"ad_type"];
     [d mp_safeSetObject:[self adNetworkType] forKey:@"ad_network_type"];
     [d mp_safeSetObject:@(self.adSize.width) forKey:@"ad_width_px"];
@@ -279,6 +283,7 @@ NSString * const MPLogEventCategoryNativeVideo = @"native_video";
     if (logEventProperties) {
         [self setAdType:logEventProperties.adType];
         [self setAdCreativeId:logEventProperties.adCreativeId];
+        [self setDspCreativeId:logEventProperties.dspCreativeId];
         [self setAdNetworkType:logEventProperties.adNetworkType];
         [self setAdSize:logEventProperties.adSize];
         [self setRequestId:logEventProperties.requestId];

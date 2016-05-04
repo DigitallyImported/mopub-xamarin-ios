@@ -70,4 +70,7 @@
 // Called just after the ad has closed.
 - (void)adDidClose:(UIView *)adView;
 
+// Called after the rewarded video finishes playing
+- (void)rewardedVideoEnded;
+
 @end

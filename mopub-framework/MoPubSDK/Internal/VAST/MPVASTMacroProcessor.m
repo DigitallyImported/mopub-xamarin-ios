@@ -33,7 +33,7 @@
     }
 
     if (assetURL) {
-        NSString *encodedAssetURLString = [[assetURL absoluteString] URLEncodedString];
+        NSString *encodedAssetURLString = [[assetURL absoluteString] mp_URLEncodedString];
         [URLString replaceOccurrencesOfString:@"[ASSETURI]" withString:encodedAssetURLString options:0 range:NSMakeRange(0, [URLString length])];
         [URLString replaceOccurrencesOfString:@"%5BASSETURI%5D" withString:encodedAssetURLString options:0 range:NSMakeRange(0, [URLString length])];
     }

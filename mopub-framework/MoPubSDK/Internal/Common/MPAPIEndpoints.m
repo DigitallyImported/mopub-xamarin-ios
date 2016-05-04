@@ -10,22 +10,27 @@
 
 @implementation MPAPIEndpoints
 
-static BOOL sUsesHTTPS = false;
+static BOOL sUsesHTTPS = YES;
 
 + (void)setUsesHTTPS:(BOOL)usesHTTPS
 {
     sUsesHTTPS = usesHTTPS;
 }
 
-+ (NSString *)APIScheme
++ (NSString *)baseURL
 {
-    return sUsesHTTPS ? @"https" : @"http";
+    return [@"http://" stringByAppendingString:MOPUB_BASE_HOSTNAME];
+}
+
++ (NSString *)baseURLScheme
+{
+    return sUsesHTTPS ? @"https://" : @"http://";
 }
 
 + (NSString *)baseURLStringWithPath:(NSString *)path testing:(BOOL)testing
 {
-    return [NSString stringWithFormat:@"%@://%@%@",
-            [[self class] APIScheme],
+    return [NSString stringWithFormat:@"%@%@%@",
+            [[self class] baseURLScheme],
             testing ? MOPUB_BASE_HOSTNAME_FOR_TESTING : MOPUB_BASE_HOSTNAME,
             path];
 }

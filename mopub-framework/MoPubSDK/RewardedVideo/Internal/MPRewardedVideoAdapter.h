@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "MPPrivateRewardedVideoCustomEventDelegate.h"
 
 @class MPAdConfiguration;
 @class MPRewardedVideoReward;
@@ -20,7 +21,7 @@
  * and click tracking. Finally, the class will report a failure to load an ad if the ad
  * takes too long to load.
  */
-@interface MPRewardedVideoAdapter : NSObject
+@interface MPRewardedVideoAdapter : NSObject <MPPrivateRewardedVideoCustomEventDelegate>
 
 @property (nonatomic, weak) id<MPRewardedVideoAdapterDelegate> delegate;
 
@@ -68,5 +69,9 @@
 - (void)rewardedVideoDidReceiveTapEventForAdapter:(MPRewardedVideoAdapter *)adapter;
 - (void)rewardedVideoWillLeaveApplicationForAdapter:(MPRewardedVideoAdapter *)adapter;
 - (void)rewardedVideoShouldRewardUserForAdapter:(MPRewardedVideoAdapter *)adapter reward:(MPRewardedVideoReward *)reward;
+
+@optional
+- (NSString *)rewardedVideoAdUnitId;
+- (MPAdConfiguration *)configuration;
 
 @end

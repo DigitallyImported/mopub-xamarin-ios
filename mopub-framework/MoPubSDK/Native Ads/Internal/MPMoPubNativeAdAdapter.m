@@ -148,4 +148,6 @@ static const CGFloat kMoPubRequiredViewVisibilityPercentage = 0.5;
     [self.delegate nativeAdDidDismissModalForAdapter:self];
 }
 
+// - (MPAdConfiguration *)adConfiguration delegate method is automatically implemented via the adConfiguration property declaration.
+
 @end

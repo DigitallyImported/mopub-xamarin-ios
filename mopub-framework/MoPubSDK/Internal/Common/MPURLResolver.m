@@ -104,7 +104,9 @@ static NSString * const kResolverErrorDomain = @"com.mopub.resolver";
     MPURLActionInfo *actionInfo = nil;
 
     if (URL == nil) {
-        *error = [NSError errorWithDomain:kResolverErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey: @"URL is nil"}];
+        if (error) {
+            *error = [NSError errorWithDomain:kResolverErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey: @"URL is nil"}];
+        }
         return nil;
     }
 

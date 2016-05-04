@@ -20,6 +20,7 @@ static NSString * const kMoPubCloseHost = @"close";
 static NSString * const kMoPubFinishLoadHost = @"finishLoad";
 static NSString * const kMoPubFailLoadHost = @"failLoad";
 static NSString * const kMoPubPrecacheCompleteHost = @"precacheComplete";
+static NSString * const kMoPubRewardedVideoEndedHost = @"rewardedVideoEnded";
 
 @implementation NSURL (MPAdditions)
 
@@ -115,6 +116,8 @@ static NSString * const kMoPubPrecacheCompleteHost = @"precacheComplete";
         return MPMoPubHostCommandFailLoad;
     } else if ([host isEqualToString:kMoPubPrecacheCompleteHost]) {
         return MPMoPubHostCommandPrecacheComplete;
+    } else if ([host isEqualToString:kMoPubRewardedVideoEndedHost]) {
+        return MPMoPubHostCommandRewardedVideoEnded;
     } else {
         return MPMoPubHostCommandUnrecognized;
     }

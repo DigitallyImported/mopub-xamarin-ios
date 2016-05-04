@@ -5,8 +5,12 @@
 //  Copyright (c) 2014 MoPub. All rights reserved.
 //
 
-#if __has_include("MPNativeAdSampleTableViewCell.h")
-    #import "MPNativeAdSampleTableViewCell.h"
+#if __has_include("MPStaticNativeAdView.h")
+    #import "MPStaticNativeAdView.h"
+#endif
+
+#if __has_include("MPVideoNativeAdView.h")
+    #import "MPVideoNativeAdView.h"
 #endif
 
 #import "MPAdConversionTracker.h"
@@ -49,6 +53,7 @@
 #import <AdSupport/AdSupport.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreMedia/CoreMedia.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <EventKit/EventKit.h>
 #import <EventKitUI/EventKitUI.h>

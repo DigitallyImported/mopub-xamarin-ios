@@ -34,4 +34,8 @@
 - (void)displayAgentWillLeaveApplication;
 - (void)displayAgentDidDismissModal;
 
+@optional
+
+- (MPAdConfiguration *)adConfiguration;
+
 @end

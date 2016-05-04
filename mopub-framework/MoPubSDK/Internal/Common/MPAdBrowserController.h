@@ -16,6 +16,8 @@
 #endif
 #endif
 
+@class MPAdConfiguration;
+
 @protocol MPAdBrowserControllerDelegate;
 
 @interface MPAdBrowserController : UIViewController <UIWebViewDelegate, UIActionSheetDelegate>
@@ -53,5 +55,9 @@
 @protocol MPAdBrowserControllerDelegate <NSObject>
 
 - (void)dismissBrowserController:(MPAdBrowserController *)browserController animated:(BOOL)animated;
+
+@optional
+
+- (MPAdConfiguration *)adConfiguration;
 
 @end

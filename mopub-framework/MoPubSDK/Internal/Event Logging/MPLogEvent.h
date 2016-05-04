@@ -28,12 +28,14 @@ typedef NS_ENUM(NSInteger, MPLogEventNetworkType) {
  * Event names.
  */
 extern NSString *const MPLogEventNameAdRequest;
+extern NSString *const MPLogEventNameClickthroughDwellTime;
 
 /*
  * Event categories.
  */
 extern NSString *const MPLogEventCategoryRequests;
 extern NSString *const MPLogEventCategoryNativeVideo;
+extern NSString *const MPLogEventCategoryAdInteractions;
 
 /* MPAdConfigurationLogEventProperties
  *
@@ -44,6 +46,7 @@ extern NSString *const MPLogEventCategoryNativeVideo;
 
 @property (nonatomic, copy) NSString *adType;
 @property (nonatomic, copy) NSString *adCreativeId;
+@property (nonatomic, copy) NSString *dspCreativeId;
 @property (nonatomic, copy) NSString *adNetworkType;
 @property (nonatomic) CGSize adSize;
 @property (nonatomic, copy) NSString *requestId;
@@ -94,6 +97,11 @@ extern NSString *const MPLogEventCategoryNativeVideo;
  * The MoPub Creative ID string that is associated with the event.
  */
 @property (nonatomic, copy) NSString *adCreativeId;
+
+/**
+ * The DSP Creative ID string that is associated with the event.
+ */
+@property (nonatomic, copy) NSString *dspCreativeId;
 
 /**
  * Identifier for a class of ad. Examples include "html", "mraid", "interstitial", "json",

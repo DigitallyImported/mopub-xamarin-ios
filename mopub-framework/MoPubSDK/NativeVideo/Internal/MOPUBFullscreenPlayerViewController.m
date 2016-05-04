@@ -22,6 +22,7 @@ static CGFloat const kDaaIconSize = 16.0f;
 static CGFloat const kCloseButtonRightMargin = 16.0f;
 static CGFloat const kDefaultButtonTouchAreaInsets = 10.0f;
 
+static NSString * const kCloseButtonImage = @"MPCloseBtn.png";
 static NSString * const kCtaButtonTitleText = @"Learn More";
 static CGFloat const kCtaButtonTopMarginPortrait = 15.0f;
 static CGFloat const kCtaButtonTrailingMarginLandscape = 15.0f;
@@ -89,13 +90,13 @@ static CGFloat const kStallSpinnerSize = 35.0f;
 
     self.daaButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.daaButton.frame = CGRectMake(0, 0, kDaaIconSize, kDaaIconSize);
-    [self.daaButton setImage:[UIImage imageNamed:kDAAIconImageName] forState:UIControlStateNormal];
+    [self.daaButton setImage:[UIImage imageNamed:MPResourcePathForResource(kDAAIconImageName)] forState:UIControlStateNormal];
     [self.daaButton addTarget:self action:@selector(daaButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.daaButton.mp_TouchAreaInsets = UIEdgeInsetsMake(kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets);
     [self.view addSubview:self.daaButton];
 
     self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.closeButton setImage:[UIImage imageNamed:@"MPCloseBtn"] forState:UIControlStateNormal];
+    [self.closeButton setImage:[UIImage imageNamed:MPResourcePathForResource(kCloseButtonImage)] forState:UIControlStateNormal];
     [self.closeButton addTarget:self action:@selector(closeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.closeButton.mp_TouchAreaInsets = UIEdgeInsetsMake(kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets, kDefaultButtonTouchAreaInsets);
     [self.closeButton sizeToFit];
@@ -194,8 +195,8 @@ static CGFloat const kStallSpinnerSize = 35.0f;
     if (UIInterfaceOrientationIsLandscape(MPInterfaceOrientation())) {
         self.playerView.frame = CGRectMake(0, 0, screenSize.width, screenSize.height);
     } else {
-        self.playerView.width = screenSize.width;
-        self.playerView.height = self.playerView.width/self.playerController.videoAspectRatio;
+        self.playerView.mp_width = screenSize.width;
+        self.playerView.mp_height = self.playerView.mp_width/self.playerController.videoAspectRatio;
         self.playerView.center = self.view.center;
         self.playerView.frame = CGRectIntegral(self.playerView.frame);
     }
@@ -203,16 +204,16 @@ static CGFloat const kStallSpinnerSize = 35.0f;
 
 - (void)layoutDaaButton
 {
-    self.daaButton.x = kDaaIconFullscreenLeftMargin;
-    self.daaButton.y = kDaaIconFullscreenTopMargin;
+    self.daaButton.mp_x = kDaaIconFullscreenLeftMargin;
+    self.daaButton.mp_y = kDaaIconFullscreenTopMargin;
 }
 
 - (void)layoutCloseButton
 {
     CGSize screenSize = MPScreenBounds().size;
-    self.closeButton.x = screenSize.width - kCloseButtonRightMargin - self.closeButton.width;
-    CGFloat daaCenterY = self.daaButton.frame.origin.y + self.daaButton.height/2.0f;
-    self.closeButton.y = daaCenterY - self.closeButton.height/2.0f;
+    self.closeButton.mp_x = screenSize.width - kCloseButtonRightMargin - self.closeButton.mp_width;
+    CGFloat daaCenterY = self.daaButton.frame.origin.y + self.daaButton.mp_height/2.0f;
+    self.closeButton.mp_y = daaCenterY - self.closeButton.mp_height/2.0f;
     self.closeButton.frame = CGRectIntegral(self.closeButton.frame);
 }
 
@@ -220,11 +221,11 @@ static CGFloat const kStallSpinnerSize = 35.0f;
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        self.ctaButton.x = CGRectGetMaxX(self.playerView.frame) - kCtaButtonTrailingMarginLandscape - CGRectGetWidth(self.ctaButton.bounds);
-        self.ctaButton.y = CGRectGetMaxY(self.playerView.frame) - kCtaButtonBottomMarginLandscape - CGRectGetHeight(self.ctaButton.bounds);
+        self.ctaButton.mp_x = CGRectGetMaxX(self.playerView.frame) - kCtaButtonTrailingMarginLandscape - CGRectGetWidth(self.ctaButton.bounds);
+        self.ctaButton.mp_y = CGRectGetMaxY(self.playerView.frame) - kCtaButtonBottomMarginLandscape - CGRectGetHeight(self.ctaButton.bounds);
     } else {
         self.ctaButton.center = self.view.center;
-        self.ctaButton.y = CGRectGetMaxY(self.playerView.frame) + kCtaButtonTopMarginPortrait;
+        self.ctaButton.mp_y = CGRectGetMaxY(self.playerView.frame) + kCtaButtonTopMarginPortrait;
         self.ctaButton.frame = CGRectIntegral(self.ctaButton.frame);
     }
 }

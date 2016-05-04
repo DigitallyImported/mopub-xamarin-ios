@@ -23,6 +23,7 @@
 #import "NSURL+MPAdditions.h"
 #import "UIWebView+MPAdditions.h"
 #import "MPForceableOrientationProtocol.h"
+#import "MPAPIEndPoints.h"
 
 static const NSTimeInterval kAdPropertyUpdateTimerInterval = 1.0;
 static const NSTimeInterval kMRAIDResizeAnimationTimeInterval = 0.3;
@@ -32,6 +33,7 @@ static NSString *const kMRAIDCommandResize = @"resize";
 
 @interface MRController () <MRBridgeDelegate, MPClosableViewDelegate, MPAdDestinationDisplayAgentDelegate>
 
+@property (nonatomic) MPAdConfiguration *adConfiguration;
 @property (nonatomic, strong) MRBridge *mraidBridge;
 @property (nonatomic, strong) MRBridge *mraidBridgeTwoPart;
 @property (nonatomic, strong) MPClosableView *mraidAdView;
@@ -133,6 +135,7 @@ static NSString *const kMRAIDCommandResize = @"resize";
 
 - (void)loadAdWithConfiguration:(MPAdConfiguration *)configuration
 {
+    self.adConfiguration = configuration;
     self.isAdLoading = YES;
     self.adRequiresPrecaching = configuration.precacheRequired;
     self.isAdVastVideoPlayer = configuration.isVastVideoPlayer;
@@ -148,7 +151,9 @@ static NSString *const kMRAIDCommandResize = @"resize";
 
     // This load is guaranteed to never be called for a two-part expand so we know we need to load the HTML into the default web view.
     NSString *HTML = [configuration adResponseHTMLString];
-    [self.mraidBridge loadHTMLString:HTML baseURL:nil];
+    [self.mraidBridge loadHTMLString:HTML
+                             baseURL:[NSURL URLWithString:[MPAPIEndpoints baseURL]]
+     ];
 }
 
 - (void)handleMRAIDInterstitialDidPresentWithViewController:(MPMRAIDInterstitialViewController *)viewController
@@ -661,6 +666,8 @@ static NSString *const kMRAIDCommandResize = @"resize";
         [self adDidLoad];
     } else if (command == MPMoPubHostCommandFailLoad) {
         [self adDidFailToLoad];
+    } else if (command == MPMoPubHostCommandRewardedVideoEnded) {
+        [self.delegate rewardedVideoEnded];
     } else {
         MPLogWarn(@"MRController - unsupported MoPub URL: %@", [url absoluteString]);
     }
@@ -936,6 +943,8 @@ static NSString *const kMRAIDCommandResize = @"resize";
 {
     // Do nothing.
 }
+
+// - (MPAdConfiguration *)adConfiguration delegate method is automatically implemented via the adConfiguration property declaration.
 
 #pragma mark - Property Updating
 

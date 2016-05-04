@@ -15,6 +15,7 @@
 #import "MPInstanceProvider.h"
 #import "MPLogging.h"
 #import "MPTimer.h"
+#import "MPRewardedVideoReward.h"
 
 @interface MPRewardedVideoAdapter () <MPRewardedVideoCustomEventDelegate>
 
@@ -153,7 +154,7 @@
     // are reporting a timeout here.
     [self.rewardedVideoCustomEvent handleCustomEventInvalidated];
     self.rewardedVideoCustomEvent = nil;
-    
+
     [self didStopLoading];
     [self.delegate rewardedVideoDidFailToLoadForAdapter:self error:error];
 }
@@ -216,9 +217,33 @@
 
 - (void)rewardedVideoShouldRewardUserForCustomEvent:(MPRewardedVideoCustomEvent *)customEvent reward:(MPRewardedVideoReward *)reward
 {
+    if (self.configuration) {
+        MPRewardedVideoReward *mopubConfiguredReward = self.configuration.rewardedVideoReward;
+        // If reward is set in adConfig, use reward that's set in adConfig.
+        // Currency type has to be defined in mopubConfiguredReward in order to use mopubConfiguredReward.
+        if (mopubConfiguredReward && mopubConfiguredReward.currencyType != kMPRewardedVideoRewardCurrencyTypeUnspecified) {
+            reward = mopubConfiguredReward;
+        }
+    }
+
     if (reward) {
         [self.delegate rewardedVideoShouldRewardUserForAdapter:self reward:reward];
     }
+}
+
+#pragma mark - MPPrivateRewardedVideoCustomEventDelegate
+
+- (NSString *)adUnitId
+{
+    if ([self.delegate respondsToSelector:@selector(rewardedVideoAdUnitId)]) {
+        return [self.delegate rewardedVideoAdUnitId];
+    }
+    return nil;
+}
+
+- (MPAdConfiguration *)configuration
+{
+    return _configuration;
 }
 
 @end

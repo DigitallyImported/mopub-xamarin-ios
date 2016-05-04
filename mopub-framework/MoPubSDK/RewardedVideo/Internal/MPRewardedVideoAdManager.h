@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class MPRewardedVideoReward;
+@class CLLocation;
 @protocol MPRewardedVideoAdManagerDelegate;
 
 /**
@@ -31,12 +32,16 @@
 /**
  * Loads a rewarded video ad with the ad manager's ad unit ID.
  *
+ * @param keywords A string representing a set of keywords that should be passed to the MoPub ad server to receive
+ * more relevant advertising.
+ *
+ * @param location Latitude/Longitude that are passed to the MoPub ad server
  * If this method is called when an ad is already available and we haven't already played a video for the last time we loaded an ad,
  * the object will simply notify the delegate that an ad loaded.
  *
  * However, if an ad has been played for the last time a load was issued and load is called again, the method will request a new ad.
  */
-- (void)loadRewardedVideoAd;
+- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location;
 
 /**
  * Tells the caller whether the underlying ad network currently has an ad available for presentation.

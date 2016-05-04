@@ -7,34 +7,34 @@
 
 @implementation UIView (Helper)
 
-- (CGFloat)x
+- (CGFloat)mp_x
 {
     return self.frame.origin.x;
 }
 
-- (CGFloat)y
+- (CGFloat)mp_y
 {
     return self.frame.origin.y;
 }
 
-- (CGFloat) width
+- (CGFloat)mp_width
 {
     return self.frame.size.width;
 }
 
-- (CGFloat)height
+- (CGFloat)mp_height
 {
     return self.frame.size.height;
 }
 
-- (void)setX:(CGFloat)x
+- (void)setMp_x:(CGFloat)mp_x
 {
-    [self setX:x andY:self.frame.origin.y];
+    [self setX:mp_x andY:self.frame.origin.y];
 }
 
-- (void)setY:(CGFloat)y
+- (void)setMp_y:(CGFloat)mp_y
 {
-    [self setX:self.frame.origin.x andY:y];
+    [self setX:self.frame.origin.x andY:mp_y];
 }
 
 - (void)setX:(CGFloat)x andY:(CGFloat)y
@@ -44,21 +44,21 @@
 }
 
 
-- (void)setWidth:(CGFloat)newWidth
+- (void)setMp_width:(CGFloat)mp_width
 {
     CGRect frame = self.frame;
-    frame.size.width = newWidth;
+    frame.size.width = mp_width;
     self.frame = frame;
 }
 
-- (void)setHeight:(CGFloat)newHeight
+- (void)setMp_height:(CGFloat)mp_height
 {
     CGRect frame = self.frame;
-    frame.size.height = newHeight;
+    frame.size.height = mp_height;
     self.frame = frame;
 }
 
-- (UIView *)snapshotView
+- (UIView *)mp_snapshotView
 {
     CGRect rect = self.bounds;
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, self.window.screen.scale);
@@ -75,7 +75,7 @@
     return snapshotView;
 }
 
-- (UIImage *)snapshot:(BOOL)usePresentationLayer
+- (UIImage *)mp_snapshot:(BOOL)usePresentationLayer
 {
     CGRect rect = self.bounds;
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, self.window.screen.scale);
