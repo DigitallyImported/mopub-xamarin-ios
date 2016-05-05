@@ -419,4 +419,114 @@ namespace MoPubSDK
         [Export ("bundleIdentifier")]
         string BundleIdentifier { get; }
     }
+
+    // @interface MPRewardedVideo : NSObject
+    [BaseType (typeof(NSObject))]
+    interface MPRewardedVideo
+    {
+        // +(void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID withMediationSettings:(NSArray *)mediationSettings;
+        [Static]
+        [Export ("loadRewardedVideoAdWithAdUnitID:withMediationSettings:")]
+        //[Verify (StronglyTypedNSArray)]
+        void LoadRewardedVideoAdWithAdUnitID (string adUnitID, NSObject[] mediationSettings);
+
+        // +(void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID keywords:(NSString *)keywords location:(CLLocation *)location mediationSettings:(NSArray *)mediationSettings;
+        [Static]
+        [Export ("loadRewardedVideoAdWithAdUnitID:keywords:location:mediationSettings:")]
+        //[Verify (StronglyTypedNSArray)]
+        void LoadRewardedVideoAdWithAdUnitID (string adUnitID, string keywords, CLLocation location, NSObject[] mediationSettings);
+
+        // +(BOOL)hasAdAvailableForAdUnitID:(NSString *)adUnitID;
+        [Static]
+        [Export ("hasAdAvailableForAdUnitID:")]
+        bool HasAdAvailableForAdUnitID (string adUnitID);
+
+        // +(void)presentRewardedVideoAdForAdUnitID:(NSString *)adUnitID fromViewController:(UIViewController *)viewController;
+        [Static]
+        [Export ("presentRewardedVideoAdForAdUnitID:fromViewController:")]
+        void PresentRewardedVideoAdForAdUnitID (string adUnitID, UIViewController viewController);
+    }
+
+    // @protocol MPRewardedVideoDelegate <NSObject>
+    [Protocol, Model]
+    [BaseType (typeof(NSObject))]
+    interface MPRewardedVideoDelegate
+    {
+        // @optional -(void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdDidLoadForAdUnitID:")]
+        void RewardedVideoAdDidLoadForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error;
+        [Export ("rewardedVideoAdDidFailToLoadForAdUnitID:error:")]
+        void RewardedVideoAdDidFailToLoadForAdUnitID (string adUnitID, NSError error);
+
+        // @optional -(void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdDidExpireForAdUnitID:")]
+        void RewardedVideoAdDidExpireForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdDidFailToPlayForAdUnitID:(NSString *)adUnitID error:(NSError *)error;
+        [Export ("rewardedVideoAdDidFailToPlayForAdUnitID:error:")]
+        void RewardedVideoAdDidFailToPlayForAdUnitID (string adUnitID, NSError error);
+
+        // @optional -(void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdWillAppearForAdUnitID:")]
+        void RewardedVideoAdWillAppearForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdDidAppearForAdUnitID:")]
+        void RewardedVideoAdDidAppearForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdWillDisappearForAdUnitID:")]
+        void RewardedVideoAdWillDisappearForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdDidDisappearForAdUnitID:")]
+        void RewardedVideoAdDidDisappearForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdDidReceiveTapEventForAdUnitID:")]
+        void RewardedVideoAdDidReceiveTapEventForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID;
+        [Export ("rewardedVideoAdWillLeaveApplicationForAdUnitID:")]
+        void RewardedVideoAdWillLeaveApplicationForAdUnitID (string adUnitID);
+
+        // @optional -(void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPRewardedVideoReward *)reward;
+        [Export ("rewardedVideoAdShouldRewardForAdUnitID:reward:")]
+        void RewardedVideoAdShouldRewardForAdUnitID (string adUnitID, MPRewardedVideoReward reward);
+    }
+
+    [Static]
+    partial interface Constants
+    {
+        // extern NSString *const kMPRewardedVideoRewardCurrencyTypeUnspecified;
+        [Field ("kMPRewardedVideoRewardCurrencyTypeUnspecified", "__Internal")]
+        NSString kMPRewardedVideoRewardCurrencyTypeUnspecified { get; }
+
+        // extern const NSInteger kMPRewardedVideoRewardCurrencyAmountUnspecified;
+        [Field ("kMPRewardedVideoRewardCurrencyAmountUnspecified", "__Internal")]
+        nint kMPRewardedVideoRewardCurrencyAmountUnspecified { get; }
+    }
+
+    // @interface MPRewardedVideoReward : NSObject
+    [BaseType (typeof(NSObject))]
+    interface MPRewardedVideoReward
+    {
+        // @property (readonly, nonatomic) NSString * currencyType;
+        [Export ("currencyType")]
+        string CurrencyType { get; }
+
+        // @property (readonly, nonatomic) NSNumber * amount;
+        [Export ("amount")]
+        NSNumber Amount { get; }
+
+        // -(instancetype)initWithCurrencyAmount:(NSNumber *)amount;
+        [Export ("initWithCurrencyAmount:")]
+        IntPtr Constructor (NSNumber amount);
+
+        // -(instancetype)initWithCurrencyType:(NSString *)currencyType amount:(NSNumber *)amount;
+        [Export ("initWithCurrencyType:amount:")]
+        IntPtr Constructor (string currencyType, NSNumber amount);
+    }
 }
