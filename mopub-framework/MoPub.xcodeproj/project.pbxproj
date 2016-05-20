@@ -19,6 +19,7 @@
 		3CFB23431BF145B500755D3C /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB232D1BF145B500755D3C /* EventKit.framework */; };
 		3CFB23441BF145B500755D3C /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB232E1BF145B500755D3C /* EventKitUI.framework */; };
 		3CFB23451BF145B500755D3C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB232F1BF145B500755D3C /* Foundation.framework */; };
+		3CFB23461BF145B500755D3C /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB23301BF145B500755D3C /* iAd.framework */; };
 		3CFB23471BF145B500755D3C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB23311BF145B500755D3C /* libxml2.tbd */; };
 		3CFB23481BF145B500755D3C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB23321BF145B500755D3C /* MediaPlayer.framework */; };
 		3CFB23491BF145B500755D3C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB23331BF145B500755D3C /* MessageUI.framework */; };
@@ -34,6 +35,10 @@
 		3CFB24D81BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CFB23571BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.h */; };
 		3CFB24D91BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFB23581BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.m */; };
 		3CFB24DA1BF1A17600755D3C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFB235A1BF1A17600755D3C /* GoogleMobileAds.framework */; };
+		3CFB24DC1BF1A17600755D3C /* MPiAdBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CFB235D1BF1A17600755D3C /* MPiAdBannerCustomEvent.h */; };
+		3CFB24DD1BF1A17600755D3C /* MPiAdBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFB235E1BF1A17600755D3C /* MPiAdBannerCustomEvent.m */; };
+		3CFB24DE1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CFB235F1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.h */; };
+		3CFB24DF1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFB23601BF1A17600755D3C /* MPiAdInterstitialCustomEvent.m */; };
 		3CFB24E11BF1A17600755D3C /* MPBannerAdManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CFB23641BF1A17600755D3C /* MPBannerAdManager.h */; };
 		3CFB24E21BF1A17600755D3C /* MPBannerAdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFB23651BF1A17600755D3C /* MPBannerAdManager.m */; };
 		3CFB24E31BF1A17600755D3C /* MPBannerAdManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CFB23661BF1A17600755D3C /* MPBannerAdManagerDelegate.h */; };
@@ -459,6 +464,10 @@
 		3CFB23571BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGoogleAdMobInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		3CFB23581BF1A17600755D3C /* MPGoogleAdMobInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGoogleAdMobInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		3CFB235A1BF1A17600755D3C /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		3CFB235D1BF1A17600755D3C /* MPiAdBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPiAdBannerCustomEvent.h; sourceTree = "<group>"; };
+		3CFB235E1BF1A17600755D3C /* MPiAdBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPiAdBannerCustomEvent.m; sourceTree = "<group>"; };
+		3CFB235F1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPiAdInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		3CFB23601BF1A17600755D3C /* MPiAdInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPiAdInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		3CFB23641BF1A17600755D3C /* MPBannerAdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPBannerAdManager.h; sourceTree = "<group>"; };
 		3CFB23651BF1A17600755D3C /* MPBannerAdManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPBannerAdManager.m; sourceTree = "<group>"; };
 		3CFB23661BF1A17600755D3C /* MPBannerAdManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPBannerAdManagerDelegate.h; sourceTree = "<group>"; };
@@ -875,6 +884,7 @@
 				3CFB23431BF145B500755D3C /* EventKit.framework in Frameworks */,
 				3CFB23441BF145B500755D3C /* EventKitUI.framework in Frameworks */,
 				3CFB23451BF145B500755D3C /* Foundation.framework in Frameworks */,
+				3CFB23461BF145B500755D3C /* iAd.framework in Frameworks */,
 				3CFB23471BF145B500755D3C /* libxml2.tbd in Frameworks */,
 				3CFB24DA1BF1A17600755D3C /* GoogleMobileAds.framework in Frameworks */,
 				3CFB23481BF145B500755D3C /* MediaPlayer.framework in Frameworks */,
@@ -987,6 +997,7 @@
 			children = (
 				C07994A61CDA57670003F48F /* AdColony */,
 				3CFB23541BF1A17600755D3C /* GoogleAdMob */,
+				3CFB235C1BF1A17600755D3C /* iAd */,
 				C079948C1CDA57380003F48F /* Vungle */,
 			);
 			path = AdNetworkSupport;
@@ -1010,6 +1021,17 @@
 				3CFB235A1BF1A17600755D3C /* GoogleMobileAds.framework */,
 			);
 			path = SDK;
+			sourceTree = "<group>";
+		};
+		3CFB235C1BF1A17600755D3C /* iAd */ = {
+			isa = PBXGroup;
+			children = (
+				3CFB235D1BF1A17600755D3C /* MPiAdBannerCustomEvent.h */,
+				3CFB235E1BF1A17600755D3C /* MPiAdBannerCustomEvent.m */,
+				3CFB235F1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.h */,
+				3CFB23601BF1A17600755D3C /* MPiAdInterstitialCustomEvent.m */,
+			);
+			path = iAd;
 			sourceTree = "<group>";
 		};
 		3CFB23621BF1A17600755D3C /* Internal */ = {
@@ -1584,6 +1606,7 @@
 				3CFB25FC1BF1A17600755D3C /* MPStaticNativeAdRenderer.h in Headers */,
 				3CFB25D71BF1A17600755D3C /* MPTableViewCellImpressionTracker.h in Headers */,
 				3CFB25D91BF1A17600755D3C /* MPAdPositioning.h in Headers */,
+				3CFB24DC1BF1A17600755D3C /* MPiAdBannerCustomEvent.h in Headers */,
 				3CFB24E41BF1A17600755D3C /* MPBannerCustomEventAdapter.h in Headers */,
 				3CFB25AA1BF1A17600755D3C /* MPAdView.h in Headers */,
 				3CFB26181BF1A17600755D3C /* MOPUBPlayerView.h in Headers */,
@@ -1600,6 +1623,7 @@
 				3CFB24E11BF1A17600755D3C /* MPBannerAdManager.h in Headers */,
 				3CFB25341BF1A17600755D3C /* MPPrivateInterstitialCustomEventDelegate.h in Headers */,
 				3CFB253F1BF1A17600755D3C /* MPMRAIDInterstitialCustomEvent.h in Headers */,
+				3CFB24DE1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.h in Headers */,
 				3CFB25F61BF1A17600755D3C /* MPNativeAdSourceDelegate.h in Headers */,
 				3CFB25931BF1A17600755D3C /* MPVASTMacroProcessor.h in Headers */,
 				3CFB257F1BF1A17600755D3C /* MPStoreKitProvider.h in Headers */,
@@ -1925,6 +1949,7 @@
 				3CFB263F1BF1A17600755D3C /* MPRewardedVideoError.m in Sources */,
 				3CFB25A91BF1A17600755D3C /* MPAdConversionTracker.m in Sources */,
 				3CFB258C1BF1A17600755D3C /* MPVASTDurationOffset.m in Sources */,
+				3CFB24DF1BF1A17600755D3C /* MPiAdInterstitialCustomEvent.m in Sources */,
 				3CFB25721BF1A17600755D3C /* MPGlobal.m in Sources */,
 				3CFB258E1BF1A17600755D3C /* MPVASTIndustryIcon.m in Sources */,
 				3CFB260D1BF1A17600755D3C /* MOPUBFullscreenPlayerViewController.m in Sources */,
@@ -1969,6 +1994,7 @@
 				3CFB25121BF1A17600755D3C /* MPXMLParser.m in Sources */,
 				3CFB25161BF1A17600755D3C /* MPLogEvent.m in Sources */,
 				3CFB256E1BF1A17600755D3C /* MPError.m in Sources */,
+				3CFB24DD1BF1A17600755D3C /* MPiAdBannerCustomEvent.m in Sources */,
 				C07994BB1CDA57670003F48F /* AdColonyGlobalMediationSettings.m in Sources */,
 				3CFB24F21BF1A17600755D3C /* MPAdBrowserController.m in Sources */,
 				3CFB24D71BF1A17600755D3C /* MPGoogleAdMobBannerCustomEvent.m in Sources */,
