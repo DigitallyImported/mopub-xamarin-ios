@@ -59,7 +59,7 @@
     return [self.adapter hasAdAvailable];
 }
 
-- (void)loadRewardedVideoAd
+- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location
 {
     // We will just tell the delegate that we have loaded an ad if we already have one ready. However, if we have already
     // played a video for this ad manager, we will go ahead and request another ad from the server so we aren't potentially
@@ -68,8 +68,8 @@
         [self.delegate rewardedVideoDidLoadForAdManager:self];
     } else {
         [self loadAdWithURL:[MPAdServerURLBuilder URLWithAdUnitID:self.adUnitID
-                                                         keywords:nil
-                                                         location:nil
+                                                         keywords:keywords
+                                                         location:location
                                                           testing:NO]];
     }
 }
@@ -229,6 +229,11 @@
 - (void)rewardedVideoShouldRewardUserForAdapter:(MPRewardedVideoAdapter *)adapter reward:(MPRewardedVideoReward *)reward
 {
     [self.delegate rewardedVideoShouldRewardUserForAdManager:self reward:reward];
+}
+
+- (NSString *)rewardedVideoAdUnitId
+{
+    return self.adUnitID;
 }
 
 @end

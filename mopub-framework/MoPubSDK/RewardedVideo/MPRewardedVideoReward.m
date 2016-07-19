@@ -8,7 +8,7 @@
 #import "MPRewardedVideoReward.h"
 
 NSString *const kMPRewardedVideoRewardCurrencyTypeUnspecified = @"MPMoPubRewardedVideoRewardCurrencyTypeUnspecified";
-NSInteger const kMPRewardedVideoRewardCurrencyAmountUnspecified = NSIntegerMin;
+NSInteger const kMPRewardedVideoRewardCurrencyAmountUnspecified = 0;
 
 @implementation MPRewardedVideoReward
 

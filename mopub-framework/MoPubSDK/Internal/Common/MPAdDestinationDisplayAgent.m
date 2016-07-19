@@ -106,11 +106,10 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
 - (void)cancel
 {
     if (self.isLoadingDestination) {
-        self.isLoadingDestination = NO;
         [self.resolver cancel];
         [self.enhancedDeeplinkFallbackResolver cancel];
         [self hideOverlay];
-        [self.delegate displayAgentDidDismissModal];
+        [self completeDestinationLoading];
     }
 }
 
@@ -166,7 +165,7 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
     if (didOpenSuccessfully) {
         [self hideOverlay];
         [self.delegate displayAgentWillLeaveApplication];
-        self.isLoadingDestination = NO;
+        [self completeDestinationLoading];
         [[[MPCoreInstanceProvider sharedProvider] sharedMPAnalyticsTracker] sendTrackingRequestForURLs:request.primaryTrackingURLs];
     } else if (request.fallbackURL) {
         [self handleEnhancedDeeplinkFallbackForRequest:request];
@@ -228,10 +227,8 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
         BOOL didOpenSuccessfully = [[UIApplication sharedApplication] openURL:URL];
         if (didOpenSuccessfully) {
             [self.delegate displayAgentWillLeaveApplication];
-        } else {
-            [self.delegate displayAgentDidDismissModal];
         }
-        self.isLoadingDestination = NO;
+        [self completeDestinationLoading];
     }
 }
 
@@ -258,8 +255,7 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
                 [strongSelf.delegate displayAgentWillLeaveApplication];
                 [[UIApplication sharedApplication] openURL:targetTelephoneURL];
             }
-            strongSelf.isLoadingDestination = NO;
-            [strongSelf.delegate displayAgentDidDismissModal];
+            [strongSelf completeDestinationLoading];
         }
     }];
 
@@ -268,8 +264,13 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
 
 - (void)failedToResolveURLWithError:(NSError *)error
 {
-    self.isLoadingDestination = NO;
     [self hideOverlay];
+    [self completeDestinationLoading];
+}
+
+- (void)completeDestinationLoading
+{
+    self.isLoadingDestination = NO;
     [self.delegate displayAgentDidDismissModal];
 }
 
@@ -302,6 +303,15 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
 {
     self.isLoadingDestination = NO;
     [self hideModalAndNotifyDelegate];
+}
+
+- (MPAdConfiguration *)adConfiguration
+{
+    if ([self.delegate respondsToSelector:@selector(adConfiguration)]) {
+        return [self.delegate adConfiguration];
+    }
+
+    return nil;
 }
 
 #pragma mark - <MPProgressOverlayViewDelegate>

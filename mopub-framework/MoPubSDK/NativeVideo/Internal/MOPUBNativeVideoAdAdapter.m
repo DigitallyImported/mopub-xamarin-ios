@@ -9,9 +9,12 @@
 #import "MPCoreInstanceProvider.h"
 #import "MPNativeAdConstants.h"
 #import "MPLogging.h"
+#import "MPStaticNativeAdImpressionTimer.h"
+#import "MOPUBNativeVideoAdConfigValues.h"
 
-@interface MOPUBNativeVideoAdAdapter() <MPAdDestinationDisplayAgentDelegate>
+@interface MOPUBNativeVideoAdAdapter() <MPAdDestinationDisplayAgentDelegate, MPStaticNativeAdImpressionTimerDelegate>
 
+@property (nonatomic) MPStaticNativeAdImpressionTimer *staticImpressionTimer;
 @property (nonatomic, readonly) MPAdDestinationDisplayAgent *destinationDisplayAgent;
 
 @end
@@ -73,6 +76,8 @@
         [properties setObject:MPResourcePathForResource(kDAAIconImageName) forKey:kAdDAAIconImageKey];
 
         _destinationDisplayAgent = [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
+
+        _staticImpressionTimer = nil;
     }
 
     return self;
@@ -80,11 +85,35 @@
 
 - (void)dealloc
 {
+    [self removeStaticImpressionTimer];
     [_destinationDisplayAgent cancel];
     [_destinationDisplayAgent setDelegate:nil];
+    _delegate = nil;
+}
+
+#pragma mark - Private
+
+- (void)removeStaticImpressionTimer
+{
+    _staticImpressionTimer.delegate = nil;
+    _staticImpressionTimer = nil;
 }
 
 #pragma mark - <MPNativeAdAdapter>
+
+- (void)willAttachToView:(UIView *)view
+{
+    [self removeStaticImpressionTimer];
+
+    // Set up a static impression timer that will fire the mopub impression if the video fails to play prior to meeting the video impression tracking requirements.
+    MOPUBNativeVideoAdConfigValues *nativeVideoAdConfig = [self.properties objectForKey:kNativeVideoAdConfigKey];
+
+    // impressionMinVisiblePercent is an integer (a value of 50 means 50%) while the impression timer takes in a float (.50 means 50%) so we have to multiply it by .01f.
+    self.staticImpressionTimer = [[MPStaticNativeAdImpressionTimer alloc] initWithRequiredSecondsForImpression:nativeVideoAdConfig.impressionVisible requiredViewVisibilityPercentage:nativeVideoAdConfig.impressionMinVisiblePercent*0.01f];
+    self.staticImpressionTimer.delegate = self;
+
+    [self.staticImpressionTimer startTrackingView:view];
+}
 
 - (void)displayContentForURL:(NSURL *)URL rootViewController:(UIViewController *)controller
 {
@@ -118,6 +147,21 @@
     [self.delegate nativeAdDidClick:self];
 }
 
+- (void)handleVideoHasProgressedToTime:(NSTimeInterval)playbackTime
+{
+    // If the video makes progress, don't allow static impression tracking.
+    self.staticImpressionTimer.delegate = nil;
+    self.staticImpressionTimer = nil;
+}
+
+#pragma mark - <MPStaticNativeAdImpressionTimerDelegate>
+
+- (void)trackImpression
+{
+    // We'll fire a static impression if the video hasn't started playing by the time the static impression timer has met its requirements.
+    [self.delegate nativeAdWillLogImpression:self];
+}
+
 #pragma mark - <MPAdDestinationDisplayAgentDelegate>
 
 - (UIViewController *)viewControllerForPresentingModalView
@@ -140,4 +184,5 @@
     [self.delegate nativeAdDidDismissModalForAdapter:self];
 }
 
+// -adConfiguration delegate method is automatically implemented via the adConfiguration property declaration.
 @end

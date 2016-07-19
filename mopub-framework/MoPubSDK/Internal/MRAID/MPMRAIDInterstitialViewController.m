@@ -86,7 +86,10 @@
 
 - (CLLocation *)location
 {
-    return [self.delegate location];
+    if ([self.delegate respondsToSelector:@selector(location)]) {
+        return [self.delegate location];
+    }
+    return nil;
 }
 
 - (NSString *)adUnitId
@@ -152,6 +155,13 @@
     // This should be called whenever the return value of -shouldAutorotateToInterfaceOrientation changes. Since the return
     // value is based on _supportedOrientationMask, we do that here. Prevents possible rotation bugs.
     [UIViewController attemptRotationToDeviceOrientation];
+}
+
+- (void)rewardedVideoEnded
+{
+    if ([self.delegate respondsToSelector:@selector(interstitialRewardedVideoEnded)]) {
+        [self.delegate interstitialRewardedVideoEnded];
+    }
 }
 
 #pragma mark - Orientation Handling

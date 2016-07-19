@@ -203,6 +203,10 @@
 
     adObject.renderer = self.customEventRenderer;
 
+    if ([(id)adObject.adAdapter respondsToSelector:@selector(setAdConfiguration:)]) {
+        [(id)adObject.adAdapter performSelector:@selector(setAdConfiguration:) withObject:self.adConfiguration];
+    }
+
     if (!error) {
         MPLogInfo(@"Successfully loaded native ad.");
     } else {

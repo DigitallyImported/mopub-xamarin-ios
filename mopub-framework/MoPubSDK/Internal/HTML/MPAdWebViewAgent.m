@@ -19,6 +19,7 @@
 #import "NSJSONSerialization+MPAdditions.h"
 #import "NSURL+MPAdditions.h"
 #import "MPInternalUtils.h"
+#import "MPAPIEndPoints.h"
 
 #ifndef NSFoundationVersionNumber_iOS_6_1
 #define NSFoundationVersionNumber_iOS_6_1 993.00
@@ -131,7 +132,10 @@
 
     [self.view mp_setScrollable:configuration.scrollable];
     [self.view disableJavaScriptDialogs];
-    [self.view loadHTMLString:[configuration adResponseHTMLString] baseURL:nil];
+
+    [self.view loadHTMLString:[configuration adResponseHTMLString]
+                      baseURL:[NSURL URLWithString:[MPAPIEndpoints baseURL]]
+     ];
 
     [self initAdAlertManager];
 }
@@ -181,6 +185,11 @@
 - (void)displayAgentDidDismissModal
 {
     [self.delegate adActionDidFinish:self.view];
+}
+
+- (MPAdConfiguration *)adConfiguration
+{
+    return self.configuration;
 }
 
 #pragma mark - <UIWebViewDelegate>
@@ -253,7 +262,7 @@
     if (self.configuration.clickTrackingURL) {
         NSString *path = [NSString stringWithFormat:@"%@&r=%@",
                           self.configuration.clickTrackingURL.absoluteString,
-                          [[URL absoluteString] URLEncodedString]];
+                          [[URL absoluteString] mp_URLEncodedString]];
         redirectedURL = [NSURL URLWithString:path];
     }
 

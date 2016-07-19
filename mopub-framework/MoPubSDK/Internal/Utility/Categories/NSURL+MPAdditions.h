@@ -12,7 +12,8 @@ typedef enum {
     MPMoPubHostCommandClose,
     MPMoPubHostCommandFinishLoad,
     MPMoPubHostCommandFailLoad,
-    MPMoPubHostCommandPrecacheComplete
+    MPMoPubHostCommandPrecacheComplete,
+    MPMoPubHostCommandRewardedVideoEnded
 } MPMoPubHostCommand;
 
 typedef enum {

@@ -32,6 +32,7 @@ static const NSTimeInterval kFirstVisibilityTimestampNone = -1;
         _viewVisibilityTimer = [MPTimer timerWithTimeInterval:kImpressionTimerInterval target:self selector:@selector(tick:) repeats:YES];
         _requiredSecondsForImpression = requiredSecondsForImpression;
         _requiredViewVisibilityPercentage = visibilityPercentage;
+        _firstVisibilityTimestamp = kFirstVisibilityTimestampNone;
     }
 
     return self;
@@ -40,6 +41,8 @@ static const NSTimeInterval kFirstVisibilityTimestampNone = -1;
 - (void)dealloc
 {
     [_viewVisibilityTimer invalidate];
+    _delegate = nil;
+    _viewVisibilityTimer = nil;
 }
 
 - (void)startTrackingView:(UIView *)view

@@ -35,6 +35,11 @@ static MPRewardedVideo *gSharedInstance = nil;
 
 + (void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID withMediationSettings:(NSArray *)mediationSettings
 {
+    [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:adUnitID keywords:nil location:nil mediationSettings:mediationSettings];
+}
+
++ (void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID keywords:(NSString *)keywords location:(CLLocation *)location mediationSettings:(NSArray *)mediationSettings
+{
     MPRewardedVideo *sharedInstance = [[self class] sharedInstance];
 
     if (![adUnitID length]) {
@@ -51,8 +56,8 @@ static MPRewardedVideo *gSharedInstance = nil;
     }
 
     adManager.mediationSettings = mediationSettings;
-    
-    [adManager loadRewardedVideoAd];
+
+    [adManager loadRewardedVideoAdWithKeywords:keywords location:location];
 }
 
 + (BOOL)hasAdAvailableForAdUnitID:(NSString *)adUnitID
@@ -176,10 +181,10 @@ static MPRewardedVideo *gSharedInstance = nil;
     // that their ads may not be available anymore since another ad unit might have "played" their ad. We go through and notify all ad managers
     // that are of the type of ad that is playing now.
     Class customEventClass = manager.customEventClass;
-    
+
     for (id key in self.rewardedVideoAdManagers) {
         MPRewardedVideoAdManager *adManager = self.rewardedVideoAdManagers[key];
-        
+
         if (adManager != manager && adManager.customEventClass == customEventClass) {
             [adManager handleAdPlayedForCustomEventNetwork];
         }

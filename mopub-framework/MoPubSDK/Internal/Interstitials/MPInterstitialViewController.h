@@ -37,7 +37,6 @@
 @protocol MPInterstitialViewControllerDelegate <NSObject>
 
 - (NSString *)adUnitId;
-- (CLLocation *)location;
 - (void)interstitialDidLoadAd:(MPInterstitialViewController *)interstitial;
 - (void)interstitialDidFailToLoadAd:(MPInterstitialViewController *)interstitial;
 - (void)interstitialWillAppear:(MPInterstitialViewController *)interstitial;
@@ -46,5 +45,9 @@
 - (void)interstitialDidDisappear:(MPInterstitialViewController *)interstitial;
 - (void)interstitialDidReceiveTapEvent:(MPInterstitialViewController *)interstitial;
 - (void)interstitialWillLeaveApplication:(MPInterstitialViewController *)interstitial;
+
+@optional
+- (CLLocation *)location;
+- (void)interstitialRewardedVideoEnded;
 
 @end

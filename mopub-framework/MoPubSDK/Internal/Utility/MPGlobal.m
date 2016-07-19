@@ -9,6 +9,7 @@
 #import "MPConstants.h"
 #import "MPLogging.h"
 #import "NSURL+MPAdditions.h"
+#import "MoPub.h"
 #import <CommonCrypto/CommonDigest.h>
 
 #import <sys/types.h>
@@ -180,8 +181,21 @@ NSString *MPResourcePathForResource(NSString *resourceName)
     // We store all assets inside a bundle for Fabric.
     return [@"MoPub.bundle" stringByAppendingPathComponent:resourceName];
 #else
-    // When using open source, the resources just live in the main bundle.
-    return resourceName;
+    if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        // When using open source or cocoapods (on ios 8 and above), we can rely on the MoPub class
+        // living in the same bundle/framework as the assets.
+        // We can use pathForResource on ios 8 and above to succesfully load resources.
+        NSBundle *resourceBundle = [NSBundle bundleForClass:[MoPub class]];
+        NSString *resourcePath = [resourceBundle pathForResource:resourceName ofType:nil];
+        return resourcePath;
+    } else {
+        // We can just return the resource name because:
+        // 1. This is being used as an open source release so the resource will be
+        // in the main bundle.
+        // 2. This is cocoapods but CAN'T be using frameworks since that is only allowed
+        // on ios 8 and above.
+        return resourceName;
+    }
 #endif
 }
 
@@ -200,11 +214,22 @@ NSArray *MPConvertStringArrayToURLArray(NSArray *strArray)
 
     return urls;
 }
+
+NSBundle *MPResourceBundleForClass(Class aClass)
+{
+#ifdef MP_FABRIC
+    NSString *fabricBundlePath = [[NSBundle mainBundle] pathForResource:@"MoPub" ofType:@"bundle"];
+    return [NSBundle bundleWithPath:fabricBundlePath];
+#else
+    return [NSBundle bundleForClass:aClass];
+#endif
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation NSString (MPAdditions)
 
-- (NSString *)URLEncodedString
+- (NSString *)mp_URLEncodedString
 {
     NSString *result = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
                                                                            (CFStringRef)self,
@@ -220,7 +245,7 @@ NSArray *MPConvertStringArrayToURLArray(NSArray *strArray)
 
 @implementation UIDevice (MPAdditions)
 
-- (NSString *)hardwareDeviceName
+- (NSString *)mp_hardwareDeviceName
 {
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);

@@ -18,6 +18,7 @@
 @interface MPAPIEndpoints : NSObject
 
 + (void)setUsesHTTPS:(BOOL)usesHTTPS;
++ (NSString *)baseURL;
 + (NSString *)baseURLStringWithPath:(NSString *)path testing:(BOOL)testing;
 
 @end
