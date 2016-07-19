@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CoreGraphics;
 using CoreLocation;
 using Foundation;
@@ -529,4 +530,13 @@ namespace MoPubSDK
         [Export ("initWithCurrencyType:amount:")]
         IntPtr Constructor (string currencyType, NSNumber amount);
     }
+
+	[BaseType(typeof(NSObject))]
+	interface FBAdSettings
+	{
+		// +(void)addTestDevices:(NSArray*)devices;
+		[Static]
+		[Export("addTestDevices:")]
+		void AddTestDevices(string[] hashedDeviceID);
+	}
 }
