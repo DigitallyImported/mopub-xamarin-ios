@@ -76,7 +76,10 @@ static const CGFloat kMoPubRequiredViewVisibilityPercentage = 0.5;
         }
 
         // Add the DAA icon settings to our properties dictionary.
-        [properties setObject:MPResourcePathForResource(kDAAIconImageName) forKey:kAdDAAIconImageKey];
+        NSString * daaIconImagePath = MPResourcePathForResource(kDAAIconImageName);
+        if (daaIconImagePath != nil) {
+            [properties setObject:daaIconImagePath forKey:kAdDAAIconImageKey];
+        }
 
         _destinationDisplayAgent = [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
         _impressionTimer = [[MPStaticNativeAdImpressionTimer alloc] initWithRequiredSecondsForImpression:kMoPubRequiredSecondsForImpression requiredViewVisibilityPercentage:kMoPubRequiredViewVisibilityPercentage];

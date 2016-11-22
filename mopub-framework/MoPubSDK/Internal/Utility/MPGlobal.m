@@ -51,9 +51,17 @@ CGRect MPApplicationFrame()
 
 CGRect MPScreenBounds()
 {
+    // Prior to iOS 8, window and screen coordinates were fixed and always specified relative to the
+    // device’s screen in a portrait orientation. Starting with iOS8, the `fixedCoordinateSpace`
+    // property was introduced which specifies bounds that always reflect the screen dimensions of
+    // the device in a portrait-up orientation.
     CGRect bounds = [UIScreen mainScreen].bounds;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)]) {
+        bounds = [UIScreen mainScreen].fixedCoordinateSpace.bounds;
+    }
 
-    if (UIInterfaceOrientationIsLandscape(MPInterfaceOrientation()) && [[UIDevice currentDevice].systemVersion compare:@"8.0"] == NSOrderedAscending) {
+    // Rotate the portrait-up bounds if the orientation of the device is in landscape.
+    if (UIInterfaceOrientationIsLandscape(MPInterfaceOrientation())) {
         CGFloat width = bounds.size.width;
         bounds.size.width = bounds.size.height;
         bounds.size.height = width;

@@ -76,7 +76,7 @@ static NSArray *gAllZoneIds = nil;
         }
     }
 
-    [AdColonyCustomEvent initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds];
+    [AdColonyCustomEvent initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds customerId:nil];
 
     NSString *zoneId = [info objectForKey:@"zoneId"];
     if(zoneId == nil)

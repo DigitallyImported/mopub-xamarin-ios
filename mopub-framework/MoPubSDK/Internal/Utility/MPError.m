@@ -1,5 +1,5 @@
 //
-//  MPAdRequestError.m
+//  MPError.m
 //  MoPub
 //
 //  Copyright (c) 2012 MoPub. All rights reserved.
@@ -7,13 +7,13 @@
 
 #import "MPError.h"
 
-NSString * const kMPErrorDomain = @"com.mopub.iossdk";
+NSString * const kMOPUBErrorDomain = @"com.mopub.iossdk";
 
-@implementation MPError
+@implementation MOPUBError
 
-+ (MPError *)errorWithCode:(MPErrorCode)code
++ (MOPUBError *)errorWithCode:(MOPUBErrorCode)code
 {
-    return [self errorWithDomain:kMPErrorDomain code:code userInfo:nil];
+    return [self errorWithDomain:kMOPUBErrorDomain code:code userInfo:nil];
 }
 
 @end

@@ -41,6 +41,11 @@
     return self.adAvailable;
 }
 
+- (void)handleAdPlayedForCustomEventNetwork
+{
+    // no-op
+}
+
 - (void)handleCustomEventInvalidated
 {
     // no-op

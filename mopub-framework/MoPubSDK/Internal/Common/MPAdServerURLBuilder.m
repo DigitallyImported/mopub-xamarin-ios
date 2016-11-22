@@ -42,6 +42,7 @@ static NSInteger const kAdSequenceNone = -1;
 + (NSString *)queryParameterForAdSequence:(NSInteger)adSequence;
 + (NSString *)queryParameterForPhysicalScreenSize;
 + (NSString *)queryParameterForBundleIdentifier;
++ (NSString *)queryParameterForAppTransportSecurity;
 + (BOOL)advertisingTrackingEnabled;
 
 @end
@@ -118,6 +119,7 @@ static NSInteger const kAdSequenceNone = -1;
     URLString = [URLString stringByAppendingString:[self queryParameterForAdSequence:adSequence]];
     URLString = [URLString stringByAppendingString:[self queryParameterForPhysicalScreenSize]];
     URLString = [URLString stringByAppendingString:[self queryParameterForBundleIdentifier]];
+    URLString = [URLString stringByAppendingString:[self queryParameterForAppTransportSecurity]];
 
     return [NSURL URLWithString:URLString];
 }
@@ -289,6 +291,11 @@ static NSInteger const kAdSequenceNone = -1;
 {
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     return bundleIdentifier ? [NSString stringWithFormat:@"&bundle=%@", [bundleIdentifier mp_URLEncodedString]] : @"";
+}
+
++ (NSString *)queryParameterForAppTransportSecurity
+{
+    return [NSString stringWithFormat:@"&ats=%@", @([[MPCoreInstanceProvider sharedProvider] appTransportSecuritySettings])];
 }
 
 + (BOOL)advertisingTrackingEnabled

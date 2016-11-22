@@ -49,7 +49,7 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 #pragma mark -
 #pragma mark Lifecycle
 
-- (id)initWithURL:(NSURL *)URL HTMLString:(NSString *)HTMLString delegate:(id<MPAdBrowserControllerDelegate>)delegate
+- (instancetype)initWithURL:(NSURL *)URL HTMLString:(NSString *)HTMLString delegate:(id<MPAdBrowserControllerDelegate>)delegate
 {
     if (self = [super initWithNibName:kAdBrowserControllerNibName bundle:MPResourceBundleForClass(self.class)])
     {
@@ -59,11 +59,9 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 
         MPLogDebug(@"Ad browser (%p) initialized with URL: %@", self, self.URL);
 
-        self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        self.webView = [[MPWebView alloc] initWithFrame:CGRectZero];
         self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
         UIViewAutoresizingFlexibleHeight;
-        self.webView.delegate = self;
-        self.webView.scalesPageToFit = YES;
 
         self.spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
         [self.spinner sizeToFit];
@@ -76,6 +74,12 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
     return self;
 }
 
+- (instancetype)initWithURL:(NSURL *)URL delegate:(id<MPAdBrowserControllerDelegate>)delegate {
+    return [self initWithURL:URL
+                  HTMLString:nil
+                    delegate:delegate];
+}
+
 - (void)dealloc
 {
     self.webView.delegate = nil;
@@ -84,6 +88,10 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // Set web view delegate
+    self.webView.delegate = self;
+    self.webView.scalesPageToFit = YES;
 
     // Set up toolbar buttons
     self.backButton.image = [self backArrowImage];
@@ -119,7 +127,11 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 
     NSURL *baseURL = (self.URL != nil) ? self.URL : [NSURL URLWithString:[MPAPIEndpoints baseURL]];
 
-    [self.webView loadHTMLString:self.HTMLString baseURL:baseURL];
+    if (self.HTMLString) {
+        [self.webView loadHTMLString:self.HTMLString baseURL:baseURL];
+    } else {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:self.URL]];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -220,17 +232,25 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 }
 
 #pragma mark -
-#pragma mark UIWebViewDelegate
+#pragma mark MPWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+- (BOOL)webView:(MPWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request
  navigationType:(UIWebViewNavigationType)navigationType
 {
     MPLogDebug(@"Ad browser (%p) starting to load URL: %@", self, request.URL);
     self.URL = request.URL;
-    return YES;
+
+    BOOL appShouldOpenURL = ![self.URL.scheme isEqualToString:@"http"] && ![self.URL.scheme isEqualToString:@"https"];
+
+    if (appShouldOpenURL) {
+        [[UIApplication sharedApplication] openURL:self.URL];
+    }
+
+    return !appShouldOpenURL;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void)webViewDidStartLoad:(MPWebView *)webView
 {
     self.refreshButton.enabled = YES;
     self.safariButton.enabled = YES;
@@ -239,7 +259,7 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
     self.webViewLoadCount++;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webViewDidFinishLoad:(MPWebView *)webView
 {
     self.webViewLoadCount--;
     if (self.webViewLoadCount > 0) return;
@@ -251,7 +271,7 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
     [self.spinner stopAnimating];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(MPWebView *)webView didFailLoadWithError:(NSError *)error
 {
     self.webViewLoadCount--;
 

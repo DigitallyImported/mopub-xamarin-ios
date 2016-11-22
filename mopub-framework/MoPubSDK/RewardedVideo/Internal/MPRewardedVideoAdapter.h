@@ -72,6 +72,7 @@
 
 @optional
 - (NSString *)rewardedVideoAdUnitId;
+- (NSString *)rewardedVideoCustomerId;
 - (MPAdConfiguration *)configuration;
 
 @end
