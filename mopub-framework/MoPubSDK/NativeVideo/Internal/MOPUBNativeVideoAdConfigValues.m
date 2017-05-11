@@ -13,7 +13,7 @@
                        pauseVisiblePercent:(NSInteger)pauseVisiblePercent
                impressionMinVisiblePercent:(NSInteger)impressionMinVisiblePercent
                          impressionVisible:(NSTimeInterval)impressionVisible
-                                 maxBufferingTime:(NSTimeInterval)maxBufferingTime
+                                 maxBufferingTime:(NSTimeInterval)maxBufferingTime trackers:(NSDictionary *)trackers
 {
     self = [super init];
     if (self) {
@@ -22,6 +22,7 @@
         _impressionMinVisiblePercent = impressionMinVisiblePercent;
         _impressionVisible = impressionVisible;
         _maxBufferingTime = maxBufferingTime;
+        _trackers = trackers;
     }
     return self;
 }

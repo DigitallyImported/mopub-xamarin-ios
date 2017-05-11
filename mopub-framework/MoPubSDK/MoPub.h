@@ -7,14 +7,6 @@
 
 #import "MPConstants.h"
 
-#if __has_include("MPStaticNativeAdView.h")
-#import "MPStaticNativeAdView.h"
-#endif
-
-#if __has_include("MPVideoNativeAdView.h")
-#import "MPVideoNativeAdView.h"
-#endif
-
 #import "MPAdConversionTracker.h"
 #import "MPAdView.h"
 #import "MPBannerCustomEvent.h"

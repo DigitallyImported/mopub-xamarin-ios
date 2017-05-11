@@ -8,11 +8,11 @@
 
 #import "MPAdBrowserController.h"
 #import "MPLogging.h"
-#import "MPGlobal.h"
 #import "MPLogEvent.h"
 #import "MPLogEventRecorder.h"
 #import "MPAdConfiguration.h"
-#import "MPAPIEndPoints.h"
+#import "MPAPIEndpoints.h"
+#import "NSBundle+MPAdditions.h"
 
 static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 
@@ -51,7 +51,7 @@ static NSString * const kAdBrowserControllerNibName = @"MPAdBrowserController";
 
 - (instancetype)initWithURL:(NSURL *)URL HTMLString:(NSString *)HTMLString delegate:(id<MPAdBrowserControllerDelegate>)delegate
 {
-    if (self = [super initWithNibName:kAdBrowserControllerNibName bundle:MPResourceBundleForClass(self.class)])
+    if (self = [super initWithNibName:kAdBrowserControllerNibName bundle:[NSBundle resourceBundleForClass:self.class]])
     {
         self.delegate = delegate;
         self.URL = URL;

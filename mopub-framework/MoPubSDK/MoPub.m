@@ -12,12 +12,7 @@
 #import "MPRewardedVideo.h"
 #import "MPIdentityProvider.h"
 
-// If Fabric headers are integrated from multiple third party frameworks, there might be naming conflict.
-// Use relative path could solve the naming conflict.
-#import "Internal/Fabric/FABKitProtocol.h"
-#import "Internal/Fabric/Fabric+FABKits.h"
-
-@interface MoPub () <FABKit>
+@interface MoPub ()
 
 @property (nonatomic, strong) NSArray *globalMediationSettings;
 
@@ -33,16 +28,6 @@
         sharedInstance = [[MoPub alloc] init];
     });
     return sharedInstance;
-}
-
-+ (NSString *)bundleIdentifier
-{
-    return MP_BUNDLE_IDENTIFIER;
-}
-
-+ (NSString *)kitDisplayVersion
-{
-    return MP_SDK_VERSION;
 }
 
 - (void)setLocationUpdatesEnabled:(BOOL)locationUpdatesEnabled

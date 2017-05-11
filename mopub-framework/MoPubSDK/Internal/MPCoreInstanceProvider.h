@@ -36,7 +36,7 @@ typedef id(^MPSingletonProviderBlock)();
 typedef NS_OPTIONS(NSUInteger, MPATSSetting) {
     MPATSSettingEnabled = 0,
     MPATSSettingAllowsArbitraryLoads = (1 << 0),
-    MPATSSettingAllowsArbitraryLoadsInMedia = (1 << 1),
+    MPATSSettingAllowsArbitraryLoadsForMedia = (1 << 1),
     MPATSSettingAllowsArbitraryLoadsInWebContent = (1 << 2),
     MPATSSettingRequiresCertificateTransparency = (1 << 3),
     MPATSSettingAllowsLocalNetworking = (1 << 4),

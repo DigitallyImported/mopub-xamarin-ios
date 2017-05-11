@@ -156,8 +156,8 @@
                                   pauseVisiblePercent:configuration.nativeVideoPauseVisiblePercent
                                   impressionMinVisiblePercent:configuration.nativeVideoImpressionMinVisiblePercent
                                   impressionVisible:configuration.nativeVideoImpressionVisible
-                                  maxBufferingTime:configuration.nativeVideoMaxBufferingTime]
-                          forKey:kNativeVideoAdConfigKey];
+                                  maxBufferingTime:configuration.nativeVideoMaxBufferingTime
+                                  trackers:configuration.nativeVideoTrackers] forKey:kNativeVideoAdConfigKey];
             MPAdConfigurationLogEventProperties *logEventProperties =
                 [[MPAdConfigurationLogEventProperties alloc] initWithConfiguration:configuration];
             [classData setObject:logEventProperties forKey:kLogEventRequestPropertiesKey];
