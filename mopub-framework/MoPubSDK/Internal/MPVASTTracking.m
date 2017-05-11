@@ -14,7 +14,7 @@
 #import "MPVideoConfig.h"
 
 // Do not fire the start tracker until this time has been reached in the video
-static const NSInteger kStartTrackerTime = 1;
+static const NSInteger kStartTrackerTime = 0;
 
 @interface VASTTrackingURL : NSObject
 

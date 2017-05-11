@@ -40,6 +40,7 @@ extern NSString * const kPrecacheRequiredKey;
 extern NSString * const kIsVastVideoPlayerKey;
 extern NSString * const kRewardedVideoCurrencyNameHeaderKey;
 extern NSString * const kRewardedVideoCurrencyAmountHeaderKey;
+extern NSString * const kRewardedVideoCompletionUrlHeaderKey;
 
 extern NSString * const kInterstitialAdTypeHeaderKey;
 extern NSString * const kOrientationTypeHeaderKey;
@@ -83,6 +84,9 @@ extern NSString * const kAdTypeNativeVideo;
 @property (nonatomic, assign) NSTimeInterval nativeVideoImpressionVisible;
 @property (nonatomic, assign) NSTimeInterval nativeVideoMaxBufferingTime;
 @property (nonatomic) MPRewardedVideoReward *rewardedVideoReward;
+@property (nonatomic, copy) NSString *rewardedVideoCompletionUrl;
+//TODO: Remove `forceUIWebView` once WKWebView is proven
+@property (nonatomic, assign) BOOL forceUIWebView;
 
 - (id)initWithHeaders:(NSDictionary *)headers data:(NSData *)data;
 

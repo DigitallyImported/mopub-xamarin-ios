@@ -1,5 +1,5 @@
 //
-//  MPAdRequestError.h
+//  MPError.h
 //  MoPub
 //
 //  Copyright (c) 2012 MoPub. All rights reserved.
@@ -7,21 +7,21 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const kMPErrorDomain;
+extern NSString * const kMOPUBErrorDomain;
 
 typedef enum {
-    MPErrorUnknown = -1,
-    MPErrorNoInventory = 0,
-    MPErrorAdUnitWarmingUp = 1,
-    MPErrorNetworkTimedOut = 4,
-    MPErrorServerError = 8,
-    MPErrorAdapterNotFound = 16,
-    MPErrorAdapterInvalid = 17,
-    MPErrorAdapterHasNoInventory = 18
-} MPErrorCode;
+    MOPUBErrorUnknown = -1,
+    MOPUBErrorNoInventory = 0,
+    MOPUBErrorAdUnitWarmingUp = 1,
+    MOPUBErrorNetworkTimedOut = 4,
+    MOPUBErrorServerError = 8,
+    MOPUBErrorAdapterNotFound = 16,
+    MOPUBErrorAdapterInvalid = 17,
+    MOPUBErrorAdapterHasNoInventory = 18
+} MOPUBErrorCode;
 
-@interface MPError : NSError
+@interface MOPUBError : NSError
 
-+ (MPError *)errorWithCode:(MPErrorCode)code;
++ (MOPUBError *)errorWithCode:(MOPUBErrorCode)code;
 
 @end

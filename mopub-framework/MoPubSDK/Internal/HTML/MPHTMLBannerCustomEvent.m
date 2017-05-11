@@ -6,7 +6,7 @@
 //
 
 #import "MPHTMLBannerCustomEvent.h"
-#import "MPAdWebView.h"
+#import "MPWebView.h"
 #import "MPLogging.h"
 #import "MPAdConfiguration.h"
 #import "MPInstanceProvider.h"
@@ -64,36 +64,36 @@
     return [self.delegate viewControllerForPresentingModalView];
 }
 
-- (void)adDidFinishLoadingAd:(MPAdWebView *)ad
+- (void)adDidFinishLoadingAd:(MPWebView *)ad
 {
     MPLogInfo(@"MoPub HTML banner did load");
     [self.delegate bannerCustomEvent:self didLoadAd:ad];
 }
 
-- (void)adDidFailToLoadAd:(MPAdWebView *)ad
+- (void)adDidFailToLoadAd:(MPWebView *)ad
 {
     MPLogInfo(@"MoPub HTML banner did fail");
     [self.delegate bannerCustomEvent:self didFailToLoadAdWithError:nil];
 }
 
-- (void)adDidClose:(MPAdWebView *)ad
+- (void)adDidClose:(MPWebView *)ad
 {
     //don't care
 }
 
-- (void)adActionWillBegin:(MPAdWebView *)ad
+- (void)adActionWillBegin:(MPWebView *)ad
 {
     MPLogInfo(@"MoPub HTML banner will begin action");
     [self.delegate bannerCustomEventWillBeginAction:self];
 }
 
-- (void)adActionDidFinish:(MPAdWebView *)ad
+- (void)adActionDidFinish:(MPWebView *)ad
 {
     MPLogInfo(@"MoPub HTML banner did finish action");
     [self.delegate bannerCustomEventDidFinishAction:self];
 }
 
-- (void)adActionWillLeaveApplication:(MPAdWebView *)ad
+- (void)adActionWillLeaveApplication:(MPWebView *)ad
 {
     MPLogInfo(@"MoPub HTML banner will leave application");
     [self.delegate bannerCustomEventWillLeaveApplication:self];

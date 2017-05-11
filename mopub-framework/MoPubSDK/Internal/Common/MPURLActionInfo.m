@@ -55,6 +55,15 @@
     return info;
 }
 
++ (instancetype)infoWithURL:(NSURL *)URL webViewBaseURL:(NSURL *)baseURL
+{
+    MPURLActionInfo *info = [[[self class] alloc] init];
+    info.actionType = MPURLActionTypeOpenURLInWebView;
+    info.originalURL = URL;
+    info.webViewBaseURL = baseURL;
+    return info;
+}
+
 + (instancetype)infoWithURL:(NSURL *)URL deeplinkURL:(NSURL *)deeplinkURL
 {
     MPURLActionInfo *info = [[[self class] alloc] init];

@@ -22,6 +22,15 @@
 
 #define MOPUB_CARRIER_INFO_DEFAULTS_KEY @"com.mopub.carrierinfo"
 
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+static NSString *const kMoPubAppTransportSecurityDictionaryKey = @"NSAppTransportSecurity";
+static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsKey = @"NSAllowsArbitraryLoads";
+static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsInMediaKey = @"NSAllowsArbitraryLoadsInMedia";
+static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsInWebContentKey = @"NSAllowsArbitraryLoadsInWebContent";
+static NSString *const kMoPubAppTransportSecurityRequiresCertificateTransparencyKey = @"NSRequiresCertificateTransparency";
+static NSString *const kMoPubAppTransportSecurityAllowsLocalNetworkingKey = @"NSAllowsLocalNetworking";
 
 typedef enum
 {
@@ -246,6 +255,59 @@ static MPCoreInstanceProvider *sharedProvider = nil;
     return [self singletonForClass:[MPNetworkManager class] provider:^id{
         return [MPNetworkManager sharedNetworkManager];
     }];
+}
+
+- (MPATSSetting)appTransportSecuritySettings
+{
+    // Keep track of ATS settings statically, as they'll never change in the lifecycle of the application.
+    // This way, the setting value only gets assembled once.
+    static BOOL gCheckedAppTransportSettings = NO;
+    static MPATSSetting gSetting = MPATSSettingEnabled;
+
+    // If we've already checked ATS settings, just use what we have
+    if (gCheckedAppTransportSettings) {
+        return gSetting;
+    }
+
+    // Otherwise, figure out ATS settings
+
+    // App Transport Security was introduced in iOS 9; if the system version is less than 9, then arbirtrary loads are fine.
+    if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        gSetting = MPATSSettingAllowsArbitraryLoads;
+        gCheckedAppTransportSettings = YES;
+        return gSetting;
+    }
+
+    // Start with the assumption that ATS is enabled
+    gSetting = MPATSSettingEnabled;
+
+    // Grab the ATS dictionary from the Info.plist
+    NSDictionary *atsSettingsDictionary = [NSBundle mainBundle].infoDictionary[kMoPubAppTransportSecurityDictionaryKey];
+
+    // Check if ATS is entirely disabled, and if so, add that to the setting value
+    if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsKey] boolValue]) {
+        gSetting |= MPATSSettingAllowsArbitraryLoads;
+    }
+
+    // New App Transport Security keys were introduced in iOS 10. Only send settings for these keys if we're running iOS 10 or greater.
+    // They may exist in the dictionary if we're running iOS 9, but they won't do anything, so the server shouldn't know about them.
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
+        if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsInMediaKey] boolValue]) {
+            gSetting |= MPATSSettingAllowsArbitraryLoadsInMedia;
+        }
+        if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsInWebContentKey] boolValue]) {
+            gSetting |= MPATSSettingAllowsArbitraryLoadsInWebContent;
+        }
+        if ([atsSettingsDictionary[kMoPubAppTransportSecurityRequiresCertificateTransparencyKey] boolValue]) {
+            gSetting |= MPATSSettingRequiresCertificateTransparency;
+        }
+        if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsLocalNetworkingKey] boolValue]) {
+            gSetting |= MPATSSettingAllowsLocalNetworking;
+        }
+    }
+
+    gCheckedAppTransportSettings = YES;
+    return gSetting;
 }
 
 - (NSDictionary *)sharedCarrierInfo

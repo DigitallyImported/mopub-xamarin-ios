@@ -21,6 +21,7 @@
 @property (nonatomic, weak) id<MPRewardedVideoAdManagerDelegate> delegate;
 @property (nonatomic, readonly) NSString *adUnitID;
 @property (nonatomic, strong) NSArray *mediationSettings;
+@property (nonatomic, copy) NSString *customerId;
 
 - (instancetype)initWithAdUnitID:(NSString *)adUnitID delegate:(id<MPRewardedVideoAdManagerDelegate>)delegate;
 
@@ -39,9 +40,11 @@
  * If this method is called when an ad is already available and we haven't already played a video for the last time we loaded an ad,
  * the object will simply notify the delegate that an ad loaded.
  *
+ * @param customerId The user's id within the app.
+ *
  * However, if an ad has been played for the last time a load was issued and load is called again, the method will request a new ad.
  */
-- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location;
+- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location customerId:(NSString *)customerId;
 
 /**
  * Tells the caller whether the underlying ad network currently has an ad available for presentation.

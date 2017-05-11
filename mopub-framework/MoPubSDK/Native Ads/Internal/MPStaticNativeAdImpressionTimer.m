@@ -30,6 +30,7 @@ static const NSTimeInterval kFirstVisibilityTimestampNone = -1;
 {
     if (self = [super init]) {
         _viewVisibilityTimer = [MPTimer timerWithTimeInterval:kImpressionTimerInterval target:self selector:@selector(tick:) repeats:YES];
+        _viewVisibilityTimer.runLoopMode = NSRunLoopCommonModes;
         _requiredSecondsForImpression = requiredSecondsForImpression;
         _requiredViewVisibilityPercentage = visibilityPercentage;
         _firstVisibilityTimestamp = kFirstVisibilityTimestampNone;

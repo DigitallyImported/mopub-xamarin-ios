@@ -12,9 +12,9 @@
 
 @protocol MRCommandDelegate <NSObject>
 
-- (void)mrCommand:(MRCommand *)command createCalendarEventWithParams:(NSDictionary *)params;
+- (void)mrCommand:(MRCommand *)command createCalendarEventWithParams:(NSDictionary *)params __deprecated;
 - (void)mrCommand:(MRCommand *)command playVideoWithURL:(NSURL *)url;
-- (void)mrCommand:(MRCommand *)command storePictureWithURL:(NSURL *)url;
+- (void)mrCommand:(MRCommand *)command storePictureWithURL:(NSURL *)url __deprecated;
 - (void)mrCommand:(MRCommand *)command shouldUseCustomClose:(BOOL)useCustomClose;
 - (void)mrCommand:(MRCommand *)command setOrientationPropertiesWithForceOrientation:(UIInterfaceOrientationMask)forceOrientation;
 - (void)mrCommand:(MRCommand *)command openURL:(NSURL *)url;

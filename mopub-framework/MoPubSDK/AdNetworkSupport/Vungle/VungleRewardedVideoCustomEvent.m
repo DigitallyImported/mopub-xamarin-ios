@@ -39,7 +39,8 @@
     if ([[MPVungleRouter sharedRouter] isAdAvailable]) {
         VungleInstanceMediationSettings *settings = [self.delegate instanceMediationSettingsForClass:[VungleInstanceMediationSettings class]];
 
-        [[MPVungleRouter sharedRouter] presentRewardedVideoAdFromViewController:viewController settings:settings delegate:self];
+        NSString *customerId = [self.delegate customerIdForRewardedVideoCustomEvent:self];
+        [[MPVungleRouter sharedRouter] presentRewardedVideoAdFromViewController:viewController customerId:customerId settings:settings delegate:self];
     } else {
         MPLogInfo(@"Failed to show Vungle rewarded video: Vungle now claims that there is no available video ad.");
         NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorNoAdsAvailable userInfo:nil];

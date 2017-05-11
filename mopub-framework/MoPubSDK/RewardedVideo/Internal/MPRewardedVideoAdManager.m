@@ -59,14 +59,19 @@
     return [self.adapter hasAdAvailable];
 }
 
-- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location
+- (void)loadRewardedVideoAdWithKeywords:(NSString *)keywords location:(CLLocation *)location customerId:(NSString *)customerId
 {
     // We will just tell the delegate that we have loaded an ad if we already have one ready. However, if we have already
     // played a video for this ad manager, we will go ahead and request another ad from the server so we aren't potentially
     // stuck playing ads from the same network for a prolonged period of time which could be unoptimal with respect to the waterfall.
     if (self.ready && !self.playedAd) {
+        // If we already have an ad, do not set the customerId. We'll leave the customerId as the old one since the ad we currently have
+        // may be tied to an older customerId.
         [self.delegate rewardedVideoDidLoadForAdManager:self];
     } else {
+        // This has multiple behaviors. For ads that require us to set the customID: (outside of load), this will overwrite the ad's previously
+        // set customerId. Other ads require customerId on presentation in which we will use this new id coming in when presenting the ad.
+        self.customerId = customerId;
         [self loadAdWithURL:[MPAdServerURLBuilder URLWithAdUnitID:self.adUnitID
                                                          keywords:keywords
                                                          location:location
@@ -234,6 +239,11 @@
 - (NSString *)rewardedVideoAdUnitId
 {
     return self.adUnitID;
+}
+
+- (NSString *)rewardedVideoCustomerId
+{
+    return self.customerId;
 }
 
 @end

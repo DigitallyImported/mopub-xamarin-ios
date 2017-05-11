@@ -7,7 +7,6 @@
 //
 
 #import "MRProperty.h"
-#import <EventKit/EventKit.h>
 #import "MPConstants.h"
 #import "MPCoreInstanceProvider.h"
 
@@ -132,20 +131,12 @@
 {
     BOOL supportsSms, supportsTel;
     supportsSms = supportsTel = [MPCoreInstanceProvider sharedProvider].sharedCarrierInfo[@"carrierName"] != nil;
-    BOOL supportsCal = YES;
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
-    if ([EKEventStore respondsToSelector:@selector(authorizationStatusForEntityType:)]) {
-        supportsCal = [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent] == EKAuthorizationStatusNotDetermined ||
-                [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent] == EKAuthorizationStatusAuthorized;
-    }
-#endif
 
     return [NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:supportsSms], @"sms",
             [NSNumber numberWithBool:supportsTel], @"tel",
-            [NSNumber numberWithBool:supportsCal], @"calendar",
-            [NSNumber numberWithBool:YES], @"storePicture",
+            [NSNumber numberWithBool:NO], @"calendar",
+            [NSNumber numberWithBool:NO], @"storePicture",
             [NSNumber numberWithBool:YES], @"inlineVideo",
             nil];
 }
@@ -160,8 +151,8 @@
     MRSupportsProperty *property = [[self alloc] init];
     property.supportsSms = [[dictionary objectForKey:@"sms"] boolValue];
     property.supportsTel = [[dictionary objectForKey:@"tel"] boolValue];
-    property.supportsCalendar = [[dictionary objectForKey:@"calendar"] boolValue];
-    property.supportsStorePicture = [[dictionary objectForKey:@"storePicture"] boolValue];
+    property.supportsCalendar = NO;
+    property.supportsStorePicture = NO;
     property.supportsInlineVideo = [[dictionary objectForKey:@"inlineVideo"] boolValue];
     return property;
 }

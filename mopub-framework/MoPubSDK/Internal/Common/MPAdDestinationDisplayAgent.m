@@ -147,6 +147,9 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
             [self showWebViewWithHTMLString:actionInfo.HTTPResponseString
                                     baseURL:actionInfo.webViewBaseURL];
             break;
+        case MPURLActionTypeOpenURLInWebView:
+            [self showWebViewWithURL:actionInfo.originalURL];
+            break;
         case MPURLActionTypeShare:
             [self openShareURL:actionInfo.shareURL];
             break;
@@ -199,13 +202,25 @@ static NSString * const kDisplayAgentErrorDomain = @"com.mopub.displayagent";
 
 - (void)showWebViewWithHTMLString:(NSString *)HTMLString baseURL:(NSURL *)URL
 {
+    self.browserController = [[MPAdBrowserController alloc] initWithURL:URL
+                                                             HTMLString:HTMLString
+                                                               delegate:self];
+    [self showAdBrowserController:self.browserController];
+}
+
+- (void)showWebViewWithURL:(NSURL *)URL {
+    self.browserController = [[MPAdBrowserController alloc] initWithURL:URL
+                                                               delegate:self];
+    [self showAdBrowserController:self.browserController];
+}
+
+- (void)showAdBrowserController:(MPAdBrowserController *)adBrowserController {
     [self hideOverlay];
 
-    self.browserController = [[MPAdBrowserController alloc] initWithURL:URL
-                                                              HTMLString:HTMLString
-                                                                delegate:self];
     self.browserController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [[self.delegate viewControllerForPresentingModalView] presentViewController:self.browserController animated:MP_ANIMATED completion:nil];
+    [[self.delegate viewControllerForPresentingModalView] presentViewController:self.browserController
+                                                                       animated:MP_ANIMATED
+                                                                     completion:nil];
 }
 
 - (void)showStoreKitProductWithParameter:(NSString *)parameter fallbackURL:(NSURL *)URL

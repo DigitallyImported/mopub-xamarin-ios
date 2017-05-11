@@ -19,16 +19,16 @@
 
 static NSString * const kMraidURLScheme = @"mraid";
 
-@interface MRBridge () <UIWebViewDelegate, MRNativeCommandHandlerDelegate>
+@interface MRBridge () <MPWebViewDelegate, MRNativeCommandHandlerDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) MPWebView *webView;
 @property (nonatomic, strong) MRNativeCommandHandler *nativeCommandHandler;
 
 @end
 
 @implementation MRBridge
 
-- (instancetype)initWithWebView:(UIWebView *)webView
+- (instancetype)initWithWebView:(MPWebView *)webView
 {
     if (self = [super init]) {
         _webView = webView;
@@ -60,9 +60,10 @@ static NSString * const kMraidURLScheme = @"mraid";
 
             // Once done loading from the file, execute the javascript and load the html into the web view.
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self executeJavascript:mraidString];
-                [self.webView disableJavaScriptDialogs];
-                [self.webView loadHTMLString:HTML baseURL:baseURL];
+                [self.webView evaluateJavaScript:mraidString completionHandler:^(id result, NSError *error){
+                    [self.webView disableJavaScriptDialogs];
+                    [self.webView loadHTMLString:HTML baseURL:baseURL];
+                }];
             });
         });
     }
@@ -124,9 +125,9 @@ static NSString * const kMraidURLScheme = @"mraid";
     [self executeJavascript:@"window.mraidbridge.setMaxSize(%.1f, %.1f);", maxSize.width, maxSize.height];
 }
 
-#pragma mark - <UIWebViewDelegate>
+#pragma mark - <MPWebViewDelegate>
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL)webView:(MPWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSURL *url = [request URL];
     NSMutableString *urlString = [NSMutableString stringWithString:[url absoluteString]];
@@ -182,17 +183,17 @@ static NSString * const kMraidURLScheme = @"mraid";
     return safeToAutoloadLink;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void)webViewDidStartLoad:(MPWebView *)webView
 {
     [webView disableJavaScriptDialogs];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webViewDidFinishLoad:(MPWebView *)webView
 {
     [self.delegate bridge:self didFinishLoadingWebView:webView];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(MPWebView *)webView didFailLoadWithError:(NSError *)error
 {
     if (error.code == NSURLErrorCancelled) {
         return;

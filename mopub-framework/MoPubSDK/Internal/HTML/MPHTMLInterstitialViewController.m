@@ -6,13 +6,13 @@
 //
 
 #import "MPHTMLInterstitialViewController.h"
-#import "MPAdWebView.h"
+#import "MPWebView.h"
 #import "MPAdDestinationDisplayAgent.h"
 #import "MPInstanceProvider.h"
 
 @interface MPHTMLInterstitialViewController ()
 
-@property (nonatomic, strong) MPAdWebView *backingView;
+@property (nonatomic, strong) MPWebView *backingView;
 
 @end
 
@@ -38,10 +38,6 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.backingViewAgent = [[MPInstanceProvider sharedProvider] buildMPAdWebViewAgentWithAdWebViewFrame:self.view.bounds
                                                                                                 delegate:self];
-    self.backingView = self.backingViewAgent.view;
-    self.backingView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
-        UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.backingView];
 }
 
 #pragma mark - Public
@@ -50,6 +46,12 @@
 {
     [self view];
     [self.backingViewAgent loadConfiguration:configuration];
+
+    self.backingView = self.backingViewAgent.view;
+    self.backingView.frame = self.view.bounds;
+    self.backingView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+    UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.backingView];
 }
 
 - (void)willPresentInterstitial
@@ -114,33 +116,33 @@
     return self;
 }
 
-- (void)adDidFinishLoadingAd:(MPAdWebView *)ad
+- (void)adDidFinishLoadingAd:(MPWebView *)ad
 {
     [self.delegate interstitialDidLoadAd:self];
 }
 
-- (void)adDidFailToLoadAd:(MPAdWebView *)ad
+- (void)adDidFailToLoadAd:(MPWebView *)ad
 {
     [self.delegate interstitialDidFailToLoadAd:self];
 }
 
-- (void)adActionWillBegin:(MPAdWebView *)ad
+- (void)adActionWillBegin:(MPWebView *)ad
 {
     [self.delegate interstitialDidReceiveTapEvent:self];
 }
 
-- (void)adActionWillLeaveApplication:(MPAdWebView *)ad
+- (void)adActionWillLeaveApplication:(MPWebView *)ad
 {
     [self.delegate interstitialWillLeaveApplication:self];
     [self dismissInterstitialAnimated:NO];
 }
 
-- (void)adActionDidFinish:(MPAdWebView *)ad
+- (void)adActionDidFinish:(MPWebView *)ad
 {
     //NOOP: the landing page is going away, but not the interstitial.
 }
 
-- (void)adDidClose:(MPAdWebView *)ad
+- (void)adDidClose:(MPWebView *)ad
 {
     //NOOP: the ad is going away, but not the interstitial.
 }

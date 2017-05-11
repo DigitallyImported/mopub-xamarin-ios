@@ -31,7 +31,15 @@
     NSArray *allZoneIds = [info objectForKey:@"allZoneIds"];
     NSString *zoneId = [info objectForKey:@"zoneId"];
 
-    [AdColonyCustomEvent initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds];
+    NSString *customerId = [self.delegate customerIdForRewardedVideoCustomEvent:self];
+
+    [AdColonyCustomEvent initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds customerId:customerId];
+
+    // Set the customID again since the above init call can only run once. We want to set the customID
+    // if the caller gives us a customer id.
+    if (customerId.length > 0) {
+        [AdColony setCustomID:customerId];
+    }
 
     self.zoneId = zoneId;
     self.zoneAvailable = NO;

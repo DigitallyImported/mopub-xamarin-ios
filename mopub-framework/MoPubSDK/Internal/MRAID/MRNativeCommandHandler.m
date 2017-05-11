@@ -10,15 +10,11 @@
 #import "MPGlobal.h"
 #import "MPInstanceProvider.h"
 #import "MPLogging.h"
-#import "MRCalendarManager.h"
-#import "MRPictureManager.h"
 #import "MRVideoPlayerManager.h"
 
-@interface MRNativeCommandHandler () <MRCommandDelegate, MRCalendarManagerDelegate, MRPictureManagerDelegate, MRVideoPlayerManagerDelegate>
+@interface MRNativeCommandHandler () <MRCommandDelegate, MRVideoPlayerManagerDelegate>
 
 @property (nonatomic, weak) id <MRNativeCommandHandlerDelegate>delegate;
-@property (nonatomic, strong) MRCalendarManager *calendarManager;
-@property (nonatomic, strong) MRPictureManager *pictureManager;
 @property (nonatomic, strong) MRVideoPlayerManager *videoPlayerManager;
 
 @end
@@ -31,8 +27,6 @@
     if (self) {
         _delegate = delegate;
 
-        _calendarManager = [[MPInstanceProvider sharedProvider] buildMRCalendarManagerWithDelegate:self];
-        _pictureManager = [[MPInstanceProvider sharedProvider] buildMRPictureManagerWithDelegate:self];
         _videoPlayerManager = [[MPInstanceProvider sharedProvider] buildMRVideoPlayerManagerWithDelegate:self];
     }
 
@@ -74,7 +68,7 @@
 
 - (void)mrCommand:(MRCommand *)command createCalendarEventWithParams:(NSDictionary *)params
 {
-    [self.calendarManager createCalendarEventWithParameters:params];
+    // DEPRECATED
 }
 
 - (void)mrCommand:(MRCommand *)command playVideoWithURL:(NSURL *)url
@@ -84,7 +78,7 @@
 
 - (void)mrCommand:(MRCommand *)command storePictureWithURL:(NSURL *)url
 {
-    [self.pictureManager storePicture:url];
+    // DEPRECATED
 }
 
 - (void)mrCommand:(MRCommand *)command shouldUseCustomClose:(BOOL)useCustomClose
@@ -115,36 +109,6 @@
 - (void)mrCommandClose:(MRCommand *)command
 {
     [self.delegate handleMRAIDClose];
-}
-
-#pragma mark - <MRCalendarManagerDelegate>
-
-- (void)calendarManager:(MRCalendarManager *)manager
-didFailToCreateCalendarEventWithErrorMessage:(NSString *)message
-{
-    [self.delegate nativeCommandFailed:@"createCalendarEvent" withMessage:message];
-}
-
-- (void)calendarManagerWillPresentCalendarEditor:(MRCalendarManager *)manager
-{
-    [self.delegate nativeCommandWillPresentModalView];
-}
-
-- (void)calendarManagerDidDismissCalendarEditor:(MRCalendarManager *)manager
-{
-    [self.delegate nativeCommandDidDismissModalView];
-}
-
-- (UIViewController *)viewControllerForPresentingCalendarEditor
-{
-    return [self.delegate viewControllerForPresentingModalView];
-}
-
-#pragma mark - <MRPictureManagerDelegate>
-
-- (void)pictureManager:(MRPictureManager *)manager didFailToStorePictureWithErrorMessage:(NSString *)message
-{
-    [self.delegate nativeCommandFailed:@"storePicture" withMessage:message];
 }
 
 #pragma mark - <MRVideoPlayerManagerDelegate>
