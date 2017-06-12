@@ -150,6 +150,16 @@ static NSString * const kCollectionViewAdPlacerReuseIdentifier = @"MPCollectionV
 
 #pragma mark - <UICollectionViewDataSource>
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    if ([self.originalDataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
+        return [self.originalDataSource numberOfSectionsInCollectionView:collectionView];
+    }
+    else {
+        return 1;
+    }
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSUInteger numberOfItems = [self.originalDataSource collectionView:collectionView numberOfItemsInSection:section];
@@ -262,6 +272,13 @@ static NSString * const kCollectionViewAdPlacerReuseIdentifier = @"MPCollectionV
     NSInvocation *invocation = [MPAdPlacerInvocation invokeForTarget:self.originalDelegate with2ArgSelector:@selector(collectionView:shouldShowMenuForItemAtIndexPath:) firstArg:collectionView secondArg:indexPath streamAdPlacer:self.streamAdPlacer];
 
     return [MPAdPlacerInvocation boolResultForInvocation:invocation defaultValue:NO];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.originalDelegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
+        [MPAdPlacerInvocation invokeForTarget:self.originalDelegate with3ArgSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:) firstArg:collectionView secondArg:cell thirdArg:indexPath streamAdPlacer:self.streamAdPlacer];
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout

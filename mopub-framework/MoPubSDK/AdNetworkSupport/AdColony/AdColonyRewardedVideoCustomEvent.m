@@ -2,132 +2,121 @@
 //  AdColonyRewardedVideoCustomEvent.m
 //  MoPubSDK
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright (c) 2016 MoPub. All rights reserved.
 //
 
 #import <AdColony/AdColony.h>
-
 #import "AdColonyRewardedVideoCustomEvent.h"
 #import "AdColonyInstanceMediationSettings.h"
-#import "AdColonyCustomEvent.h"
+#import "AdColonyController.h"
 #import "MoPub.h"
-#import "MPAdColonyRouter.h"
-#import "MPInstanceProvider+AdColony.h"
 #import "MPLogging.h"
 #import "MPRewardedVideoReward.h"
 
-@interface AdColonyRewardedVideoCustomEvent () <AdColonyAdDelegate, MPAdColonyRouterDelegate>
+@interface AdColonyRewardedVideoCustomEvent ()
 
-@property (nonatomic, copy) NSString *zoneId;
-@property (nonatomic, assign) BOOL zoneAvailable;
+@property (nonatomic, retain) AdColonyInterstitial *ad;
+@property (nonatomic, retain) AdColonyZone *zone;
 
 @end
 
 @implementation AdColonyRewardedVideoCustomEvent
 
-- (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info
-{
+- (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info {
     NSString *appId = [info objectForKey:@"appId"];
+    if (appId == nil) {
+        MPLogError(@"Invalid setup. Use the appId parameter when configuring your network in the MoPub website.");
+        return;
+    }
+
     NSArray *allZoneIds = [info objectForKey:@"allZoneIds"];
+    if (allZoneIds.count == 0) {
+        MPLogError(@"Invalid setup. Use the allZoneIds parameter when configuring your network in the MoPub website.");
+        return;
+    }
+
     NSString *zoneId = [info objectForKey:@"zoneId"];
+    if (zoneId == nil) {
+        zoneId = allZoneIds[0];
+    }
 
     NSString *customerId = [self.delegate customerIdForRewardedVideoCustomEvent:self];
 
-    [AdColonyCustomEvent initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds customerId:customerId];
-
-    // Set the customID again since the above init call can only run once. We want to set the customID
-    // if the caller gives us a customer id.
-    if (customerId.length > 0) {
-        [AdColony setCustomID:customerId];
-    }
-
-    self.zoneId = zoneId;
-    self.zoneAvailable = NO;
-
-    if(self.zoneId != nil && appId != nil) {
-        [[MPAdColonyRouter sharedRouter] setCustomEvent:self forZoneId:self.zoneId];
-    }
-
-    if([self hasAdAvailable]) {
-        MPLogInfo(@"AdColony zone %@ available", self.zoneId);
-        [self zoneDidLoad];
-    }
-}
-
-- (BOOL)hasAdAvailable
-{
-    return [AdColony isVirtualCurrencyRewardAvailableForZone:self.zoneId];
-}
-
-- (void)presentRewardedVideoFromViewController:(UIViewController *)viewController
-{
-    if ([self hasAdAvailable]) {
-        MPLogInfo(@"AdColony zone %@ attempting to start", self.zoneId);
+    [AdColonyController initializeAdColonyCustomEventWithAppId:appId allZoneIds:allZoneIds userId:customerId callback:^{
 
         AdColonyInstanceMediationSettings *settings = [self.delegate instanceMediationSettingsForClass:[AdColonyInstanceMediationSettings class]];
         BOOL showPrePopup = (settings) ? settings.showPrePopup : NO;
         BOOL showPostPopup = (settings) ? settings.showPostPopup : NO;
 
-        [AdColony playVideoAdForZone:self.zoneId
-                        withDelegate:self
-                    withV4VCPrePopup:showPrePopup
-                    andV4VCPostPopup:showPostPopup];
+        AdColonyAdOptions *options = [AdColonyAdOptions new];
+        options.showPrePopup = showPrePopup;
+        options.showPostPopup = showPostPopup;
 
-        [self.delegate rewardedVideoWillAppearForCustomEvent:self];
+        __weak AdColonyRewardedVideoCustomEvent *weakSelf = self;
+
+        [AdColony requestInterstitialInZone:zoneId options:options success:^(AdColonyInterstitial * _Nonnull ad) {
+            MPLogInfo(@"AdColony ad loaded for zone %@", zoneId);
+            weakSelf.zone = [AdColony zoneForID:zoneId];
+            weakSelf.ad = ad;
+
+            [ad setOpen:^{
+                MPLogInfo(@"AdColony zone %@ started", zoneId);
+                [weakSelf.delegate rewardedVideoWillAppearForCustomEvent:weakSelf];
+                [weakSelf.delegate rewardedVideoDidAppearForCustomEvent:weakSelf];
+            }];
+            [ad setClose:^{
+                MPLogInfo(@"AdColony zone %@ finished", zoneId);
+                [weakSelf.delegate rewardedVideoWillDisappearForCustomEvent:weakSelf];
+                [weakSelf.delegate rewardedVideoDidDisappearForCustomEvent:weakSelf];
+            }];
+            [ad setExpire:^{
+                MPLogInfo(@"AdColony zone %@ expired", zoneId);
+                [weakSelf.delegate rewardedVideoDidExpireForCustomEvent:weakSelf];
+            }];
+            [ad setLeftApplication:^{
+                MPLogInfo(@"AdColony zone %@ click caused application transition", zoneId);
+                [weakSelf.delegate rewardedVideoWillLeaveApplicationForCustomEvent:weakSelf];
+            }];
+            [ad setClick:^{
+                MPLogInfo(@"AdColony zone %@ ad clicked", zoneId);
+                [weakSelf.delegate rewardedVideoDidReceiveTapEventForCustomEvent:weakSelf];
+            }];
+
+            [weakSelf.zone setReward:^(BOOL success, NSString * _Nonnull name, int amount) {
+                if (!success) {
+                    MPLogInfo(@"AdColony reward failure in zone %@", zoneId);
+                    return;
+                }
+                [weakSelf.delegate rewardedVideoShouldRewardUserForCustomEvent:weakSelf reward:[[MPRewardedVideoReward alloc] initWithCurrencyType:name amount:@(amount)]];
+            }];
+
+            [weakSelf.delegate rewardedVideoDidLoadAdForCustomEvent:weakSelf];
+        } failure:^(AdColonyAdRequestError * _Nonnull error) {
+            MPLogInfo(@"Failed to load AdColony rewarded video in zone %@", error);
+            weakSelf.ad = nil;
+            [weakSelf.delegate rewardedVideoDidFailToLoadAdForCustomEvent:weakSelf error:error];
+        }];
+
+    }];
+}
+
+- (BOOL)hasAdAvailable {
+    return self.ad != nil;
+}
+
+- (void)presentRewardedVideoFromViewController:(UIViewController *)viewController {
+    if (self.ad) {
+        MPLogInfo(@"AdColony zone %@ attempting to start", self.ad.zoneID);
+        if (![self.ad showWithPresentingViewController:viewController]) {
+            MPLogInfo(@"Failed to show AdColony video");
+            NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorUnknown userInfo:nil];
+            [self.delegate rewardedVideoDidFailToPlayForCustomEvent:self error:error];
+        }
     } else {
-        MPLogInfo(@"Failed to show AdColony rewarded video: AdColony now claims zone %@ is not available", self.zoneId);
+        MPLogInfo(@"Failed to show AdColony video interstitial, ad is not available");
         NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorNoAdsAvailable userInfo:nil];
         [self.delegate rewardedVideoDidFailToPlayForCustomEvent:self error:error];
     }
-}
-
-- (void)handleAdPlayedForCustomEventNetwork
-{
-    // If we no longer have an ad available, report back up to the application that this ad expired.
-    // We receive this message only when this custom event has reported its ad has loaded and another ad unit
-    // has played a video for the same ad network.
-    if (![self hasAdAvailable]) {
-        [self.delegate rewardedVideoDidExpireForCustomEvent:self];
-    }
-}
-
-- (void)handleCustomEventInvalidated
-{
-    [[MPAdColonyRouter sharedRouter] removeCustomEvent:self forZoneId:self.zoneId];
-}
-
-#pragma mark - AdColonyAdDelegate
-
-- (void)onAdColonyAdStartedInZone:(NSString *)zoneID
-{
-    MPLogInfo(@"AdColony zone %@ started", zoneID);
-    [self.delegate rewardedVideoDidAppearForCustomEvent:self];
-}
-
-- (void)onAdColonyAdAttemptFinished:(BOOL)shown inZone:(NSString *)zoneID
-{
-    MPLogInfo(@"AdColony zone %@ finished", zoneID);
-    [self.delegate rewardedVideoWillDisappearForCustomEvent:self];
-    [self.delegate rewardedVideoDidDisappearForCustomEvent:self];
-}
-
-#pragma mark - MPAdColonyRouterDelegate
-
-- (void)zoneDidLoad
-{
-    self.zoneAvailable = YES;
-    [self.delegate rewardedVideoDidLoadAdForCustomEvent:self];
-}
-
-- (void)zoneDidExpire
-{
-    self.zoneAvailable = NO;
-    [self.delegate rewardedVideoDidExpireForCustomEvent:self];
-}
-
-- (void)shouldRewardUserWithReward:(MPRewardedVideoReward *)reward
-{
-    [self.delegate rewardedVideoShouldRewardUserForCustomEvent:self reward:reward];
 }
 
 @end

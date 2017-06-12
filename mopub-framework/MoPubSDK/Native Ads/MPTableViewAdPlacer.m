@@ -148,6 +148,17 @@ static NSString * const kTableViewAdPlacerReuseIdentifier = @"MPTableViewAdPlace
 
 #pragma mark - <UITableViewDataSource>
 
+// Default is 1 if not implemented
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if ([self.originalDataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]) {
+        return [self.originalDataSource numberOfSectionsInTableView:tableView];
+    }
+    else {
+        return 1;
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSUInteger numberOfItems = [self.originalDataSource tableView:tableView numberOfRowsInSection:section];

@@ -9,8 +9,6 @@
 #import "MPLogging.h"
 #import "MPNativeCache.h"
 
-#define kMaxAllowedUIImageSize (1024 * 1024)
-
 @interface MPImageDownloadQueue ()
 
 @property (atomic, strong) NSOperationQueue *imageDownloadQueue;
@@ -61,14 +59,11 @@
                     BOOL validImageDownloaded = data != nil;
                     if (validImageDownloaded) {
                         UIImage *downloadedImage = [UIImage imageWithData:data];
-                        BOOL validImageSize = downloadedImage.size.width * downloadedImage.size.height <= kMaxAllowedUIImageSize;
-                        if (downloadedImage != nil && validImageSize) {
+                        if (downloadedImage != nil) {
                             [[MPNativeCache sharedCache] storeData:data forKey:imageURL.absoluteString];
                         } else {
                             if (downloadedImage == nil) {
                                 MPLogDebug(@"Error: invalid image data downloaded");
-                            } else if (!validImageSize) {
-                                MPLogDebug(@"Error: image data exceeds acceptable size limit of 1 MP (actual: %@)", NSStringFromCGSize(downloadedImage.size));
                             }
 
                             validImageDownloaded = NO;

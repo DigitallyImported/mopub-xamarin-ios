@@ -27,7 +27,7 @@
 
 static NSString *const kMoPubAppTransportSecurityDictionaryKey = @"NSAppTransportSecurity";
 static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsKey = @"NSAllowsArbitraryLoads";
-static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsInMediaKey = @"NSAllowsArbitraryLoadsInMedia";
+static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsForMediaKey = @"NSAllowsArbitraryLoadsForMedia";
 static NSString *const kMoPubAppTransportSecurityAllowsArbitraryLoadsInWebContentKey = @"NSAllowsArbitraryLoadsInWebContent";
 static NSString *const kMoPubAppTransportSecurityRequiresCertificateTransparencyKey = @"NSRequiresCertificateTransparency";
 static NSString *const kMoPubAppTransportSecurityAllowsLocalNetworkingKey = @"NSAllowsLocalNetworking";
@@ -292,8 +292,18 @@ static MPCoreInstanceProvider *sharedProvider = nil;
     // New App Transport Security keys were introduced in iOS 10. Only send settings for these keys if we're running iOS 10 or greater.
     // They may exist in the dictionary if we're running iOS 9, but they won't do anything, so the server shouldn't know about them.
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
-        if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsInMediaKey] boolValue]) {
-            gSetting |= MPATSSettingAllowsArbitraryLoadsInMedia;
+        // In iOS 10, NSAllowsArbitraryLoads gets ignored if ANY keys of NSAllowsArbitraryLoadsForMedia,
+        // NSAllowsArbitraryLoadsInWebContent, or NSAllowsLocalNetworking are PRESENT (i.e., they can be set to `false`)
+        // See: https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW34
+        // If needed, flip NSAllowsArbitraryLoads back to 0 if any of these keys are present.
+        if (atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsForMediaKey] != nil
+            || atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsInWebContentKey] != nil
+            || atsSettingsDictionary[kMoPubAppTransportSecurityAllowsLocalNetworkingKey] != nil) {
+            gSetting &= (~MPATSSettingAllowsArbitraryLoads);
+        }
+
+        if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsForMediaKey] boolValue]) {
+            gSetting |= MPATSSettingAllowsArbitraryLoadsForMedia;
         }
         if ([atsSettingsDictionary[kMoPubAppTransportSecurityAllowsArbitraryLoadsInWebContentKey] boolValue]) {
             gSetting |= MPATSSettingAllowsArbitraryLoadsInWebContent;
