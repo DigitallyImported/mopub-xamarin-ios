@@ -398,7 +398,6 @@
 		A50C5B9B1EC4744800C80FBF /* FacebookNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B631EC4744800C80FBF /* FacebookNativeAdAdapter.m */; };
 		A50C5B9C1EC4744800C80FBF /* FacebookNativeCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A50C5B641EC4744800C80FBF /* FacebookNativeCustomEvent.h */; };
 		A50C5B9D1EC4744800C80FBF /* FacebookNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B651EC4744800C80FBF /* FacebookNativeCustomEvent.m */; };
-		A50C5B9E1EC4744800C80FBF /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A50C5B671EC4744800C80FBF /* FBAudienceNetwork.framework */; };
 		A50C5B9F1EC4744800C80FBF /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B681EC4744800C80FBF /* README.md */; };
 		A50C5BA01EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A50C5B6A1EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.h */; };
 		A50C5BA11EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B6B1EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.m */; };
@@ -428,6 +427,7 @@
 		A50C5BB91EC4744800C80FBF /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B871EC4744800C80FBF /* VungleInterstitialCustomEvent.m */; };
 		A50C5BBA1EC4744800C80FBF /* VungleRewardedVideoCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A50C5B881EC4744800C80FBF /* VungleRewardedVideoCustomEvent.h */; };
 		A50C5BBB1EC4744800C80FBF /* VungleRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A50C5B891EC4744800C80FBF /* VungleRewardedVideoCustomEvent.m */; };
+		A517A3631FA744110041716B /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A517A3621FA744110041716B /* FBAudienceNetwork.framework */; };
 		C07994C91CDA593E0003F48F /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C07994C81CDA593E0003F48F /* libz.1.2.5.tbd */; };
 		C07994CB1CDA59800003F48F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07994CA1CDA59800003F48F /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C07994CD1CDA59D20003F48F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07994CC1CDA59D20003F48F /* CFNetwork.framework */; };
@@ -828,7 +828,6 @@
 		A50C5B631EC4744800C80FBF /* FacebookNativeAdAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookNativeAdAdapter.m; sourceTree = "<group>"; };
 		A50C5B641EC4744800C80FBF /* FacebookNativeCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookNativeCustomEvent.h; sourceTree = "<group>"; };
 		A50C5B651EC4744800C80FBF /* FacebookNativeCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookNativeCustomEvent.m; sourceTree = "<group>"; };
-		A50C5B671EC4744800C80FBF /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A50C5B681EC4744800C80FBF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A50C5B6A1EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGoogleAdMobBannerCustomEvent.h; sourceTree = "<group>"; };
 		A50C5B6B1EC4744800C80FBF /* MPGoogleAdMobBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGoogleAdMobBannerCustomEvent.m; sourceTree = "<group>"; };
@@ -858,6 +857,7 @@
 		A50C5B871EC4744800C80FBF /* VungleInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		A50C5B881EC4744800C80FBF /* VungleRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
 		A50C5B891EC4744800C80FBF /* VungleRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
+		A517A3621FA744110041716B /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		C07994C81CDA593E0003F48F /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		C07994CA1CDA59800003F48F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C07994CC1CDA59D20003F48F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -888,12 +888,12 @@
 				3CFB23481BF145B500755D3C /* MediaPlayer.framework in Frameworks */,
 				3CFB23491BF145B500755D3C /* MessageUI.framework in Frameworks */,
 				A50C5BB51EC4744800C80FBF /* VungleSDK.framework in Frameworks */,
+				A517A3631FA744110041716B /* FBAudienceNetwork.framework in Frameworks */,
 				3CFB234A1BF145B500755D3C /* MobileCoreServices.framework in Frameworks */,
 				3CFB234B1BF145B500755D3C /* PassKit.framework in Frameworks */,
 				3CFB234C1BF145B500755D3C /* QuartzCore.framework in Frameworks */,
 				3CFB234D1BF145B500755D3C /* Social.framework in Frameworks */,
 				3CFB234E1BF145B500755D3C /* StoreKit.framework in Frameworks */,
-				A50C5B9E1EC4744800C80FBF /* FBAudienceNetwork.framework in Frameworks */,
 				3CFB234F1BF145B500755D3C /* SystemConfiguration.framework in Frameworks */,
 				A50C5BAC1EC4744800C80FBF /* GoogleMobileAds.framework in Frameworks */,
 				3CFB23501BF145B500755D3C /* UIKit.framework in Frameworks */,
@@ -1512,7 +1512,7 @@
 		A50C5B661EC4744800C80FBF /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				A50C5B671EC4744800C80FBF /* FBAudienceNetwork.framework */,
+				A517A3621FA744110041716B /* FBAudienceNetwork.framework */,
 				A50C5B681EC4744800C80FBF /* README.md */,
 			);
 			path = SDK;
@@ -2164,14 +2164,16 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/GoogleAdMob/SDK",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/Vungle/SDK",
-					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/AdColony/SDK",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/Facebook/SDK",
 				);
 				INFOPLIST_FILE = MoPub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mopub.MoPub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2190,14 +2192,16 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/GoogleAdMob/SDK",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/Vungle/SDK",
-					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/AdColony/SDK",
 					"$(PROJECT_DIR)/MoPubSDK/AdNetworkSupport/Facebook/SDK",
 				);
 				INFOPLIST_FILE = MoPub/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mopub.MoPub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
