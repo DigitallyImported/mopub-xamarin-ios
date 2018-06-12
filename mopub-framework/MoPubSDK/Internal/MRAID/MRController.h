@@ -28,7 +28,9 @@
 @property (nonatomic, readonly) MPViewabilityTracker *viewabilityTracker;
 @property (nonatomic, weak) id<MRControllerDelegate> delegate;
 
-- (instancetype)initWithAdViewFrame:(CGRect)adViewFrame adPlacementType:(MRAdViewPlacementType)placementType;
+- (instancetype)initWithAdViewFrame:(CGRect)adViewFrame
+                    adPlacementType:(MRAdViewPlacementType)placementType
+                           delegate:(id<MRControllerDelegate>)delegate;
 
 - (void)loadAdWithConfiguration:(MPAdConfiguration *)configuration;
 - (void)handleMRAIDInterstitialDidPresentWithViewController:(MPMRAIDInterstitialViewController *)viewController;

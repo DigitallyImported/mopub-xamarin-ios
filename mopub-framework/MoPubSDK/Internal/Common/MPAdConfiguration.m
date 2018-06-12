@@ -8,7 +8,7 @@
 #import "MPAdConfiguration.h"
 
 #import "MOPUBExperimentProvider.h"
-#import "MPConsentAdServerKeys.h"
+#import "MPAdServerKeys.h"
 #import "MPConsentManager.h"
 #import "MPConstants.h"
 #import "MPLogging.h"
@@ -36,7 +36,6 @@ NSString * const kNativeSDKParametersHeaderKey = @"X-Nativeparams";
 NSString * const kNetworkTypeHeaderKey = @"X-Networktype";
 NSString * const kRefreshTimeHeaderKey = @"X-Refreshtime";
 NSString * const kAdTimeoutHeaderKey = @"X-AdTimeout";
-NSString * const kScrollableHeaderKey = @"X-Scrollable";
 NSString * const kWidthHeaderKey = @"X-Width";
 NSString * const kDspCreativeIdKey = @"X-DspCreativeid";
 NSString * const kPrecacheRequiredKey = @"X-PrecacheRequired";
@@ -132,7 +131,6 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
         self.interceptURLPrefix = [self URLFromHeaders:headers
                                                 forKey:kLaunchpageHeaderKey];
 
-        self.scrollable = [[headers objectForKey:kScrollableHeaderKey] boolValue];
         self.refreshInterval = [self refreshIntervalFromHeaders:headers];
         self.adTimeoutInterval = [self timeIntervalFromHeaders:headers forKey:kAdTimeoutHeaderKey];
 
@@ -235,6 +233,7 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
         [[MPConsentManager sharedManager] forceStatusShouldForceExplicitNo:[headers[kForceExplicitNoKey] boolValue]
                                                    shouldInvalidateConsent:[headers[kInvalidateConsentKey] boolValue]
                                                     shouldReacquireConsent:[headers[kReacquireConsentKey] boolValue]
+                                              shouldForceGDPRApplicability:[headers[kForceGDPRAppliesKey] boolValue]
                                                        consentChangeReason:headers[kConsentChangedReasonKey]
                                                    shouldBroadcast:YES];
     }

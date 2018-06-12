@@ -10,7 +10,6 @@
 #import "MPAdServerCommunicator.h"
 #import "MPAdServerURLBuilder.h"
 #import "MPRewardedVideoAdapter.h"
-#import "MPInstanceProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPRewardedVideoError.h"
 #import "MPLogging.h"
@@ -195,7 +194,7 @@
         return;
     }
 
-    MPRewardedVideoAdapter *adapter = [[MPInstanceProvider sharedProvider] buildRewardedVideoAdapterWithDelegate:self];
+    MPRewardedVideoAdapter *adapter = [[MPRewardedVideoAdapter alloc] initWithDelegate:self];
 
     if (!adapter) {
         NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorUnknown userInfo:nil];

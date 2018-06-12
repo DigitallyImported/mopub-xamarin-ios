@@ -10,13 +10,12 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
 
-#import "MPAdServerCommunicator.h"
-#import "MPURLResolver.h"
 #import "MPAdDestinationDisplayAgent.h"
-#import "MPReachability.h"
-#import "MPTimer.h"
+#import "MPAdServerCommunicator.h"
 #import "MPAnalyticsTracker.h"
 #import "MPGeolocationProvider.h"
+#import "MPTimer.h"
+#import "MPURLResolver.h"
 
 #define MOPUB_CARRIER_INFO_DEFAULTS_KEY @"com.mopub.carrierinfo"
 
@@ -178,13 +177,6 @@ static MPCoreInstanceProvider *sharedProvider = nil;
     }];
 }
 
-- (MPReachability *)sharedMPReachability
-{
-    return [self singletonForClass:[MPReachability class] provider:^id{
-        return [MPReachability reachabilityForLocalWiFi];
-    }];
-}
-
 - (MPATSSetting)appTransportSecuritySettings
 {
     // Keep track of ATS settings statically, as they'll never change in the lifecycle of the application.
@@ -256,6 +248,35 @@ static MPCoreInstanceProvider *sharedProvider = nil;
 - (MPTimer *)buildMPTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)selector repeats:(BOOL)repeats
 {
     return [MPTimer timerWithTimeInterval:seconds target:target selector:selector repeats:repeats];
+}
+
+static CTTelephonyNetworkInfo * gTelephonyNetworkInfo;
+- (MPNetworkStatus)currentRadioAccessTechnology {
+    if (!gTelephonyNetworkInfo) {
+        gTelephonyNetworkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    }
+    NSString * accessTechnology = gTelephonyNetworkInfo.currentRadioAccessTechnology;
+
+    // The determination of 2G/3G/4G technology is a best-effort.
+    if ([accessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) { // Source: https://en.wikipedia.org/wiki/LTE_(telecommunication)
+        return MPReachableViaCellularNetwork4G;
+    }
+    else if ([accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0] || // Source: https://www.phonescoop.com/glossary/term.php?gid=151
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA] || // Source: https://www.phonescoop.com/glossary/term.php?gid=151
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB] || // Source: https://www.phonescoop.com/glossary/term.php?gid=151
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA] || // Source: https://www.techopedia.com/definition/24282/wideband-code-division-multiple-access-wcdma
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA] || // Source: https://en.wikipedia.org/wiki/High_Speed_Packet_Access#High_Speed_Downlink_Packet_Access_(HSDPA)
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA]) { // Source: https://en.wikipedia.org/wiki/High_Speed_Packet_Access#High_Speed_Uplink_Packet_Access_(HSUPA)
+        return MPReachableViaCellularNetwork3G;
+    }
+    else if ([accessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x] || // Source: In testing, this mode showed up when the phone was in Verizon 1x mode
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyGPRS] || // Source: https://en.wikipedia.org/wiki/General_Packet_Radio_Service
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyEdge] || // Source: https://en.wikipedia.org/wiki/2G#2.75G_(EDGE)
+             [accessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) { // Source: https://www.phonescoop.com/glossary/term.php?gid=155
+        return MPReachableViaCellularNetwork2G;
+    }
+
+    return MPReachableViaCellularNetworkUnknownGeneration;
 }
 
 @end

@@ -7,7 +7,6 @@
 
 #import "MPTableViewAdPlacer.h"
 #import "MPStreamAdPlacer.h"
-#import "MPInstanceProvider.h"
 #import "MPAdPlacerInvocation.h"
 #import "MPTimer.h"
 #import "MPNativeAdRendering.h"
@@ -52,7 +51,7 @@ static NSString * const kTableViewAdPlacerReuseIdentifier = @"MPTableViewAdPlace
 
     if (self = [super init]) {
         _tableView = tableView;
-        _streamAdPlacer = [[MPInstanceProvider sharedProvider] buildStreamAdPlacerWithViewController:controller adPositioning:positioning rendererConfigurations:rendererConfigurations];
+        _streamAdPlacer = [MPStreamAdPlacer placerWithViewController:controller adPositioning:positioning rendererConfigurations:rendererConfigurations];
         _streamAdPlacer.delegate = self;
 
         _originalDataSource = tableView.dataSource;

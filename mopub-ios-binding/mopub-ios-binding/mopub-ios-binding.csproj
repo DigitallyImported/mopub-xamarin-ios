@@ -41,13 +41,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <ItemGroup>
-    <NativeReference Include="MoPub.framework">
+    <None Include="MoPub.framework.linkwith.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="..\..\mopub-framework\Carthage\Build\iOS\MoPub.framework">
       <Kind>Framework</Kind>
       <Frameworks>AudioToolbox AVFoundation CoreGraphics CoreLocation CoreMedia CoreMotion CoreTelephony EventKit EventKitUI Foundation MediaPlayer MessageUI MobileCoreServices QuartzCore SystemConfiguration UIKit CFNetwork</Frameworks>
       <WeakFrameworks>AdSupport CoreBluetooth PassKit Social StoreKit Webkit</WeakFrameworks>
     </NativeReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MoPub.framework.linkwith.cs" />
   </ItemGroup>
 </Project>

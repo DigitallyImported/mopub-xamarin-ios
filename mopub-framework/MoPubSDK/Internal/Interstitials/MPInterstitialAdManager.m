@@ -12,7 +12,6 @@
 #import "MPAdServerURLBuilder.h"
 #import "MPInterstitialAdController.h"
 #import "MPInterstitialCustomEventAdapter.h"
-#import "MPInstanceProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPInterstitialAdManagerDelegate.h"
 #import "MPLogging.h"
@@ -166,12 +165,12 @@
 
 - (void)setUpAdapterWithConfiguration:(MPAdConfiguration *)configuration;
 {
-    MPBaseInterstitialAdapter *adapter = [[MPInstanceProvider sharedProvider] buildInterstitialAdapterForConfiguration:configuration
-                                                                                                              delegate:self];
-    if (!adapter) {
+    if (configuration.customEventClass == nil) {
         [self adapter:nil didFailToLoadAdWithError:nil];
         return;
     }
+
+    MPBaseInterstitialAdapter *adapter = [[MPInterstitialCustomEventAdapter alloc] initWithDelegate:self];
 
     self.adapter = adapter;
     [self.adapter _getAdWithConfiguration:configuration];

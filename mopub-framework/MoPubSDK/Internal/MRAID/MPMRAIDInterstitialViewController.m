@@ -6,7 +6,6 @@
 //
 
 #import "MPMRAIDInterstitialViewController.h"
-#import "MPInstanceProvider.h"
 #import "MPAdConfiguration.h"
 #import "MRController.h"
 
@@ -31,7 +30,9 @@
         CGFloat width = MAX(configuration.preferredSize.width, 1);
         CGFloat height = MAX(configuration.preferredSize.height, 1);
         CGRect frame = CGRectMake(0, 0, width, height);
-        self.mraidController = [[MPInstanceProvider sharedProvider] buildInterstitialMRControllerWithFrame:frame delegate:self];
+        self.mraidController = [[MRController alloc] initWithAdViewFrame:frame
+                                                         adPlacementType:MRAdViewPlacementTypeInterstitial
+                                                                delegate:self];
 
         self.configuration = configuration;
         self.orientationType = [self.configuration orientationType];

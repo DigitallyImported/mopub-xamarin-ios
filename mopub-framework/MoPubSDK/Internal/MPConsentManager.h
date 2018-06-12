@@ -30,6 +30,12 @@
 @property (nonatomic, readonly) BOOL isConsentNeeded;
 
 /**
+ Flag indicating that GDPR applicability was forced and the transition should be
+ communicated back to the server. This will only persist in memory.
+ */
+@property (nonatomic, readonly) BOOL isForcedGDPRAppliesTransition;
+
+/**
  Retrieves the current language code.
  */
 @property (nonatomic, copy, readonly, nonnull) NSString * currentLanguageCode;
@@ -66,6 +72,7 @@
 - (void)forceStatusShouldForceExplicitNo:(BOOL)shouldForceExplicitNo
                  shouldInvalidateConsent:(BOOL)shouldInvalidateConsent
                   shouldReacquireConsent:(BOOL)shouldReacquireConsent
+            shouldForceGDPRApplicability:(BOOL)shouldForceGDPRApplies
                      consentChangeReason:(NSString * _Nullable)consentChangeReason
                  shouldBroadcast:(BOOL)shouldBroadcast;
 
@@ -141,6 +148,13 @@
  Flag indicating if GDPR is applicable to the user.
  */
 @property (nonatomic, readonly) MPBool isGDPRApplicable;
+
+/**
+ Allows a publisher to force @c isGDPRApplicable to @c YES. When this is set to @c YES, @c isGDPRApplicable will always
+ be @c MPBoolYes. This property is disk-backed, so its value will persist between app sessions once it has been set.
+ When set back to @c NO, the value of @c isGDPRApplicable determined at first app session will apply.
+ */
+@property (nonatomic, assign) BOOL forceIsGDPRApplicable;
 
 /**
  Flag indicating that the app is whitelisted for non-user-initiated consent changes.

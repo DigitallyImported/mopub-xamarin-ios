@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "MPGlobal.h"
+#import "MPReachability.h"
 #import "MPURLResolver.h"
 
 @class MPAdConfiguration;
@@ -23,7 +24,6 @@
 // Utilities
 @class MPAdAlertManager, MPAdAlertGestureRecognizer;
 @class MPAnalyticsTracker;
-@class MPReachability;
 @class MPTimer;
 @class MPGeolocationProvider;
 @class CLLocationManager;
@@ -53,11 +53,12 @@ typedef NS_OPTIONS(NSUInteger, MPATSSetting) {
 - (id<MPAdAlertManagerProtocol>)buildMPAdAlertManagerWithDelegate:(id)delegate;
 - (MPAdAlertGestureRecognizer *)buildMPAdAlertGestureRecognizerWithTarget:(id)target action:(SEL)action;
 - (MPAnalyticsTracker *)sharedMPAnalyticsTracker;
-- (MPReachability *)sharedMPReachability;
 - (MPATSSetting)appTransportSecuritySettings;
 
 // This call may return nil and may not update if the user hot-swaps the device's sim card.
 - (NSDictionary *)sharedCarrierInfo;
+
+- (MPNetworkStatus)currentRadioAccessTechnology;
 
 - (MPTimer *)buildMPTimerWithTimeInterval:(NSTimeInterval)seconds target:(id)target selector:(SEL)selector repeats:(BOOL)repeats;
 

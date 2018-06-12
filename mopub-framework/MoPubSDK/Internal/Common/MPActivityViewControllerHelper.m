@@ -6,7 +6,6 @@
 //
 
 #import "MPActivityViewControllerHelper.h"
-#import "MPInstanceProvider.h"
 
 /**
  * MPActivityItemProviderWithSubject subclasses UIActivityItemProvider

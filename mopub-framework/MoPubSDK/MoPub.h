@@ -218,6 +218,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) MPBool isGDPRApplicable;
 
 /**
+ * When called, @c isGDPRApplicable will always be set to @c MPBoolYes, and GDPR will apply to this user
+ * regardless of any other conditions.
+ * Note: This property's value is persisted for the lifetime of the app and cannot be unset.
+ */
+- (void)forceGDPRApplicable;
+
+/**
  * Consent Acquisition
  */
 

@@ -10,7 +10,6 @@
 #import "MPHTTPNetworkSession.h"
 #import "NSURL+MPAdditions.h"
 #import "NSHTTPURLResponse+MPAdditions.h"
-#import "MPInstanceProvider.h"
 #import "MPLogging.h"
 #import "MPCoreInstanceProvider.h"
 #import "MOPUBExperimentProvider.h"

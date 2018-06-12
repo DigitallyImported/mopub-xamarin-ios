@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class MPWebView;
+
 enum {
     MPClosableViewCloseButtonLocationTopRight,
     MPClosableViewCloseButtonLocationTopLeft,
@@ -44,7 +46,9 @@ CGRect MPClosableViewCustomCloseButtonFrame(CGSize size, MPClosableViewCloseButt
 @property (nonatomic, readonly) BOOL wasTapped;
 @property (nonatomic, strong, readonly) UIButton *closeButton;
 
-- (instancetype)initWithFrame:(CGRect)frame closeButtonType:(MPClosableViewCloseButtonType)closeButtonType;
+- (instancetype)initWithFrame:(CGRect)frame
+                      webView:(MPWebView *)webView
+                     delegate:(id<MPClosableViewDelegate>)delegate;
 
 @end
 

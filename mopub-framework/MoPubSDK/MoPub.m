@@ -221,6 +221,10 @@
     return [MPConsentManager sharedManager].isGDPRApplicable;
 }
 
+- (void)forceGDPRApplicable {
+    [MPConsentManager sharedManager].forceIsGDPRApplicable = YES;
+}
+
 - (MPConsentStatus)currentConsentStatus {
     return [MPConsentManager sharedManager].currentStatus;
 }

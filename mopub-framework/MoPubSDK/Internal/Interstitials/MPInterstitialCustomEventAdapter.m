@@ -7,13 +7,13 @@
 
 #import "MPInterstitialCustomEventAdapter.h"
 
-#import "MPConstants.h"
 #import "MPAdConfiguration.h"
+#import "MPConstants.h"
+#import "MPCoreInstanceProvider.h"
+#import "MPHTMLInterstitialCustomEvent.h"
 #import "MPLogging.h"
-#import "MPInstanceProvider.h"
 #import "MPInterstitialCustomEvent.h"
 #import "MPInterstitialAdController.h"
-#import "MPHTMLInterstitialCustomEvent.h"
 #import "MPMRAIDInterstitialCustomEvent.h"
 #import "MPRealTimeTimer.h"
 
@@ -52,13 +52,23 @@
     MPLogInfo(@"Looking for custom event class named %@.", configuration.customEventClass);
     self.configuration = configuration;
 
-    self.interstitialCustomEvent = [[MPInstanceProvider sharedProvider] buildInterstitialCustomEventFromCustomClass:configuration.customEventClass delegate:self];
-
-    if (self.interstitialCustomEvent) {
-        [self.interstitialCustomEvent requestInterstitialWithCustomEventInfo:configuration.customEventClassData adMarkup:configuration.advancedBidPayload];
-    } else {
+    MPInterstitialCustomEvent *customEvent = [[configuration.customEventClass alloc] init];
+    if (![customEvent isKindOfClass:[MPInterstitialCustomEvent class]]) {
+        MPLogError(@"**** Custom Event Class: %@ does not extend MPInterstitialCustomEvent ****", NSStringFromClass(configuration.customEventClass));
         [self.delegate adapter:self didFailToLoadAdWithError:nil];
+        return;
     }
+    customEvent.delegate = self;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    if ([customEvent respondsToSelector:@selector(customEventDidUnload)]) {
+        MPLogWarn(@"**** Custom Event Class: %@ implements the deprecated -customEventDidUnload method.  This is no longer called.  Use -dealloc for cleanup instead ****", NSStringFromClass(configuration.customEventClass));
+    }
+#pragma clang diagnostic pop
+
+    self.interstitialCustomEvent = customEvent;
+    [self.interstitialCustomEvent requestInterstitialWithCustomEventInfo:configuration.customEventClassData adMarkup:configuration.advancedBidPayload];
 }
 
 - (void)showInterstitialFromViewController:(UIViewController *)controller

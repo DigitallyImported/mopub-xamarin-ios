@@ -7,7 +7,6 @@
 
 #import "MPBannerAdManager.h"
 #import "MPAdServerURLBuilder.h"
-#import "MPInstanceProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPBannerAdManagerDelegate.h"
 #import "MPError.h"
@@ -198,6 +197,12 @@
     }
 }
 
+- (BOOL)shouldScheduleTimerOnImpressionDisplay {
+    // If `visibleImpressionTrackingEnabled` is set to `YES`, we
+    // should schedule the timer only after the impression has fired.
+    return self.requestingConfiguration.visibleImpressionTrackingEnabled;
+}
+
 #pragma mark - <MPAdServerCommunicatorDelegate>
 
 - (void)communicatorDidReceiveAdConfigurations:(NSArray<MPAdConfiguration *> *)configurations
@@ -296,7 +301,10 @@
         [self.onscreenAdapter didDisplayAd];
 
         self.requestingAdapterAdContentView = nil;
-        [self scheduleRefreshTimer];
+
+        if (![self shouldScheduleTimerOnImpressionDisplay]) {
+            [self scheduleRefreshTimer];
+        }
     }
 }
 
@@ -332,6 +340,12 @@
         } else {
             [self loadAd];
         }
+    }
+}
+
+- (void)adapter:(MPBaseBannerAdapter *)adapter didTrackImpressionForAd:(UIView *)ad {
+    if (self.onscreenAdapter == adapter && [self shouldScheduleTimerOnImpressionDisplay]) {
+        [self scheduleRefreshTimer];
     }
 }
 

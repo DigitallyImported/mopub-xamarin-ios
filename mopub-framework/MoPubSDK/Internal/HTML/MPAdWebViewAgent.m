@@ -13,7 +13,6 @@
 #import "NSURL+MPAdditions.h"
 #import "UIWebView+MPAdditions.h"
 #import "MPWebView.h"
-#import "MPInstanceProvider.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPUserInteractionGestureRecognizer.h"
 #import "NSJSONSerialization+MPAdditions.h"
@@ -141,7 +140,7 @@
         }
     }
 
-    [self.view mp_setScrollable:configuration.scrollable];
+    [self.view mp_setScrollable:NO];
     [self.view disableJavaScriptDialogs];
 
     // Initialize viewability trackers before loading self.view

@@ -8,7 +8,6 @@
 #import "MRNativeCommandHandler.h"
 #import "MRCommand.h"
 #import "MPGlobal.h"
-#import "MPInstanceProvider.h"
 #import "MPLogging.h"
 #import "MRVideoPlayerManager.h"
 
@@ -27,7 +26,7 @@
     if (self) {
         _delegate = delegate;
 
-        _videoPlayerManager = [[MPInstanceProvider sharedProvider] buildMRVideoPlayerManagerWithDelegate:self];
+        _videoPlayerManager = [[MRVideoPlayerManager alloc] initWithDelegate:self];
     }
 
     return self;

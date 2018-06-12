@@ -8,7 +8,6 @@
 #import "MPInterstitialAdController.h"
 
 #import "MPLogging.h"
-#import "MPInstanceProvider.h"
 #import "MPInterstitialAdManager.h"
 #import "MPInterstitialAdManagerDelegate.h"
 
@@ -26,7 +25,7 @@
 - (id)initWithAdUnitId:(NSString *)adUnitId
 {
     if (self = [super init]) {
-        self.manager = [[MPInstanceProvider sharedProvider] buildMPInterstitialAdManagerWithDelegate:self];
+        self.manager = [[MPInterstitialAdManager alloc] initWithDelegate:self];
         self.adUnitId = adUnitId;
     }
     return self;

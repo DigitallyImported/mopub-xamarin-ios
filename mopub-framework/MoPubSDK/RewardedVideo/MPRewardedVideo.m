@@ -8,7 +8,6 @@
 #import "MPRewardedVideo.h"
 #import "MPLogging.h"
 #import "MPRewardedVideoAdManager.h"
-#import "MPInstanceProvider.h"
 #import "MPRewardedVideoError.h"
 #import "MPRewardedVideoConnection.h"
 #import "MPRewardedVideoCustomEvent.h"
@@ -105,7 +104,7 @@ static MPRewardedVideo *gSharedInstance = nil;
     MPRewardedVideoAdManager *adManager = sharedInstance.rewardedVideoAdManagers[adUnitID];
 
     if (!adManager) {
-        adManager = [[MPInstanceProvider sharedProvider] buildRewardedVideoAdManagerWithAdUnitID:adUnitID delegate:sharedInstance];
+        adManager = [[MPRewardedVideoAdManager alloc] initWithAdUnitID:adUnitID delegate:sharedInstance];
         sharedInstance.rewardedVideoAdManagers[adUnitID] = adManager;
     }
 

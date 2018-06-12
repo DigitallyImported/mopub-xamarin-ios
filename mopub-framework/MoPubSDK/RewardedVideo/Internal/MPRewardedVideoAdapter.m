@@ -12,7 +12,6 @@
 #import "MPCoreInstanceProvider.h"
 #import "MPRewardedVideoError.h"
 #import "MPRewardedVideoCustomEvent.h"
-#import "MPInstanceProvider.h"
 #import "MPLogging.h"
 #import "MPTimer.h"
 #import "MPRewardedVideoReward.h"
@@ -71,16 +70,18 @@ static const NSUInteger kExcessiveCustomDataLength = 8196;
     MPLogInfo(@"Looking for custom event class named %@.", configuration.customEventClass);
 
     self.configuration = configuration;
-
-    self.rewardedVideoCustomEvent = [[MPInstanceProvider sharedProvider] buildRewardedVideoCustomEventFromCustomClass:configuration.customEventClass delegate:self];
-
-    if (self.rewardedVideoCustomEvent) {
-        [self startTimeoutTimer];
-        [self.rewardedVideoCustomEvent requestRewardedVideoWithCustomEventInfo:configuration.customEventClassData adMarkup:configuration.advancedBidPayload];
-    } else {
+    MPRewardedVideoCustomEvent *customEvent = [[configuration.customEventClass alloc] init];
+    if (![customEvent isKindOfClass:[MPRewardedVideoCustomEvent class]]) {
+        MPLogError(@"**** Custom Event Class: %@ does not extend MPRewardedVideoCustomEvent ****", NSStringFromClass(configuration.customEventClass));
         NSError *error = [NSError errorWithDomain:MoPubRewardedVideoAdsSDKDomain code:MPRewardedVideoAdErrorInvalidCustomEvent userInfo:nil];
         [self.delegate rewardedVideoDidFailToLoadForAdapter:self error:error];
+        return;
     }
+    customEvent.delegate = self;
+
+    self.rewardedVideoCustomEvent = customEvent;
+    [self startTimeoutTimer];
+    [self.rewardedVideoCustomEvent requestRewardedVideoWithCustomEventInfo:configuration.customEventClassData adMarkup:configuration.advancedBidPayload];
 }
 
 - (BOOL)hasAdAvailable

@@ -6,9 +6,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreLocation/CoreLocation.h>
+
+@class CLLocation;
 
 @interface MPAdServerURLBuilder : NSObject
+
+/**
+ * Returns an NSURL object given an endpoint and a dictionary of query parameters/values
+ */
++ (NSURL *)URLWithEndpointPath:(NSString *)endpointPath queryParameters:(NSDictionary *)parameters;
+
+@end
+
+@interface MPAdServerURLBuilder (Ad)
 
 + (NSURL *)URLWithAdUnitID:(NSString *)adUnitID
                   keywords:(NSString *)keywords
@@ -32,7 +42,7 @@
 
 @end
 
-@interface MPAdServerURLBuilder (OpenEndpoint)
+@interface MPAdServerURLBuilder (Open)
 
 /**
  Constructs the conversion tracking URL using current consent state, SDK state, and @c appID parameter.
