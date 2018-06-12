@@ -14,15 +14,12 @@
 @class MPAdConfiguration;
 
 @interface MPBaseBannerAdapter : NSObject
-{
-    id<MPBannerAdapterDelegate> __weak _delegate;
-}
 
 @property (nonatomic, weak) id<MPBannerAdapterDelegate> delegate;
 @property (nonatomic, copy) NSURL *impressionTrackingURL;
 @property (nonatomic, copy) NSURL *clickTrackingURL;
 
-- (id)initWithDelegate:(id<MPBannerAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<MPBannerAdapterDelegate>)delegate;
 
 /*
  * Sets the adapter's delegate to nil.
@@ -79,5 +76,10 @@
  * current application (e.g. the ad action opens the iTunes store, Mobile Safari, etc).
  */
 - (void)userWillLeaveApplicationFromAdapter:(MPBaseBannerAdapter *)adapter;
+
+/**
+ * Fires when the impression tracker has been sent.
+ */
+- (void)adapter:(MPBaseBannerAdapter *)adapter didTrackImpressionForAd:(UIView *)ad;
 
 @end

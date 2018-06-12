@@ -8,7 +8,6 @@
 #import "MRNativeCommandHandler.h"
 #import "MRCommand.h"
 #import "MPGlobal.h"
-#import "MPInstanceProvider.h"
 #import "MPLogging.h"
 #import "MRVideoPlayerManager.h"
 
@@ -27,7 +26,7 @@
     if (self) {
         _delegate = delegate;
 
-        _videoPlayerManager = [[MPInstanceProvider sharedProvider] buildMRVideoPlayerManagerWithDelegate:self];
+        _videoPlayerManager = [[MRVideoPlayerManager alloc] initWithDelegate:self];
     }
 
     return self;
@@ -66,19 +65,9 @@
 
 #pragma mark - MRCommandDelegate
 
-- (void)mrCommand:(MRCommand *)command createCalendarEventWithParams:(NSDictionary *)params
-{
-    // DEPRECATED
-}
-
 - (void)mrCommand:(MRCommand *)command playVideoWithURL:(NSURL *)url
 {
     [self.videoPlayerManager playVideo:url];
-}
-
-- (void)mrCommand:(MRCommand *)command storePictureWithURL:(NSURL *)url
-{
-    // DEPRECATED
 }
 
 - (void)mrCommand:(MRCommand *)command shouldUseCustomClose:(BOOL)useCustomClose

@@ -6,7 +6,6 @@
 //
 
 #import "MPMRAIDInterstitialCustomEvent.h"
-#import "MPInstanceProvider.h"
 #import "MPLogging.h"
 
 @interface MPMRAIDInterstitialCustomEvent ()
@@ -22,8 +21,8 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
     MPLogInfo(@"Loading MoPub MRAID interstitial");
-    self.interstitial = [[MPInstanceProvider sharedProvider] buildMPMRAIDInterstitialViewControllerWithDelegate:self
-                                                                                                  configuration:[self.delegate configuration]];
+    self.interstitial = [[MPMRAIDInterstitialViewController alloc] initWithAdConfiguration:[self.delegate configuration]];
+    self.interstitial.delegate = self;
 
     // The MRAID ad view will handle the close button so we don't need the MPInterstitialViewController's close button.
     [self.interstitial setCloseButtonStyle:MPInterstitialCloseButtonStyleAlwaysHidden];
