@@ -23,5 +23,5 @@ Keep in mind:
 - that the built MoPub framework contains the other providers SDKs inside.
 - when MoPub framework is added into the Xamarin binding project the framework link is added under Native References.
 - the settings of linked frameworks and weak frameworks are filled in the properties of the framework when it is selected under Native References.
-- the file Mopub.framework.linkwith.cs IS NOT USED and is onle left for reference to have a list of the required frameworks at hand (the build action for that file is None).
-- ApiDEfinitions.cs and StructsAndEnums.cs only contains code of the used API calls and in case some other methods or properties are needed one may need to extend the binding with those additional methods, properties or enums.
+- the file Mopub.framework.linkwith.cs IS NOT USED and is only left for reference to have a list of the required frameworks at hand (the build action for that file is None).
+- ApiDefinitions.cs and StructsAndEnums.cs only contains code of the used API calls and in case some other methods or properties are needed one may need to extend the binding with those additional methods, properties or enums.
