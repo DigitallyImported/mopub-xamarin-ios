@@ -1,542 +1,487 @@
-using System;
-using System.Collections.Generic;
-using CoreGraphics;
-using CoreLocation;
-using Foundation;
-using ObjCRuntime;
-using UIKit;
-
 namespace MoPubSDK
 {
-    // @interface MPAdConversionTracker : NSObject <NSURLConnectionDataDelegate>
-    [BaseType (typeof(NSObject))]
-    interface MPAdConversionTracker : INSUrlConnectionDataDelegate
+    using System;
+    using CoreGraphics;
+    using CoreLocation;
+    using Foundation;
+    using ObjCRuntime;
+    using UIKit;
+
+    // @interface MPAdConversionTracker : NSObject
+    [BaseType(typeof(NSObject))]
+    interface MPAdConversionTracker
     {
         // +(MPAdConversionTracker *)sharedConversionTracker;
         [Static]
-        [Export ("sharedConversionTracker")]
+        [Export("sharedConversionTracker")]
         MPAdConversionTracker SharedConversionTracker { get; }
 
         // -(void)reportApplicationOpenForApplicationID:(NSString *)appID;
-        [Export ("reportApplicationOpenForApplicationID:")]
-        void ReportApplicationOpenForApplicationID (string appID);
-    }
-
-    // @interface MPAdView : UIView
-    [BaseType (typeof(UIView))]
-    interface MPAdView
-    {
-        // -(id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
-        [Export ("initWithAdUnitId:size:")]
-        IntPtr Constructor (string adUnitId, CGSize size);
-
-        [Wrap ("WeakDelegate")]
-        [NullAllowed]
-        MPAdViewDelegate Delegate { get; set; }
-
-        // @property (nonatomic, weak) id<MPAdViewDelegate> _Nullable delegate;
-        [NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-        NSObject WeakDelegate { get; set; }
-
-        // @property (copy, nonatomic) NSString * adUnitId;
-        [Export ("adUnitId")]
-        string AdUnitId { get; set; }
-
-        // @property (copy, nonatomic) NSString * keywords;
-        [Export ("keywords")]
-        string Keywords { get; set; }
-
-        // @property (copy, nonatomic) CLLocation * location;
-        [Export ("location", ArgumentSemantic.Copy)]
-        CLLocation Location { get; set; }
-
-        // @property (getter = isTesting, assign, nonatomic) BOOL testing;
-        [Export ("testing")]
-        bool Testing { [Bind ("isTesting")] get; set; }
-
-        // -(void)loadAd;
-        [Export ("loadAd")]
-        void LoadAd ();
-
-        // -(void)forceRefreshAd;
-        [Export ("forceRefreshAd")]
-        void ForceRefreshAd ();
-
-        // -(void)rotateToOrientation:(UIInterfaceOrientation)newOrientation;
-        [Export ("rotateToOrientation:")]
-        void RotateToOrientation (UIInterfaceOrientation newOrientation);
-
-        // -(void)lockNativeAdsToOrientation:(MPNativeAdOrientation)orientation;
-        [Export ("lockNativeAdsToOrientation:")]
-        void LockNativeAdsToOrientation (MPNativeAdOrientation orientation);
-
-        // -(void)unlockNativeAdsOrientation;
-        [Export ("unlockNativeAdsOrientation")]
-        void UnlockNativeAdsOrientation ();
-
-        // -(MPNativeAdOrientation)allowedNativeAdsOrientation;
-        [Export ("allowedNativeAdsOrientation")]
-        MPNativeAdOrientation AllowedNativeAdsOrientation { get; }
-
-        // -(CGSize)adContentViewSize;
-        [Export ("adContentViewSize")]
-        CGSize AdContentViewSize { get; }
-
-        // -(void)stopAutomaticallyRefreshingContents;
-        [Export ("stopAutomaticallyRefreshingContents")]
-        void StopAutomaticallyRefreshingContents ();
-
-        // -(void)startAutomaticallyRefreshingContents;
-        [Export ("startAutomaticallyRefreshingContents")]
-        void StartAutomaticallyRefreshingContents ();
-    }
-
-    // @protocol MPAdViewDelegate <NSObject>
-    [Protocol, Model]
-    [BaseType (typeof(NSObject))]
-    interface MPAdViewDelegate
-    {
-        // @required -(UIViewController *)viewControllerForPresentingModalView;
-        [Abstract]
-        [Export ("viewControllerForPresentingModalView")]
-        UIViewController ViewControllerForPresentingModalView { get; }
-
-        // @optional -(void)adViewDidLoadAd:(MPAdView *)view;
-        [Export ("adViewDidLoadAd:")]
-        void AdViewDidLoadAd (MPAdView view);
-
-        // @optional -(void)adViewDidFailToLoadAd:(MPAdView *)view;
-        [Export ("adViewDidFailToLoadAd:")]
-        void AdViewDidFailToLoadAd (MPAdView view);
-
-        // @optional -(void)willPresentModalViewForAd:(MPAdView *)view;
-        [Export ("willPresentModalViewForAd:")]
-        void WillPresentModalViewForAd (MPAdView view);
-
-        // @optional -(void)didDismissModalViewForAd:(MPAdView *)view;
-        [Export ("didDismissModalViewForAd:")]
-        void DidDismissModalViewForAd (MPAdView view);
-
-        // @optional -(void)willLeaveApplicationFromAd:(MPAdView *)view;
-        [Export ("willLeaveApplicationFromAd:")]
-        void WillLeaveApplicationFromAd (MPAdView view);
-    }
-
-    // @protocol MPBannerCustomEventDelegate <NSObject>
-    [Protocol, Model]
-    [BaseType (typeof(NSObject))]
-    interface MPBannerCustomEventDelegate
-    {
-        // @required -(UIViewController *)viewControllerForPresentingModalView;
-        [Abstract]
-        [Export ("viewControllerForPresentingModalView")]
-        UIViewController ViewControllerForPresentingModalView { get; }
-
-        // @required -(CLLocation *)location;
-        [Abstract]
-        [Export ("location")]
-        CLLocation Location { get; }
-
-        // @required -(void)bannerCustomEvent:(MPBannerCustomEvent *)event didLoadAd:(UIView *)ad;
-        [Abstract]
-        [Export ("bannerCustomEvent:didLoadAd:")]
-        void BannerCustomEvent (MPBannerCustomEvent @event, UIView ad);
-
-        // @required -(void)bannerCustomEvent:(MPBannerCustomEvent *)event didFailToLoadAdWithError:(NSError *)error;
-        [Abstract]
-        [Export ("bannerCustomEvent:didFailToLoadAdWithError:")]
-        void BannerCustomEvent (MPBannerCustomEvent @event, NSError error);
-
-        // @required -(void)bannerCustomEventWillBeginAction:(MPBannerCustomEvent *)event;
-        [Abstract]
-        [Export ("bannerCustomEventWillBeginAction:")]
-        void BannerCustomEventWillBeginAction (MPBannerCustomEvent @event);
-
-        // @required -(void)bannerCustomEventDidFinishAction:(MPBannerCustomEvent *)event;
-        [Abstract]
-        [Export ("bannerCustomEventDidFinishAction:")]
-        void BannerCustomEventDidFinishAction (MPBannerCustomEvent @event);
-
-        // @required -(void)bannerCustomEventWillLeaveApplication:(MPBannerCustomEvent *)event;
-        [Abstract]
-        [Export ("bannerCustomEventWillLeaveApplication:")]
-        void BannerCustomEventWillLeaveApplication (MPBannerCustomEvent @event);
-
-        // @required -(void)trackImpression;
-        [Abstract]
-        [Export ("trackImpression")]
-        void TrackImpression ();
-
-        // @required -(void)trackClick;
-        [Abstract]
-        [Export ("trackClick")]
-        void TrackClick ();
-    }
-
-    // @interface MPBannerCustomEvent : NSObject
-    [BaseType (typeof(NSObject))]
-    interface MPBannerCustomEvent
-    {
-        // -(void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info;
-        [Export ("requestAdWithSize:customEventInfo:")]
-        void RequestAdWithSize (CGSize size, NSDictionary info);
-
-        // -(void)rotateToOrientation:(UIInterfaceOrientation)newOrientation;
-        [Export ("rotateToOrientation:")]
-        void RotateToOrientation (UIInterfaceOrientation newOrientation);
-
-        // -(void)didDisplayAd;
-        [Export ("didDisplayAd")]
-        void DidDisplayAd ();
-
-        // -(BOOL)enableAutomaticImpressionAndClickTracking;
-        [Export ("enableAutomaticImpressionAndClickTracking")]
-        bool EnableAutomaticImpressionAndClickTracking ();
-
-        [Wrap ("WeakDelegate")]
-        [NullAllowed]
-        MPBannerCustomEventDelegate Delegate { get; set; }
-
-        // @property (nonatomic, weak) id<MPBannerCustomEventDelegate> _Nullable delegate;
-        [NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-        NSObject WeakDelegate { get; set; }
+        [Export("reportApplicationOpenForApplicationID:")]
+        void ReportApplicationOpenForApplicationID(string appID);
     }
 
     // @interface MPInterstitialAdController : UIViewController
-    [BaseType (typeof(UIViewController))]
+    [BaseType(typeof(UIViewController))]
     interface MPInterstitialAdController
     {
         // +(MPInterstitialAdController *)interstitialAdControllerForAdUnitId:(NSString *)adUnitId;
         [Static]
-        [Export ("interstitialAdControllerForAdUnitId:")]
-        MPInterstitialAdController InterstitialAdControllerForAdUnitId (string adUnitId);
+        [Export("interstitialAdControllerForAdUnitId:")]
+        MPInterstitialAdController InterstitialAdControllerForAdUnitId(string adUnitId);
 
-        [Wrap ("WeakDelegate")]
-        [NullAllowed]
+        [Wrap("WeakDelegate")]
         MPInterstitialAdControllerDelegate Delegate { get; set; }
 
-        // @property (nonatomic, weak) id<MPInterstitialAdControllerDelegate> _Nullable delegate;
-        [NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+        // @property (nonatomic, weak) id<MPInterstitialAdControllerDelegate> delegate;
+        [NullAllowed, Export("delegate", ArgumentSemantic.Weak)]
         NSObject WeakDelegate { get; set; }
 
         // @property (copy, nonatomic) NSString * adUnitId;
-        [Export ("adUnitId")]
+        [Export("adUnitId")]
         string AdUnitId { get; set; }
 
         // @property (copy, nonatomic) NSString * keywords;
-        [Export ("keywords")]
+        [Export("keywords")]
         string Keywords { get; set; }
 
+        // @property (copy, nonatomic) NSString * userDataKeywords;
+        [Export("userDataKeywords")]
+        string UserDataKeywords { get; set; }
+
         // @property (copy, nonatomic) CLLocation * location;
-        [Export ("location", ArgumentSemantic.Copy)]
+        [Export("location", ArgumentSemantic.Copy)]
         CLLocation Location { get; set; }
 
-        // @property (getter = isTesting, assign, nonatomic) BOOL testing;
-        [Export ("testing")]
-        bool Testing { [Bind ("isTesting")] get; set; }
-
         // -(void)loadAd;
-        [Export ("loadAd")]
-        void LoadAd ();
+        [Export("loadAd")]
+        void LoadAd();
 
         // @property (readonly, assign, nonatomic) BOOL ready;
-        [Export ("ready")]
+        [Export("ready")]
         bool Ready { get; }
 
         // -(void)showFromViewController:(UIViewController *)controller;
-        [Export ("showFromViewController:")]
-        void ShowFromViewController (UIViewController controller);
+        [Export("showFromViewController:")]
+        void ShowFromViewController(UIViewController controller);
 
         // +(void)removeSharedInterstitialAdController:(MPInterstitialAdController *)controller;
         [Static]
-        [Export ("removeSharedInterstitialAdController:")]
-        void RemoveSharedInterstitialAdController (MPInterstitialAdController controller);
+        [Export("removeSharedInterstitialAdController:")]
+        void RemoveSharedInterstitialAdController(MPInterstitialAdController controller);
 
         // +(NSMutableArray *)sharedInterstitialAdControllers;
         [Static]
-        [Export ("sharedInterstitialAdControllers")]
+        [Export("sharedInterstitialAdControllers")]
         NSMutableArray SharedInterstitialAdControllers { get; }
     }
 
     // @protocol MPInterstitialAdControllerDelegate <NSObject>
     [Protocol, Model]
-    [BaseType (typeof(NSObject))]
+    [BaseType(typeof(NSObject))]
     interface MPInterstitialAdControllerDelegate
     {
         // @optional -(void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidLoadAd:")]
-        void InterstitialDidLoadAd (MPInterstitialAdController interstitial);
+        [Export("interstitialDidLoadAd:")]
+        void InterstitialDidLoadAd(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidFailToLoadAd:")]
-        void InterstitialDidFailToLoadAd (MPInterstitialAdController interstitial);
+        [Export("interstitialDidFailToLoadAd:")]
+        void InterstitialDidFailToLoadAd(MPInterstitialAdController interstitial);
+
+        // @optional -(void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error;
+        [Export("interstitialDidFailToLoadAd:withError:")]
+        void InterstitialDidFailToLoadAd(MPInterstitialAdController interstitial, NSError error);
 
         // @optional -(void)interstitialWillAppear:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialWillAppear:")]
-        void InterstitialWillAppear (MPInterstitialAdController interstitial);
+        [Export("interstitialWillAppear:")]
+        void InterstitialWillAppear(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialDidAppear:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidAppear:")]
-        void InterstitialDidAppear (MPInterstitialAdController interstitial);
+        [Export("interstitialDidAppear:")]
+        void InterstitialDidAppear(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialWillDisappear:")]
-        void InterstitialWillDisappear (MPInterstitialAdController interstitial);
+        [Export("interstitialWillDisappear:")]
+        void InterstitialWillDisappear(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidDisappear:")]
-        void InterstitialDidDisappear (MPInterstitialAdController interstitial);
+        [Export("interstitialDidDisappear:")]
+        void InterstitialDidDisappear(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialDidExpire:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidExpire:")]
-        void InterstitialDidExpire (MPInterstitialAdController interstitial);
+        [Export("interstitialDidExpire:")]
+        void InterstitialDidExpire(MPInterstitialAdController interstitial);
 
         // @optional -(void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial;
-        [Export ("interstitialDidReceiveTapEvent:")]
-        void InterstitialDidReceiveTapEvent (MPInterstitialAdController interstitial);
+        [Export("interstitialDidReceiveTapEvent:")]
+        void InterstitialDidReceiveTapEvent(MPInterstitialAdController interstitial);
     }
 
-    // @protocol MPInterstitialCustomEventDelegate <NSObject>
-    [Protocol, Model]
-    [BaseType (typeof(NSObject))]
-    interface MPInterstitialCustomEventDelegate
+    // @interface MPAdView : UIView
+    [BaseType(typeof(UIView))]
+    interface MPAdView
     {
-        // @required -(CLLocation *)location;
-        [Abstract]
-        [Export ("location")]
-        CLLocation Location { get; }
+        // -(id)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
+        [Export("initWithAdUnitId:size:")]
+        IntPtr Constructor(string adUnitId, CGSize size);
 
-        // @required -(void)interstitialCustomEvent:(MPInterstitialCustomEvent *)customEvent didLoadAd:(id)ad;
-        [Abstract]
-        [Export ("interstitialCustomEvent:didLoadAd:")]
-        void InterstitialCustomEvent (MPInterstitialCustomEvent customEvent, NSObject ad);
+        [Wrap("WeakDelegate")]
+        MPAdViewDelegate Delegate { get; set; }
 
-        // @required -(void)interstitialCustomEvent:(MPInterstitialCustomEvent *)customEvent didFailToLoadAdWithError:(NSError *)error;
-        [Abstract]
-        [Export ("interstitialCustomEvent:didFailToLoadAdWithError:")]
-        void InterstitialCustomEvent (MPInterstitialCustomEvent customEvent, NSError error);
-
-        // @required -(void)interstitialCustomEventDidExpire:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventDidExpire:")]
-        void InterstitialCustomEventDidExpire (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventWillAppear:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventWillAppear:")]
-        void InterstitialCustomEventWillAppear (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventDidAppear:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventDidAppear:")]
-        void InterstitialCustomEventDidAppear (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventWillDisappear:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventWillDisappear:")]
-        void InterstitialCustomEventWillDisappear (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventDidDisappear:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventDidDisappear:")]
-        void InterstitialCustomEventDidDisappear (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventDidReceiveTapEvent:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventDidReceiveTapEvent:")]
-        void InterstitialCustomEventDidReceiveTapEvent (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)interstitialCustomEventWillLeaveApplication:(MPInterstitialCustomEvent *)customEvent;
-        [Abstract]
-        [Export ("interstitialCustomEventWillLeaveApplication:")]
-        void InterstitialCustomEventWillLeaveApplication (MPInterstitialCustomEvent customEvent);
-
-        // @required -(void)trackImpression;
-        [Abstract]
-        [Export ("trackImpression")]
-        void TrackImpression ();
-
-        // @required -(void)trackClick;
-        [Abstract]
-        [Export ("trackClick")]
-        void TrackClick ();
-    }
-
-    // @interface MPInterstitialCustomEvent : NSObject
-    [BaseType (typeof(NSObject))]
-    interface MPInterstitialCustomEvent
-    {
-        // -(void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info;
-        [Export ("requestInterstitialWithCustomEventInfo:")]
-        void RequestInterstitialWithCustomEventInfo (NSDictionary info);
-
-        // -(void)showInterstitialFromRootViewController:(UIViewController *)rootViewController;
-        [Export ("showInterstitialFromRootViewController:")]
-        void ShowInterstitialFromRootViewController (UIViewController rootViewController);
-
-        // -(BOOL)enableAutomaticImpressionAndClickTracking;
-        [Export ("enableAutomaticImpressionAndClickTracking")]
-        bool EnableAutomaticImpressionAndClickTracking ();
-
-        [Wrap ("WeakDelegate")]
-        [NullAllowed]
-        MPInterstitialCustomEventDelegate Delegate { get; set; }
-
-        // @property (nonatomic, weak) id<MPInterstitialCustomEventDelegate> _Nullable delegate;
-        [NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+        // @property (nonatomic, weak) id<MPAdViewDelegate> delegate;
+        [NullAllowed, Export("delegate", ArgumentSemantic.Weak)]
         NSObject WeakDelegate { get; set; }
+
+        // @property (copy, nonatomic) NSString * adUnitId;
+        [Export("adUnitId")]
+        string AdUnitId { get; set; }
+
+        // @property (copy, nonatomic) NSString * keywords;
+        [Export("keywords")]
+        string Keywords { get; set; }
+
+        // @property (copy, nonatomic) NSString * userDataKeywords;
+        [Export("userDataKeywords")]
+        string UserDataKeywords { get; set; }
+
+        // @property (copy, nonatomic) CLLocation * location;
+        [Export("location", ArgumentSemantic.Copy)]
+        CLLocation Location { get; set; }
+
+        // -(void)loadAd;
+        [Export("loadAd")]
+        void LoadAd();
+
+        // -(void)forceRefreshAd;
+        [Export("forceRefreshAd")]
+        void ForceRefreshAd();
+
+        // -(void)rotateToOrientation:(UIInterfaceOrientation)newOrientation;
+        [Export("rotateToOrientation:")]
+        void RotateToOrientation(UIInterfaceOrientation newOrientation);
+
+        // -(void)lockNativeAdsToOrientation:(MPNativeAdOrientation)orientation;
+        [Export("lockNativeAdsToOrientation:")]
+        void LockNativeAdsToOrientation(MPNativeAdOrientation orientation);
+
+        // -(void)unlockNativeAdsOrientation;
+        [Export("unlockNativeAdsOrientation")]
+        void UnlockNativeAdsOrientation();
+
+        // -(MPNativeAdOrientation)allowedNativeAdsOrientation;
+        [Export("allowedNativeAdsOrientation")]
+        MPNativeAdOrientation AllowedNativeAdsOrientation { get; }
+
+        // -(CGSize)adContentViewSize;
+        [Export("adContentViewSize")]
+        CGSize AdContentViewSize { get; }
+
+        // -(void)stopAutomaticallyRefreshingContents;
+        [Export("stopAutomaticallyRefreshingContents")]
+        void StopAutomaticallyRefreshingContents();
+
+        // -(void)startAutomaticallyRefreshingContents;
+        [Export("startAutomaticallyRefreshingContents")]
+        void StartAutomaticallyRefreshingContents();
+    }
+
+    // @protocol MPAdViewDelegate <NSObject>
+    [Protocol, Model]
+    [BaseType(typeof(NSObject))]
+    interface MPAdViewDelegate
+    {
+        // @required -(UIViewController *)viewControllerForPresentingModalView;
+        [Abstract]
+        [Export("viewControllerForPresentingModalView")]
+        UIViewController ViewControllerForPresentingModalView { get; }
+
+        // @optional -(void)adViewDidLoadAd:(MPAdView *)view;
+        [Export("adViewDidLoadAd:")]
+        void AdViewDidLoadAd(MPAdView view);
+
+        // @optional -(void)adViewDidFailToLoadAd:(MPAdView *)view;
+        [Export("adViewDidFailToLoadAd:")]
+        void AdViewDidFailToLoadAd(MPAdView view);
+
+        // @optional -(void)willPresentModalViewForAd:(MPAdView *)view;
+        [Export("willPresentModalViewForAd:")]
+        void WillPresentModalViewForAd(MPAdView view);
+
+        // @optional -(void)didDismissModalViewForAd:(MPAdView *)view;
+        [Export("didDismissModalViewForAd:")]
+        void DidDismissModalViewForAd(MPAdView view);
+
+        // @optional -(void)willLeaveApplicationFromAd:(MPAdView *)view;
+        [Export("willLeaveApplicationFromAd:")]
+        void WillLeaveApplicationFromAd(MPAdView view);
     }
 
     // @interface MoPub : NSObject
-    [BaseType (typeof(NSObject))]
+    [BaseType(typeof(NSObject))]
     interface MoPub
     {
-        // +(MoPub *)sharedInstance;
+        // +(MoPub * _Nonnull)sharedInstance;
         [Static]
-        [Export ("sharedInstance")]
+        [Export("sharedInstance")]
         MoPub SharedInstance { get; }
 
         // @property (assign, nonatomic) BOOL locationUpdatesEnabled;
-        [Export ("locationUpdatesEnabled")]
+        [Export("locationUpdatesEnabled")]
         bool LocationUpdatesEnabled { get; set; }
 
-        // -(void)initializeRewardedVideoWithGlobalMediationSettings:(NSArray *)globalMediationSettings delegate:(id)delegate;
-        [Export ("initializeRewardedVideoWithGlobalMediationSettings:delegate:")]
-        void InitializeRewardedVideoWithGlobalMediationSettings (NSObject[] globalMediationSettings, NSObject @delegate);
+        // @property (nonatomic) BOOL frequencyCappingIdUsageEnabled;
+        [Export("frequencyCappingIdUsageEnabled")]
+        bool FrequencyCappingIdUsageEnabled { get; set; }
 
-        // -(id)globalMediationSettingsForClass:(Class)aClass;
-        [Export ("globalMediationSettingsForClass:")]
-        NSObject GlobalMediationSettingsForClass (Class aClass);
+        // @property (assign, nonatomic) BOOL forceWKWebView;
+        [Export("forceWKWebView")]
+        bool ForceWKWebView { get; set; }
 
-        // -(void)start;
-        [Export ("start")]
-        void Start ();
+        // @property (assign, nonatomic) int logLevel;
+        [Export("logLevel")]
+        int LogLevel { get; set; }
 
-        // -(NSString *)version;
-        [Export ("version")]
+        // @property (assign, nonatomic) BOOL enableAdvancedBidding;
+        [Export("enableAdvancedBidding")]
+        bool EnableAdvancedBidding { get; set; }
+
+        // -(void)initializeSdkWithConfiguration:(id)configuration completion:(void (^ _Nullable)(void))completionBlock;
+        [Export("initializeSdkWithConfiguration:completion:")]
+        void InitializeSdkWithConfiguration(NSObject configuration, [NullAllowed] Action completionBlock);
+
+        // @property (readonly, nonatomic) BOOL isSdkInitialized;
+        [Export("isSdkInitialized")]
+        bool IsSdkInitialized { get; }
+
+        // -(id _Nullable)globalMediationSettingsForClass:(Class)aClass;
+        [Export("globalMediationSettingsForClass:")]
+        [return: NullAllowed]
+        NSObject GlobalMediationSettingsForClass(Class aClass);
+
+        // -(NSString * _Nonnull)version;
+        [Export("version")]
         string Version { get; }
 
-        // -(NSString *)bundleIdentifier;
-        [Export ("bundleIdentifier")]
+        // -(NSString * _Nonnull)bundleIdentifier;
+        [Export("bundleIdentifier")]
         string BundleIdentifier { get; }
+
+        // -(void)setClickthroughDisplayAgentType:(id)displayAgentType;
+        [Export("setClickthroughDisplayAgentType:")]
+        void SetClickthroughDisplayAgentType(NSObject displayAgentType);
+
+        // -(void)disableViewability:(id)vendors;
+        [Export("disableViewability:")]
+        void DisableViewability(NSObject vendors);
+
+        // -(NSArray<Class> * _Nullable)allCachedNetworks;
+        [NullAllowed, Export("allCachedNetworks")]
+        Class[] AllCachedNetworks { get; }
+
+        // -(void)clearCachedNetworks;
+        [Export("clearCachedNetworks")]
+        void ClearCachedNetworks();
+
+        // @property (readonly, nonatomic) BOOL canCollectPersonalInfo;
+        [Export("canCollectPersonalInfo")]
+        bool CanCollectPersonalInfo { get; }
+
+        // @property (readonly, nonatomic) int currentConsentStatus;
+        [Export("currentConsentStatus")]
+        MPConsentStatus CurrentConsentStatus { get; }
+
+        // @property (readonly, nonatomic) int isGDPRApplicable;
+        [Export("isGDPRApplicable")]
+        int IsGDPRApplicable { get; }
+
+        // @property (readonly, nonatomic) BOOL isConsentDialogReady;
+        [Export("isConsentDialogReady")]
+        bool IsConsentDialogReady { get; }
+
+        // -(void)loadConsentDialogWithCompletion:(void (^ _Nullable)(NSError * _Nullable))completion;
+        [Export("loadConsentDialogWithCompletion:")]
+        void LoadConsentDialogWithCompletion([NullAllowed] Action<NSError> completion);
+
+        // -(void)showConsentDialogFromViewController:(UIViewController *)viewController completion:(void (^ _Nullable)(void))completion;
+        [Export("showConsentDialogFromViewController:completion:")]
+        void ShowConsentDialogFromViewController(UIViewController viewController, [NullAllowed] Action completion);
+
+        // @property (readonly, nonatomic) BOOL shouldShowConsentDialog;
+        [Export("shouldShowConsentDialog")]
+        bool ShouldShowConsentDialog { get; }
+
+        // -(NSURL * _Nullable)currentConsentPrivacyPolicyUrl;
+        [NullAllowed, Export("currentConsentPrivacyPolicyUrl")]
+        NSUrl CurrentConsentPrivacyPolicyUrl { get; }
+
+        // -(NSURL * _Nullable)currentConsentPrivacyPolicyUrlWithISOLanguageCode:(NSString * _Nonnull)isoLanguageCode;
+        [Export("currentConsentPrivacyPolicyUrlWithISOLanguageCode:")]
+        [return: NullAllowed]
+        NSUrl CurrentConsentPrivacyPolicyUrlWithISOLanguageCode(string isoLanguageCode);
+
+        // -(NSURL * _Nullable)currentConsentVendorListUrl;
+        [NullAllowed, Export("currentConsentVendorListUrl")]
+        NSUrl CurrentConsentVendorListUrl { get; }
+
+        // -(NSURL * _Nullable)currentConsentVendorListUrlWithISOLanguageCode:(NSString * _Nonnull)isoLanguageCode;
+        [Export("currentConsentVendorListUrlWithISOLanguageCode:")]
+        [return: NullAllowed]
+        NSUrl CurrentConsentVendorListUrlWithISOLanguageCode(string isoLanguageCode);
+
+        // -(void)grantConsent;
+        [Export("grantConsent")]
+        void GrantConsent();
+
+        // -(void)revokeConsent;
+        [Export("revokeConsent")]
+        void RevokeConsent();
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentIabVendorListFormat;
+        [NullAllowed, Export("currentConsentIabVendorListFormat")]
+        string CurrentConsentIabVendorListFormat { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentPrivacyPolicyVersion;
+        [NullAllowed, Export("currentConsentPrivacyPolicyVersion")]
+        string CurrentConsentPrivacyPolicyVersion { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentVendorListVersion;
+        [NullAllowed, Export("currentConsentVendorListVersion")]
+        string CurrentConsentVendorListVersion { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedIabVendorListFormat;
+        [NullAllowed, Export("previouslyConsentedIabVendorListFormat")]
+        string PreviouslyConsentedIabVendorListFormat { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedPrivacyPolicyVersion;
+        [NullAllowed, Export("previouslyConsentedPrivacyPolicyVersion")]
+        string PreviouslyConsentedPrivacyPolicyVersion { get; }
+
+        // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedVendorListVersion;
+        [NullAllowed, Export("previouslyConsentedVendorListVersion")]
+        string PreviouslyConsentedVendorListVersion { get; }
     }
 
-    // @interface MPRewardedVideo : NSObject
-    [BaseType (typeof(NSObject))]
-    interface MPRewardedVideo
+    //// @interface Mediation (MoPub)
+    //[BaseType(typeof(MoPub))]
+    //interface MoPub_Mediation
+    //{
+    //    // -(NSArray<Class> * _Nullable)allCachedNetworks;
+    //    [NullAllowed, Export("allCachedNetworks")]
+    //    Class[] AllCachedNetworks { get; }
+
+    //    // -(void)clearCachedNetworks;
+    //    [Export("clearCachedNetworks")]
+    //    void ClearCachedNetworks();
+    //}
+
+    //// @interface Consent (MoPub)
+    //[Category(typeof(MoPub))]
+    //[BaseType(typeof(MoPub))]
+    //interface MoPub_Consent
+    //{
+    //    // @property (readonly, nonatomic) BOOL canCollectPersonalInfo;
+    //    [Export("canCollectPersonalInfo")]
+    //    bool CanCollectPersonalInfo { get; }
+
+    //    // @property (readonly, nonatomic) int currentConsentStatus;
+    //    [Export("currentConsentStatus")]
+    //    int CurrentConsentStatus { get; }
+
+    //    // @property (readonly, nonatomic) int isGDPRApplicable;
+    //    [Export("isGDPRApplicable")]
+    //    int IsGDPRApplicable { get; }
+
+    //    // @property (readonly, nonatomic) BOOL isConsentDialogReady;
+    //    [Export("isConsentDialogReady")]
+    //    bool IsConsentDialogReady { get; }
+
+    //    // -(void)loadConsentDialogWithCompletion:(void (^ _Nullable)(NSError * _Nullable))completion;
+    //    [Export("loadConsentDialogWithCompletion:")]
+    //    void LoadConsentDialogWithCompletion([NullAllowed] Action<NSError> completion);
+
+    //    // -(void)showConsentDialogFromViewController:(UIViewController *)viewController completion:(void (^ _Nullable)(void))completion;
+    //    [Export("showConsentDialogFromViewController:completion:")]
+    //    void ShowConsentDialogFromViewController(UIViewController viewController, [NullAllowed] Action completion);
+
+    //    // @property (readonly, nonatomic) BOOL shouldShowConsentDialog;
+    //    [Export("shouldShowConsentDialog")]
+    //    bool ShouldShowConsentDialog { get; }
+
+    //    // -(NSURL * _Nullable)currentConsentPrivacyPolicyUrl;
+    //    [NullAllowed, Export("currentConsentPrivacyPolicyUrl")]
+    //    NSUrl CurrentConsentPrivacyPolicyUrl { get; }
+
+    //    // -(NSURL * _Nullable)currentConsentPrivacyPolicyUrlWithISOLanguageCode:(NSString * _Nonnull)isoLanguageCode;
+    //    [Export("currentConsentPrivacyPolicyUrlWithISOLanguageCode:")]
+    //    [return: NullAllowed]
+    //    NSUrl CurrentConsentPrivacyPolicyUrlWithISOLanguageCode(string isoLanguageCode);
+
+    //    // -(NSURL * _Nullable)currentConsentVendorListUrl;
+    //    [NullAllowed, Export("currentConsentVendorListUrl")]
+    //    NSUrl CurrentConsentVendorListUrl { get; }
+
+    //    // -(NSURL * _Nullable)currentConsentVendorListUrlWithISOLanguageCode:(NSString * _Nonnull)isoLanguageCode;
+    //    [Export("currentConsentVendorListUrlWithISOLanguageCode:")]
+    //    [return: NullAllowed]
+    //    NSUrl CurrentConsentVendorListUrlWithISOLanguageCode(string isoLanguageCode);
+
+    //    // -(void)grantConsent;
+    //    [Export("grantConsent")]
+    //    void GrantConsent();
+
+    //    // -(void)revokeConsent;
+    //    [Export("revokeConsent")]
+    //    void RevokeConsent();
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentIabVendorListFormat;
+    //    [NullAllowed, Export("currentConsentIabVendorListFormat")]
+    //    string CurrentConsentIabVendorListFormat { get; }
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentPrivacyPolicyVersion;
+    //    [NullAllowed, Export("currentConsentPrivacyPolicyVersion")]
+    //    string CurrentConsentPrivacyPolicyVersion { get; }
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable currentConsentVendorListVersion;
+    //    [NullAllowed, Export("currentConsentVendorListVersion")]
+    //    string CurrentConsentVendorListVersion { get; }
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedIabVendorListFormat;
+    //    [NullAllowed, Export("previouslyConsentedIabVendorListFormat")]
+    //    string PreviouslyConsentedIabVendorListFormat { get; }
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedPrivacyPolicyVersion;
+    //    [NullAllowed, Export("previouslyConsentedPrivacyPolicyVersion")]
+    //    string PreviouslyConsentedPrivacyPolicyVersion { get; }
+
+    //    // @property (readonly, copy, nonatomic) NSString * _Nullable previouslyConsentedVendorListVersion;
+    //    [NullAllowed, Export("previouslyConsentedVendorListVersion")]
+    //    string PreviouslyConsentedVendorListVersion { get; }
+    //}
+
+    // @interface MPMoPubConfiguration : NSObject
+    [BaseType(typeof(NSObject))]
+    [DisableDefaultCtor]
+    interface MPMoPubConfiguration
     {
-        // +(void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID withMediationSettings:(NSArray *)mediationSettings;
-        [Static]
-        [Export ("loadRewardedVideoAdWithAdUnitID:withMediationSettings:")]
-        //[Verify (StronglyTypedNSArray)]
-        void LoadRewardedVideoAdWithAdUnitID (string adUnitID, NSObject[] mediationSettings);
+        // @property (nonatomic, strong) NSString * _Nonnull adUnitIdForAppInitialization;
+        [Export("adUnitIdForAppInitialization", ArgumentSemantic.Strong)]
+        string AdUnitIdForAppInitialization { get; set; }
 
-        // +(void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID keywords:(NSString *)keywords location:(CLLocation *)location mediationSettings:(NSArray *)mediationSettings;
-        [Static]
-        [Export ("loadRewardedVideoAdWithAdUnitID:keywords:location:mediationSettings:")]
-        //[Verify (StronglyTypedNSArray)]
-        void LoadRewardedVideoAdWithAdUnitID (string adUnitID, string keywords, CLLocation location, NSObject[] mediationSettings);
+        // @property (nonatomic, strong) NSArray<Class> * _Nullable advancedBidders;
+        [NullAllowed, Export("advancedBidders", ArgumentSemantic.Strong)]
+        Class[] AdvancedBidders { get; set; }
 
-        // +(BOOL)hasAdAvailableForAdUnitID:(NSString *)adUnitID;
-        [Static]
-        [Export ("hasAdAvailableForAdUnitID:")]
-        bool HasAdAvailableForAdUnitID (string adUnitID);
+        // @property (nonatomic, strong) NSArray<id> * _Nullable globalMediationSettings;
+        [NullAllowed, Export("globalMediationSettings", ArgumentSemantic.Strong)]
+        NSObject[] GlobalMediationSettings { get; set; }
 
-        // +(void)presentRewardedVideoAdForAdUnitID:(NSString *)adUnitID fromViewController:(UIViewController *)viewController;
-        [Static]
-        [Export ("presentRewardedVideoAdForAdUnitID:fromViewController:")]
-        void PresentRewardedVideoAdForAdUnitID (string adUnitID, UIViewController viewController);
+        // @property (nonatomic, strong) NSArray<Class> * _Nullable mediatedNetworks;
+        [NullAllowed, Export("mediatedNetworks", ArgumentSemantic.Strong)]
+        Class[] MediatedNetworks { get; set; }
+
+        // -(instancetype _Nonnull)initWithAdUnitIdForAppInitialization:(NSString * _Nonnull)adUnitId __attribute__((objc_designated_initializer));
+        [Export("initWithAdUnitIdForAppInitialization:")]
+        IntPtr Constructor(string adUnitId);
     }
-
-    // @protocol MPRewardedVideoDelegate <NSObject>
-    [Protocol, Model]
-    [BaseType (typeof(NSObject))]
-    interface MPRewardedVideoDelegate
-    {
-        // @optional -(void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdDidLoadForAdUnitID:")]
-        void RewardedVideoAdDidLoadForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error;
-        [Export ("rewardedVideoAdDidFailToLoadForAdUnitID:error:")]
-        void RewardedVideoAdDidFailToLoadForAdUnitID (string adUnitID, NSError error);
-
-        // @optional -(void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdDidExpireForAdUnitID:")]
-        void RewardedVideoAdDidExpireForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdDidFailToPlayForAdUnitID:(NSString *)adUnitID error:(NSError *)error;
-        [Export ("rewardedVideoAdDidFailToPlayForAdUnitID:error:")]
-        void RewardedVideoAdDidFailToPlayForAdUnitID (string adUnitID, NSError error);
-
-        // @optional -(void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdWillAppearForAdUnitID:")]
-        void RewardedVideoAdWillAppearForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdDidAppearForAdUnitID:")]
-        void RewardedVideoAdDidAppearForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdWillDisappearForAdUnitID:")]
-        void RewardedVideoAdWillDisappearForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdDidDisappearForAdUnitID:")]
-        void RewardedVideoAdDidDisappearForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdDidReceiveTapEventForAdUnitID:")]
-        void RewardedVideoAdDidReceiveTapEventForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID;
-        [Export ("rewardedVideoAdWillLeaveApplicationForAdUnitID:")]
-        void RewardedVideoAdWillLeaveApplicationForAdUnitID (string adUnitID);
-
-        // @optional -(void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPRewardedVideoReward *)reward;
-        [Export ("rewardedVideoAdShouldRewardForAdUnitID:reward:")]
-        void RewardedVideoAdShouldRewardForAdUnitID (string adUnitID, MPRewardedVideoReward reward);
-    }
-
-    [Static]
-    partial interface Constants
-    {
-        // extern NSString *const kMPRewardedVideoRewardCurrencyTypeUnspecified;
-        [Field ("kMPRewardedVideoRewardCurrencyTypeUnspecified", "__Internal")]
-        NSString kMPRewardedVideoRewardCurrencyTypeUnspecified { get; }
-
-        // extern const NSInteger kMPRewardedVideoRewardCurrencyAmountUnspecified;
-        [Field ("kMPRewardedVideoRewardCurrencyAmountUnspecified", "__Internal")]
-        nint kMPRewardedVideoRewardCurrencyAmountUnspecified { get; }
-    }
-
-    // @interface MPRewardedVideoReward : NSObject
-    [BaseType (typeof(NSObject))]
-    interface MPRewardedVideoReward
-    {
-        // @property (readonly, nonatomic) NSString * currencyType;
-        [Export ("currencyType")]
-        string CurrencyType { get; }
-
-        // @property (readonly, nonatomic) NSNumber * amount;
-        [Export ("amount")]
-        NSNumber Amount { get; }
-
-        // -(instancetype)initWithCurrencyAmount:(NSNumber *)amount;
-        [Export ("initWithCurrencyAmount:")]
-        IntPtr Constructor (NSNumber amount);
-
-        // -(instancetype)initWithCurrencyType:(NSString *)currencyType amount:(NSNumber *)amount;
-        [Export ("initWithCurrencyType:amount:")]
-        IntPtr Constructor (string currencyType, NSNumber amount);
-    }
-
-	[BaseType(typeof(NSObject))]
-	interface FBAdSettings
-	{
-		// +(void)addTestDevices:(NSArray*)devices;
-		[Static]
-		[Export("addTestDevices:")]
-		void AddTestDevices(string[] hashedDeviceID);
-	}
 }

@@ -34,9 +34,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingNativeFramework Include="..\..\mopub-framework\Carthage\Build\iOS\MoPub.framework" />
-  </ItemGroup>
-  <ItemGroup>
     <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +41,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="MoPub.framework.linkwith.cs" />
+    <None Include="MoPub.framework.linkwith.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="..\..\mopub-framework\Carthage\Build\iOS\MoPub.framework">
+      <Kind>Framework</Kind>
+      <Frameworks>AudioToolbox AVFoundation CoreGraphics CoreLocation CoreMedia CoreMotion CoreTelephony EventKit EventKitUI Foundation MediaPlayer MessageUI MobileCoreServices QuartzCore SystemConfiguration UIKit CFNetwork</Frameworks>
+      <WeakFrameworks>AdSupport CoreBluetooth PassKit Social StoreKit Webkit</WeakFrameworks>
+    </NativeReference>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
 #import "MPWebView.h"
 #import "MPLogging.h"
 #import "MPAdConfiguration.h"
-#import "MPInstanceProvider.h"
+#import "MPAnalyticsTracker.h"
 
 @interface MPHTMLBannerCustomEvent ()
 
@@ -32,8 +32,7 @@
     MPLogTrace(@"Loading banner with HTML source: %@", [[self.delegate configuration] adResponseHTMLString]);
 
     CGRect adWebViewFrame = CGRectMake(0, 0, size.width, size.height);
-    self.bannerAgent = [[MPInstanceProvider sharedProvider] buildMPAdWebViewAgentWithAdWebViewFrame:adWebViewFrame
-                                                                                           delegate:self];
+    self.bannerAgent = [[MPAdWebViewAgent alloc] initWithAdWebViewFrame:adWebViewFrame delegate:self];
     [self.bannerAgent loadConfiguration:[self.delegate configuration]];
 }
 
@@ -99,5 +98,14 @@
     [self.delegate bannerCustomEventWillLeaveApplication:self];
 }
 
+- (void)trackMPXAndThirdPartyImpressions
+{
+    [self.bannerAgent invokeJavaScriptForEvent:MPAdWebViewEventAdDidAppear];
+}
+
+- (void)startViewabilityTracker
+{
+    [self.bannerAgent startViewabilityTracker];
+}
 
 @end
