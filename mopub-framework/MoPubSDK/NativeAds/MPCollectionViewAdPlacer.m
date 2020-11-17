@@ -1,8 +1,9 @@
 //
 //  MPCollectionViewAdPlacer.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPCollectionViewAdPlacer.h"
@@ -54,8 +55,11 @@ static NSString * const kCollectionViewAdPlacerReuseIdentifier = @"MPCollectionV
         _streamAdPlacer = [MPStreamAdPlacer placerWithViewController:controller adPositioning:positioning rendererConfigurations:rendererConfigurations];
         _streamAdPlacer.delegate = self;
 
-        _insertionTimer = [MPTimer timerWithTimeInterval:kUpdateVisibleCellsInterval target:self selector:@selector(updateVisibleCells) repeats:YES];
-        _insertionTimer.runLoopMode = NSRunLoopCommonModes;
+        _insertionTimer = [MPTimer timerWithTimeInterval:kUpdateVisibleCellsInterval
+                                                  target:self
+                                                selector:@selector(updateVisibleCells)
+                                                 repeats:YES
+                                             runLoopMode:NSRunLoopCommonModes];
         [_insertionTimer scheduleNow];
 
         _originalDataSource = collectionView.dataSource;
@@ -144,6 +148,14 @@ static NSString * const kCollectionViewAdPlacerReuseIdentifier = @"MPCollectionV
 {
     if ([self.delegate respondsToSelector:@selector(nativeAdWillLeaveApplicationFromCollectionViewAdPlacer:)]) {
         [self.delegate nativeAdWillLeaveApplicationFromCollectionViewAdPlacer:self];
+    }
+}
+
+- (void)mopubAdPlacer:(id<MPMoPubAdPlacer>)adPlacer didTrackImpressionForAd:(id<MPMoPubAd>)ad withImpressionData:(MPImpressionData *)impressionData {
+    if ([self.delegate respondsToSelector:@selector(mopubAdPlacer:didTrackImpressionForAd:withImpressionData:)]) {
+        [self.delegate mopubAdPlacer:self
+             didTrackImpressionForAd:ad
+                  withImpressionData:impressionData];
     }
 }
 

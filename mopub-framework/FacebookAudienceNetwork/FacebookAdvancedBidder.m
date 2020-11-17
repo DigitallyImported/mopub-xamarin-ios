@@ -25,7 +25,8 @@
 }
 
 - (NSString *)token {
-    return [FBAdSettings bidderToken];
+    //return [FBAdSettings bidderToken];
+    return @"unknown";
 }
 
 @end

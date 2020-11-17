@@ -1,8 +1,9 @@
 //
 //  MPInterstitialAdManager.m
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <objc/runtime.h>
@@ -10,12 +11,17 @@
 #import "MPInterstitialAdManager.h"
 
 #import "MPAdServerURLBuilder.h"
+#import "MPAdTargeting.h"
 #import "MPInterstitialAdController.h"
 #import "MPInterstitialCustomEventAdapter.h"
+#import "MPConstants.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPInterstitialAdManagerDelegate.h"
 #import "MPLogging.h"
 #import "MPError.h"
+#import "NSMutableArray+MPAdditions.h"
+#import "NSDate+MPAdditions.h"
+#import "NSError+MPAdditions.h"
 
 @interface MPInterstitialAdManager ()
 
@@ -23,7 +29,10 @@
 @property (nonatomic, assign, readwrite) BOOL ready;
 @property (nonatomic, strong) MPBaseInterstitialAdapter *adapter;
 @property (nonatomic, strong) MPAdServerCommunicator *communicator;
-@property (nonatomic, strong) MPAdConfiguration *configuration;
+@property (nonatomic, strong) MPAdConfiguration *requestingConfiguration;
+@property (nonatomic, strong) NSMutableArray<MPAdConfiguration *> *remainingConfigurations;
+@property (nonatomic, assign) NSTimeInterval adapterLoadStartTimestamp;
+@property (nonatomic, strong) MPAdTargeting * targeting;
 
 - (void)setUpAdapterWithConfiguration:(MPAdConfiguration *)configuration;
 
@@ -32,13 +41,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation MPInterstitialAdManager
-
-@synthesize loading = _loading;
-@synthesize ready = _ready;
-@synthesize delegate = _delegate;
-@synthesize communicator = _communicator;
-@synthesize adapter = _adapter;
-@synthesize configuration = _configuration;
 
 - (id)initWithDelegate:(id<MPInterstitialAdManagerDelegate>)delegate
 {
@@ -71,37 +73,34 @@
 - (void)loadAdWithURL:(NSURL *)URL
 {
     if (self.loading) {
-        MPLogWarn(@"Interstitial controller is already loading an ad. "
-                  @"Wait for previous load to finish.");
+        MPLogEvent([MPLogEvent error:NSError.adAlreadyLoading message:nil]);
         return;
     }
-
-    MPLogInfo(@"Interstitial controller is loading ad with MoPub server URL: %@", URL);
 
     self.loading = YES;
     [self.communicator loadURL:URL];
 }
 
 
-- (void)loadInterstitialWithAdUnitID:(NSString *)ID keywords:(NSString *)keywords userDataKeywords:(NSString *)userDataKeywords location:(CLLocation *)location
+- (void)loadInterstitialWithAdUnitID:(NSString *)ID targeting:(MPAdTargeting *)targeting
 {
+    MPLogAdEvent(MPLogEvent.adLoadAttempt, ID);
+
     if (self.ready) {
         [self.delegate managerDidLoadInterstitial:self];
     } else {
-        [self loadAdWithURL:[MPAdServerURLBuilder URLWithAdUnitID:ID
-                                                         keywords:keywords
-                                                 userDataKeywords:userDataKeywords
-                                                         location:location]];
+        self.targeting = targeting;
+        [self loadAdWithURL:[MPAdServerURLBuilder URLWithAdUnitID:ID targeting:targeting]];
     }
 }
 
 - (void)presentInterstitialFromViewController:(UIViewController *)controller
 {
+    MPLogAdEvent(MPLogEvent.adShowAttempt, self.delegate.interstitialAdController.adUnitId);
+
     // Don't allow the ad to be shown if it isn't ready.
     if (!self.ready) {
-        // We don't want to remotely log this event -- it's simply for publisher troubleshooting -- so use NSLog
-        // rather than MPLog.
-        NSLog(@"Interstitial ad view is not ready to be shown");
+        MPLogInfo(@"Interstitial ad view is not ready to be shown");
         return;
     }
 
@@ -125,34 +124,40 @@
 
 #pragma mark - MPAdServerCommunicatorDelegate
 
-- (void)communicatorDidReceiveAdConfigurations:(NSArray<MPAdConfiguration *> *)configurations
-{
-    self.configuration = configurations.firstObject;
+- (void)communicatorDidReceiveAdConfigurations:(NSArray<MPAdConfiguration *> *)configurations {
+    self.remainingConfigurations = [NSMutableArray arrayWithArray:configurations];
+    self.requestingConfiguration = [self.remainingConfigurations removeFirst];
 
-    MPLogInfo(@"Interstitial ad view is fetching ad network type: %@", self.configuration.networkType);
-
-    if (self.configuration.adUnitWarmingUp) {
-        MPLogInfo(kMPWarmingUpErrorLogFormatWithAdUnitID, self.delegate.interstitialAdController.adUnitId);
-        self.loading = NO;
-        [self.delegate manager:self didFailToLoadInterstitialWithError:[MOPUBError errorWithCode:MOPUBErrorAdUnitWarmingUp]];
-        return;
-    }
-
-    if ([self.configuration.networkType isEqualToString:kAdTypeClear]) {
+    // There are no configurations to try. Consider this a clear response by the server.
+    if (self.remainingConfigurations.count == 0 && self.requestingConfiguration == nil) {
         MPLogInfo(kMPClearErrorLogFormatWithAdUnitID, self.delegate.interstitialAdController.adUnitId);
         self.loading = NO;
-        [self.delegate manager:self didFailToLoadInterstitialWithError:[MOPUBError errorWithCode:MOPUBErrorNoInventory]];
+        [self.delegate manager:self didFailToLoadInterstitialWithError:[NSError errorWithCode:MOPUBErrorNoInventory]];
         return;
     }
 
-    if (self.configuration.adType != MPAdTypeInterstitial) {
-        MPLogWarn(@"Could not load ad: interstitial object received a non-interstitial ad unit ID.");
+    [self fetchAdWithConfiguration:self.requestingConfiguration];
+}
+
+- (void)fetchAdWithConfiguration:(MPAdConfiguration *)configuration
+{
+    MPLogInfo(@"Interstitial ad view is fetching ad network type: %@", configuration.networkType);
+
+    if (configuration.adUnitWarmingUp) {
+        MPLogInfo(kMPWarmingUpErrorLogFormatWithAdUnitID, self.delegate.interstitialAdController.adUnitId);
         self.loading = NO;
-        [self.delegate manager:self didFailToLoadInterstitialWithError:[MOPUBError errorWithCode:MOPUBErrorAdapterInvalid]];
+        [self.delegate manager:self didFailToLoadInterstitialWithError:[NSError errorWithCode:MOPUBErrorAdUnitWarmingUp]];
         return;
     }
 
-    [self setUpAdapterWithConfiguration:self.configuration];
+    if ([configuration.networkType isEqualToString:kAdTypeClear]) {
+        MPLogInfo(kMPClearErrorLogFormatWithAdUnitID, self.delegate.interstitialAdController.adUnitId);
+        self.loading = NO;
+        [self.delegate manager:self didFailToLoadInterstitialWithError:[NSError errorWithCode:MOPUBErrorNoInventory]];
+        return;
+    }
+
+    [self setUpAdapterWithConfiguration:configuration];
 }
 
 - (void)communicatorDidFailWithError:(NSError *)error
@@ -163,70 +168,125 @@
     [self.delegate manager:self didFailToLoadInterstitialWithError:error];
 }
 
-- (void)setUpAdapterWithConfiguration:(MPAdConfiguration *)configuration;
+- (void)setUpAdapterWithConfiguration:(MPAdConfiguration *)configuration
 {
+    // Notify Ad Server of the adapter load. This is fire and forget.
+    [self.communicator sendBeforeLoadUrlWithConfiguration:configuration];
+
+    // Record the start time of the adapter load.
+    self.adapterLoadStartTimestamp = NSDate.now.timeIntervalSince1970;
+
     if (configuration.customEventClass == nil) {
         [self adapter:nil didFailToLoadAdWithError:nil];
         return;
     }
 
     MPBaseInterstitialAdapter *adapter = [[MPInterstitialCustomEventAdapter alloc] initWithDelegate:self];
-
     self.adapter = adapter;
-    [self.adapter _getAdWithConfiguration:configuration];
+    [self.adapter _getAdWithConfiguration:configuration targeting:self.targeting];
+}
+
+- (MPAdType)adTypeForAdServerCommunicator:(MPAdServerCommunicator *)adServerCommunicator {
+    return MPAdTypeFullscreen;
+}
+
+- (NSString *)adUnitIDForAdServerCommunicator:(MPAdServerCommunicator *)adServerCommunicator {
+    return [self.delegate adUnitId];
 }
 
 #pragma mark - MPInterstitialAdapterDelegate
 
 - (void)adapterDidFinishLoadingAd:(MPBaseInterstitialAdapter *)adapter
 {
+    self.remainingConfigurations = nil;
     self.ready = YES;
     self.loading = NO;
+
+    // Record the end of the adapter load and send off the fire and forget after-load-url tracker.
+    NSTimeInterval duration = NSDate.now.timeIntervalSince1970 - self.adapterLoadStartTimestamp;
+    [self.communicator sendAfterLoadUrlWithConfiguration:self.requestingConfiguration adapterLoadDuration:duration adapterLoadResult:MPAfterLoadResultAdLoaded];
+
+    MPLogAdEvent(MPLogEvent.adDidLoad, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerDidLoadInterstitial:self];
 }
 
 - (void)adapter:(MPBaseInterstitialAdapter *)adapter didFailToLoadAdWithError:(NSError *)error
 {
-    self.ready = NO;
-    self.loading = NO;
-    [self loadAdWithURL:self.configuration.failoverURL];
+    // Record the end of the adapter load and send off the fire and forget after-load-url tracker
+    // with the appropriate error code result.
+    NSTimeInterval duration = NSDate.now.timeIntervalSince1970 - self.adapterLoadStartTimestamp;
+    MPAfterLoadResult result = (error.isAdRequestTimedOutError ? MPAfterLoadResultTimeout : (adapter == nil ? MPAfterLoadResultMissingAdapter : MPAfterLoadResultError));
+    [self.communicator sendAfterLoadUrlWithConfiguration:self.requestingConfiguration adapterLoadDuration:duration adapterLoadResult:result];
+
+    // There are more ad configurations to try.
+    if (self.remainingConfigurations.count > 0) {
+        self.requestingConfiguration = [self.remainingConfigurations removeFirst];
+        [self fetchAdWithConfiguration:self.requestingConfiguration];
+    }
+    // No more configurations to try. Send new request to Ads server to get more Ads.
+    else if (self.requestingConfiguration.nextURL != nil) {
+        self.ready = NO;
+        self.loading = NO;
+        [self loadAdWithURL:self.requestingConfiguration.nextURL];
+    }
+    // No more configurations to try and no more pages to load.
+    else {
+        self.ready = NO;
+        self.loading = NO;
+
+        NSError * clearResponseError = [NSError errorWithCode:MOPUBErrorNoInventory localizedDescription:[NSString stringWithFormat:kMPClearErrorLogFormatWithAdUnitID, self.delegate.interstitialAdController.adUnitId]];
+        MPLogAdEvent([MPLogEvent adFailedToLoadWithError:clearResponseError], self.delegate.interstitialAdController.adUnitId);
+        [self.delegate manager:self didFailToLoadInterstitialWithError:clearResponseError];
+    }
 }
 
 - (void)interstitialWillAppearForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
+    MPLogAdEvent(MPLogEvent.adWillAppear, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerWillPresentInterstitial:self];
 }
 
 - (void)interstitialDidAppearForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
+    MPLogAdEvent(MPLogEvent.adDidAppear, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerDidPresentInterstitial:self];
 }
 
 - (void)interstitialWillDisappearForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
+    MPLogAdEvent(MPLogEvent.adWillDisappear, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerWillDismissInterstitial:self];
 }
 
 - (void)interstitialDidDisappearForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
     self.ready = NO;
+
+    MPLogAdEvent(MPLogEvent.adDidDisappear, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerDidDismissInterstitial:self];
 }
 
 - (void)interstitialDidExpireForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
     self.ready = NO;
+
+    MPLogAdEvent([MPLogEvent adExpiredWithTimeInterval:MPConstants.adsExpirationInterval], self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerDidExpireInterstitial:self];
 }
 
 - (void)interstitialDidReceiveTapEventForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
+    MPLogAdEvent(MPLogEvent.adWillPresentModal, self.delegate.interstitialAdController.adUnitId);
     [self.delegate managerDidReceiveTapEventFromInterstitial:self];
 }
 
 - (void)interstitialWillLeaveApplicationForAdapter:(MPBaseInterstitialAdapter *)adapter
 {
-    //noop
+    MPLogAdEvent(MPLogEvent.adWillLeaveApplication, self.delegate.interstitialAdController.adUnitId);
+}
+
+- (void)interstitialDidReceiveImpressionEventForAdapter:(MPBaseInterstitialAdapter *)adapter {
+    [self.delegate interstitialAdManager:self didReceiveImpressionEventWithImpressionData:self.requestingConfiguration.impressionData];
 }
 
 @end

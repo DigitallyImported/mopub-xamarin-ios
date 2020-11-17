@@ -10,7 +10,7 @@
 
 static void MPGoogleLogInfo(NSString *message) {
   message = [[NSString alloc] initWithFormat:@"<Google Adapter> - %@", message];
-  MPLogInfo(message);
+    //MPLogInfo(@"%@", message);
 }
 
 /// Holds the preferred location of the AdChoices icon.

@@ -1,8 +1,9 @@
 //
 //  MPSessionTracker.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPSessionTracker.h"
@@ -17,7 +18,7 @@
 
 @implementation MPSessionTracker
 
-+ (void)load
++ (void)initializeNotificationObservers
 {
     if (SESSION_TRACKING_ENABLED) {
         [[NSNotificationCenter defaultCenter] addObserver:self

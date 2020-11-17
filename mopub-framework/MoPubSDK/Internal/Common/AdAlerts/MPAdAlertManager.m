@@ -1,17 +1,19 @@
 //
 //  MPAdAlertManager.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdAlertManager.h"
 #import "MPAdConfiguration.h"
 #import "MPAdAlertGestureRecognizer.h"
-#import "MPLogging.h"
-#import "MPIdentityProvider.h"
+#import "MPConstants.h"
 #import "MPCoreInstanceProvider.h"
+#import "MPIdentityProvider.h"
 #import "MPLastResortDelegate.h"
+#import "MPLogging.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
@@ -29,14 +31,12 @@
 
 @implementation MPAdAlertManager
 
+// synthesize for `MPAdAlertManagerProtocol` protocol
 @synthesize delegate = _delegate;
 @synthesize adConfiguration = _adConfiguration;
-@synthesize processedAlert = _processedAlert;
-@synthesize adAlertGestureRecognizer = _adAlertGestureRecognizer;
 @synthesize adUnitId = _adUnitId;
 @synthesize targetAdView = _targetAdView;
 @synthesize location = _location;
-@synthesize currentOpenMailVC = _currentOpenMailVC;
 
 - (id)init
 {
@@ -223,7 +223,7 @@
     return YES; // handle the touch
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }

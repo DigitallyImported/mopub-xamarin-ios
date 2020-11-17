@@ -1,15 +1,14 @@
 //
 //  MPInterstitialCustomEvent.m
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPInterstitialCustomEvent.h"
 
 @implementation MPInterstitialCustomEvent
-
-@synthesize delegate;
 
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {

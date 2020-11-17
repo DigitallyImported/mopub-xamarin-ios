@@ -1,8 +1,9 @@
 //
 //  MPInterstitialCustomEvent.h
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <UIKit/UIKit.h>
@@ -96,5 +97,10 @@
  */
 
 @property (nonatomic, weak) id<MPInterstitialCustomEventDelegate> delegate;
+
+/**
+ * An optional dictionary containing extra local data.
+ */
+@property (nonatomic, copy) NSDictionary *localExtras;
 
 @end

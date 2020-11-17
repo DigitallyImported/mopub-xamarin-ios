@@ -29,9 +29,8 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
     MPLogInfo(@"Requesting Google AdMob interstitial");
-    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:[info objectForKey:@"adUnitID"]];
 
-    self.interstitial.adUnitID = [info objectForKey:@"adUnitID"];
     self.interstitial.delegate = self;
 
     GADRequest *request = [GADRequest request];

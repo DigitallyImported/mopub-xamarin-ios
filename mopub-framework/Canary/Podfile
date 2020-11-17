@@ -1,0 +1,84 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '9.0'
+inhibit_all_warnings!
+use_frameworks!
+workspace 'Canary'
+
+# Class to encapsulate environment variables and provide convenience methods to
+# convert the ENV value string to its appropriate type
+class MyEnv
+	TRUTHY_VALUES = %w(t true yes y 1).freeze
+
+	attr_reader :value
+	
+	def initialize(name)
+		@value = ENV[name].to_s.downcase
+	end
+
+	def to_boolean
+		return true if TRUTHY_VALUES.include?(value.to_s)
+		return false
+	end
+end
+
+# Pods available to all targets in Canary.xcworkspace
+pod 'LoremIpsum'
+
+# CocoaPods does not support the ability to include the same pod
+# in different targets using different pathing. To support the
+# varied needs of CI and local development, the pathing to the
+# MoPub owned and operated pods are configured using environment
+# variables.
+mediation_path           = MyEnv.new("DEVELOPMENT_MOPUB_MEDIATION_REPO_PATH").value
+use_production_mediation = MyEnv.new("USE_PRODUCTION_MOPUB_MEDIATION").to_boolean
+use_production_sdk       = MyEnv.new("USE_PRODUCTION_MOPUB_SDK").to_boolean
+
+# MoPub SDK
+if use_production_sdk
+	pod 'mopub-ios-sdk'
+else
+	pod 'mopub-ios-sdk', :path => '../'
+end
+
+# Network mediation adapters
+if Dir.exists?(mediation_path) && !use_production_mediation
+    pod 'MoPub-AdColony-Adapters', :path => mediation_path
+    pod 'MoPub-AdMob-Adapters', :path => mediation_path
+    pod 'MoPub-Applovin-Adapters', :path => mediation_path
+    pod 'MoPub-Chartboost-Adapters', :path => mediation_path
+    pod 'MoPub-FacebookAudienceNetwork-Adapters', :path => mediation_path
+    pod 'MoPub-Flurry-Adapters', :path => mediation_path
+    pod 'MoPub-IronSource-Adapters', :path => mediation_path
+    pod 'MoPub-TapJoy-Adapters', :path => mediation_path
+    pod 'MoPub-UnityAds-Adapters', :path => mediation_path
+    pod 'MoPub-Verizon-Adapters', :path => mediation_path
+    pod 'MoPub-Vungle-Adapters', :path => mediation_path
+else
+    pod 'MoPub-AdColony-Adapters'
+    pod 'MoPub-AdMob-Adapters'
+    pod 'MoPub-Applovin-Adapters'
+    pod 'MoPub-Chartboost-Adapters'
+    pod 'MoPub-FacebookAudienceNetwork-Adapters'
+    pod 'MoPub-Flurry-Adapters'
+    pod 'MoPub-IronSource-Adapters'
+    pod 'MoPub-TapJoy-Adapters'
+    pod 'MoPub-UnityAds-Adapters'
+    pod 'MoPub-Verizon-Adapters'
+    pod 'MoPub-Vungle-Adapters'
+end
+
+# AppStore target.
+target 'AppStore Application' do
+    # Pods for 'AppStore Application'
+end
+
+# Internal target
+target 'Internal Application' do
+    # Pods for 'Internal Application'
+    
+    target 'CanaryUnitTests' do
+        # Unit test target won't be able to link without inheriting the search paths
+        inherit! :search_paths
+    end
+end

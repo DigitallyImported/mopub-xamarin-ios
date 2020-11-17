@@ -1,8 +1,9 @@
 //
 //  MPURLActionInfo.m
-//  MoPub
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPURLActionInfo.h"
@@ -11,7 +12,7 @@
 
 @property (nonatomic, readwrite) MPURLActionType actionType;
 @property (nonatomic, readwrite, copy) NSURL *originalURL;
-@property (nonatomic, readwrite, copy) NSString *iTunesItemIdentifier;
+@property (nonatomic, readwrite, strong) NSDictionary *iTunesStoreParameters;
 @property (nonatomic, readwrite, copy) NSURL *iTunesStoreFallbackURL;
 @property (nonatomic, readwrite, copy) NSURL *safariDestinationURL;
 @property (nonatomic, readwrite, copy) NSString *HTTPResponseString;
@@ -26,12 +27,12 @@
 
 @implementation MPURLActionInfo
 
-+ (instancetype)infoWithURL:(NSURL *)URL iTunesItemIdentifier:(NSString *)identifier iTunesStoreFallbackURL:(NSURL *)fallbackURL
++ (instancetype)infoWithURL:(NSURL *)URL iTunesStoreParameters:(NSDictionary *)parameters iTunesStoreFallbackURL:(NSURL *)fallbackURL
 {
     MPURLActionInfo *info = [[[self class] alloc] init];
     info.actionType = MPURLActionTypeStoreKit;
     info.originalURL = URL;
-    info.iTunesItemIdentifier = identifier;
+    info.iTunesStoreParameters = parameters;
     info.iTunesStoreFallbackURL = fallbackURL;
     return info;
 }

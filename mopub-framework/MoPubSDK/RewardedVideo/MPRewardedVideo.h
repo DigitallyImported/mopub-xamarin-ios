@@ -1,12 +1,14 @@
 //
 //  MPRewardedVideo.h
-//  MoPubSDK
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "MPImpressionData.h"
 
 @class MPRewardedVideoReward;
 @class CLLocation;
@@ -97,6 +99,28 @@
  * Note: If a user is in General Data Protection Regulation (GDPR) region and MoPub doesn't obtain consent from the user, "keywords" will be sent to the server but "userDataKeywords" will be excluded.
  */
 + (void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID keywords:(NSString *)keywords userDataKeywords:(NSString *)userDataKeywords location:(CLLocation *)location customerId:(NSString *)customerId mediationSettings:(NSArray *)mediationSettings;
+
+/**
+ * Loads a rewarded video ad for the given ad unit ID.
+ *
+ * The mediation settings array should contain ad network specific objects for networks that may be loaded for the given ad unit ID.
+ * You should set the properties on these objects to determine how the underlying ad network should behave. You only need to supply
+ * objects for the networks you wish to configure. If you do not want your network to behave differently from its default behavior, do
+ * not pass in an mediation settings object for that network.
+ *
+ * @param adUnitID The ad unit ID that ads should be loaded from.
+ * @param keywords A string representing a set of non-personally identifiable keywords that should be passed to the MoPub ad server to receive more relevant advertising.
+ * @param userDataKeywords A string representing a set of personally identifiable keywords that should be passed to the MoPub ad server to receive
+ * more relevant advertising.
+ * @param location Latitude/Longitude that are passed to the MoPub ad server
+ * @param customerId This is the ID given to the user by the publisher to identify them in their app
+ * @param mediationSettings An array of mediation settings objects that map to networks that may show ads for the ad unit ID. This array
+ * should only contain objects for networks you wish to configure. This can be nil.
+ * @param localExtras An optional dictionary containing extra local data.
+
+ * Note: If a user is in General Data Protection Regulation (GDPR) region and MoPub doesn't obtain consent from the user, "keywords" will be sent to the server but "userDataKeywords" will be excluded.
+ */
++ (void)loadRewardedVideoAdWithAdUnitID:(NSString *)adUnitID keywords:(NSString *)keywords userDataKeywords:(NSString *)userDataKeywords location:(CLLocation *)location customerId:(NSString *)customerId mediationSettings:(NSArray *)mediationSettings localExtras:(NSDictionary *)localExtras;
 
 /**
  * Returns whether or not an ad is available for the given ad unit ID.
@@ -231,5 +255,13 @@
  * @param reward The object that contains all the information regarding how much you should reward the user.
  */
 - (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPRewardedVideoReward *)reward;
+
+/**
+ Called when an impression is fired on a Rewarded Video. Includes information about the impression if applicable.
+
+ @param adUnitID The ad unit ID of the rewarded video that fired the impression.
+ @param impressionData Information about the impression, or @c nil if the server didn't return any information.
+ */
+- (void)didTrackImpressionWithAdUnitID:(NSString *)adUnitID impressionData:(MPImpressionData *)impressionData;
 
 @end

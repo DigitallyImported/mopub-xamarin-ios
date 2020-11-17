@@ -1,8 +1,9 @@
 //
 //  MPAnalyticsTracker.m
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAnalyticsTracker.h"
@@ -14,16 +15,22 @@
 
 @implementation MPAnalyticsTracker
 
-+ (MPAnalyticsTracker *)tracker
++ (MPAnalyticsTracker *)sharedTracker
 {
-    return [[MPAnalyticsTracker alloc] init];
+    static MPAnalyticsTracker * sharedTracker = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedTracker = [[self alloc] init];
+    });
+    return sharedTracker;
 }
 
 - (void)trackImpressionForConfiguration:(MPAdConfiguration *)configuration
 {
-    MPLogDebug(@"Tracking impression: %@", configuration.impressionTrackingURL);
-    MPURLRequest * request = [[MPURLRequest alloc] initWithURL:configuration.impressionTrackingURL];
-    [MPHTTPNetworkSession startTaskWithHttpRequest:request];
+    // Take the @c impressionTrackingURLs array from @c configuration and use the @c sendTrackingRequestForURLs method
+    // to actually send the requests.
+    MPLogDebug(@"Tracking impression: %@", configuration.impressionTrackingURLs.firstObject);
+    [self sendTrackingRequestForURLs:configuration.impressionTrackingURLs];
 }
 
 - (void)trackClickForConfiguration:(MPAdConfiguration *)configuration

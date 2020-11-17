@@ -1,12 +1,16 @@
 //
 //  MPViewabilityAdapterAvid.m
-//  MoPubSDK
 //
-//  Copyright © 2017 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
+#if __has_include("MoPub.h")
 #import "MoPub.h"
 #import "MPLogging.h"
+#endif
+
 #import "MPViewabilityAdapterAvid.h"
 
 #if __has_include("MoPub_Avid.h")
@@ -41,7 +45,7 @@
 
         if (startTracking) {
             _isTracking = YES;
-            MPLogInfo(@"[Viewability] IAS tracking started");
+            MPLogInfo(@"IAS tracking started");
         }
 #endif
     }
@@ -57,7 +61,7 @@
     if (!self.isTracking && self.avidAdSession != nil) {
         [self.avidAdSession.avidDeferredAdSessionListener recordReadyEvent];
         self.isTracking = YES;
-        MPLogInfo(@"[Viewability] IAS tracking started");
+        MPLogInfo(@"IAS tracking started");
     }
 #endif
 }
@@ -69,7 +73,7 @@
     if (self.isTracking) {
         [self.avidAdSession endSession];
         if (self.avidAdSession) {
-            MPLogInfo(@"[Viewability] IAS tracking stopped");
+            MPLogInfo(@"IAS tracking stopped");
         }
     }
 

@@ -1,0 +1,50 @@
+<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="2.0">
+    <Ad id="312769837">
+        <InLine>
+            <AdSystem>DCM</AdSystem>
+            <AdTitle>In-Stream Video</AdTitle>
+            <Error>
+                <![CDATA[ https://pagead2.googlesyndication.com/pagead/gen_204?id=xfa_video_error&aid=312769837&cid=75842809&advid=5737327 ]]>
+            </Error>
+            <Impression>
+                <![CDATA[ https://googleads4.g.doubleclick.net/pcs/view?xai=AKAOjssrXUIpwHCdRUIDy5PlTwaeOJoFO_lH2xZY0-XOclYXDe-qepRKBVsrVdCOtJms9rlvaOacKePCUfW3ZyXT5UpdW7Mngg&sig=Cg0ArKJSzM7Yzz5M2AaeEAE&urlfix=1&adurl= ]]>
+            </Impression>
+            <Creatives>
+                <Creative id="75842809" sequence="1">
+                    <Linear>
+                        <Duration>00:00:16</Duration>
+                        <VideoClicks>
+                            <ClickThrough>
+                                <![CDATA[ https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjssrXUIpwHCdRUIDy5PlTwaeOJoFO_lH2xZY0-XOclYXDe-qepRKBVsrVdCOtJms9rlvaOacKePCUfW3ZyXT5UpdW7Mngg&sig=Cg0ArKJSzP_9JmrXueOeEAE&urlfix=1&adurl=http://bicflexrazors.ca%3Futm_source%3DTheScore%26utm_medium%3DVideo%26utm_term%3DContent%26utm_content%3DTaxi_15%26utm_campaign%3DFlex_5 ]]>
+                            </ClickThrough>
+                        </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" width="176" height="144" type="video/flv" bitrate="58" scalable="false" maintainAspectRatio="false">
+                                <![CDATA[ https://gcdn.2mdn.net/videoplayback/id/883bff9aabab6c02/itag/17/source/doubleclick_dmm/ratebypass/yes/ip/0.0.0.0/ipbits/0/expire/3622019343/sparams/id,itag,source,ratebypass,ip,ipbits,expire/signature/29258C10FF1076D0F4CDE252902109C1EF162CD2.5A0143B0B36CAC98A96543584C0C750ECEB85356/key/ck2/file/file.flv ]]>
+                            </MediaFile>
+                            <MediaFile delivery="progressive" width="320" height="180" type="video/flv" bitrate="2194" scalable="false" maintainAspectRatio="false">
+                                <![CDATA[ https://gcdn.2mdn.net/videoplayback/id/883bff9aabab6c02/itag/36/source/doubleclick_dmm/ratebypass/yes/ip/0.0.0.0/ipbits/0/expire/3622019347/sparams/id,itag,source,ratebypass,ip,ipbits,expire/signature/58294699AAB70B59E1C730FC1714836BD33A7606.37DEC1779EE558FBCD007FE6AB07C2330BF69D64/key/ck2/file/file.flv ]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+            <Extensions>
+                <Extension type="dart">
+                    <AdServingData>
+                        <DeliveryData>
+                            <GeoData>
+                                <![CDATA[ ct=US&st=NY&city=13275&dma=3&zp=10011&bw=4 ]]>
+                            </GeoData>
+                        </DeliveryData>
+                    </AdServingData>
+                </Extension>
+                <Extension type="geo">
+                    <Country>US</Country>
+                    <Bandwidth>4</Bandwidth>
+                    <BandwidthKbps>20000</BandwidthKbps>
+                </Extension>
+            </Extensions>
+        </InLine>
+    </Ad>
+</VAST>

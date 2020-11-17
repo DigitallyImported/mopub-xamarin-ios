@@ -1,8 +1,9 @@
 //
 //  MPGeolocationProvider.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPGeolocationProvider.h"
@@ -179,7 +180,10 @@ const NSTimeInterval kMPLocationUpdateInterval = 10.0 * 60.0;
     [self.locationManager startUpdatingLocation];
 
     [self.locationUpdateDurationTimer invalidate];
-    self.locationUpdateDurationTimer = [[MPCoreInstanceProvider sharedProvider] buildMPTimerWithTimeInterval:kMPLocationUpdateDuration target:self selector:@selector(currentLocationUpdateDidFinish) repeats:NO];
+    self.locationUpdateDurationTimer = [MPTimer timerWithTimeInterval:kMPLocationUpdateDuration
+                                                               target:self
+                                                             selector:@selector(currentLocationUpdateDidFinish)
+                                                              repeats:NO];
     [self.locationUpdateDurationTimer scheduleNow];
 }
 
@@ -196,7 +200,10 @@ const NSTimeInterval kMPLocationUpdateInterval = 10.0 * 60.0;
 {
     MPLogDebug(@"Next user location update due in %.1f seconds.", delay);
     [self.nextLocationUpdateTimer invalidate];
-    self.nextLocationUpdateTimer = [[MPCoreInstanceProvider sharedProvider] buildMPTimerWithTimeInterval:delay target:self selector:@selector(startRecurringLocationUpdates) repeats:NO];
+    self.nextLocationUpdateTimer = [MPTimer timerWithTimeInterval:delay
+                                                           target:self
+                                                         selector:@selector(startRecurringLocationUpdates)
+                                                          repeats:NO];
     [self.nextLocationUpdateTimer scheduleNow];
 }
 
@@ -296,15 +303,7 @@ const NSTimeInterval kMPLocationUpdateInterval = 10.0 * 60.0;
     }
 }
 
-#pragma mark - <CLLocationManagerDelegate> (iOS < 6.0)
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    if ([self isLocation:newLocation betterThanLocation:self.lastKnownLocation]) {
-        self.lastKnownLocation = newLocation;
-        MPLogDebug(@"Updated last known user location.");
-    }
-}
+#pragma mark - Consent
 
 - (void)consentStateChanged:(NSNotification *)notification
 {

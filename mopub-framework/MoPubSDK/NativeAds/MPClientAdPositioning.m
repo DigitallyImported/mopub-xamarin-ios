@@ -1,8 +1,9 @@
 //
 //  MPClientAdPositioning.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPClientAdPositioning.h"
@@ -25,7 +26,7 @@
     if (interval > 1) {
         self.repeatingInterval = interval;
     } else {
-        MPLogWarn(@"Repeating positions will not be enabled: the provided interval must be greater "
+        MPLogInfo(@"Repeating positions will not be enabled: the provided interval must be greater "
                   @"than 1.");
     }
 }

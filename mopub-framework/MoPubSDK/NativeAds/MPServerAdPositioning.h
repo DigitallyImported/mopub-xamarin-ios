@@ -1,8 +1,9 @@
 //
 //  MPServerAdPositioning.h
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdPositioning.h"
@@ -24,13 +25,13 @@
 
 /**
  * Creates and returns a server positioning object.
- * 
+ *
  * When an ad placer is set to use server positioning, it will ask the MoPub ad server for the
  * positions where ads should be inserted into a given stream. These positioning values are
  * configurable on the MoPub website.
  *
  * @return The newly created positioning object.
- * 
+ *
  * @see MPClientAdPositioning
  */
 + (instancetype)positioning;

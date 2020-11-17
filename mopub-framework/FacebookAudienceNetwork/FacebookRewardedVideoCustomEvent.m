@@ -48,15 +48,15 @@
     
     [FBAdSettings setMediationService:[NSString stringWithFormat:@"MOPUB_%@", MP_SDK_VERSION]];
     // Load the advanced bid payload.
-    if (adMarkup != nil) {
-        MPLogInfo(@"Loading Facebook rewarded video ad markup");
-        [self.fbRewardedVideoAd loadAdWithBidPayload:adMarkup];
-    }
-    // Request a rewarded video ad.
-    else {
+//    if (adMarkup != nil) {
+//        MPLogInfo(@"Loading Facebook rewarded video ad markup");
+//        [self.fbRewardedVideoAd loadAdWithBidPayload:adMarkup];
+//    }
+//    // Request a rewarded video ad.
+//    else {
         MPLogInfo(@"Requesting Facebook rewarded video ad");
         [self.fbRewardedVideoAd loadAd];
-    }
+//    }
 }
 
 //Verify that the rewarded video is precached

@@ -5,7 +5,7 @@
     #import "MPLogging.h"
     #import "MPRewardedVideoError.h"
     #import "MPRewardedVideoReward.h"
-    #import "MPRewardedVideoCustomEvent+Caching.h"
+    //#import "MPRewardedVideoCustomEvent+Caching.h"
 #endif
 
 @interface MPGoogleAdMobRewardedVideoCustomEvent () <GADRewardBasedVideoAdDelegate>
@@ -28,7 +28,7 @@
   [self initializeSdkWithParameters:info];
 
   // Cache the network initialization parameters
-  [self setCachedInitializationParameters:info];
+  //[self setCachedInitializationParameters:info];
 
   NSString *adUnitID = [info objectForKey:@"adunit"];
   if (!adUnitID) {

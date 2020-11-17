@@ -1,39 +1,53 @@
 //
 //  MPProgressOverlayView.h
-//  MoPub
 //
-//  Created by Andrew He on 7/18/12.
-//  Copyright 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <UIKit/UIKit.h>
 
 @protocol MPProgressOverlayViewDelegate;
 
-@interface MPProgressOverlayView : UIView {
-    id<MPProgressOverlayViewDelegate> __weak _delegate;
-    UIView *_outerContainer;
-    UIView *_innerContainer;
-    UIActivityIndicatorView *_activityIndicator;
-    UIButton *_closeButton;
-    CGPoint _closeButtonPortraitCenter;
-}
-
+/**
+ Progress overlay meant for display over the key window of the application.
+ */
+@interface MPProgressOverlayView : UIView
+/**
+ Optional delegate to listen for progress overlay events.
+ */
 @property (nonatomic, weak) id<MPProgressOverlayViewDelegate> delegate;
-@property (nonatomic, strong) UIButton *closeButton;
 
-- (id)initWithDelegate:(id<MPProgressOverlayViewDelegate>)delegate;
+/**
+ Initializes the progress overlay with an optional delegate.
+ @param delegate Optional delegate to listen for progress overlay events.
+ @return A progress overlay instance.
+ */
+- (instancetype)initWithDelegate:(id<MPProgressOverlayViewDelegate>)delegate;
+
+/**
+ Shows the progress overlay over the key window.
+ */
 - (void)show;
-- (void)hide;
 
+/**
+ Removes the progress overlay from the key window.
+ */
+- (void)hide;
 @end
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - MPProgressOverlayViewDelegate
 
 @protocol MPProgressOverlayViewDelegate <NSObject>
-
 @optional
+/**
+ Cancel button pressed.
+ */
 - (void)overlayCancelButtonPressed;
-- (void)overlayDidAppear;
 
+/**
+ Progress overlay completed animating on screen.
+ */
+- (void)overlayDidAppear;
 @end

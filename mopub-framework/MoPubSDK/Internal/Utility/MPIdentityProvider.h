@@ -1,8 +1,9 @@
 //
 //  MPIdentityProvider.h
-//  MoPub
 //
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -23,6 +24,11 @@
 * Return MoPub UUID
 */
 + (NSString *)obfuscatedIdentifier;
+
+/**
+ * Return the unobfuscated MoPub UUID, without the "mopub:" prefix.
+ */
++ (NSString *)unobfuscatedMoPubIdentifier;
 
 + (BOOL)advertisingTrackingEnabled;
 

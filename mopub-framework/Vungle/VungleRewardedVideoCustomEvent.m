@@ -10,7 +10,7 @@
     #import "MPLogging.h"
     #import "MPRewardedVideoReward.h"
     #import "MPRewardedVideoError.h"
-    #import "MPRewardedVideoCustomEvent+Caching.h"
+    //#import "MPRewardedVideoCustomEvent+Caching.h"
 #endif
 #import <VungleSDK/VungleSDK.h>
 #import "MPVungleRouter.h"
@@ -35,7 +35,7 @@
     self.placementId = [info objectForKey:kVunglePlacementIdKey];
 
     // Cache the initialization parameters
-    [self setCachedInitializationParameters:info];
+    //[self setCachedInitializationParameters:info];
 
     [[MPVungleRouter sharedRouter] requestRewardedVideoAdWithCustomEventInfo:info delegate:self];
 }
@@ -51,7 +51,7 @@
         VungleInstanceMediationSettings *settings = [self.delegate instanceMediationSettingsForClass:[VungleInstanceMediationSettings class]];
 
         NSString *customerId = [self.delegate customerIdForRewardedVideoCustomEvent:self];
-        NSDictionary *eventInfo = [self cachedInitializationParameters];
+        NSDictionary *eventInfo = [NSDictionary init];
         [[MPVungleRouter sharedRouter] presentRewardedVideoAdFromViewController:viewController customerId:customerId settings:settings forPlacementId:self.placementId eventInfo:eventInfo];
     } else {
         MPLogInfo(@"Failed to show Vungle rewarded video: Vungle now claims that there is no available video ad.");

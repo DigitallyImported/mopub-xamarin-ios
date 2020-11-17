@@ -1,20 +1,15 @@
 //
 //  MPRewardedVideoCustomEvent.m
-//  MoPubSDK
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPRewardedVideoCustomEvent.h"
 #import <UIKit/UIKit.h>
 
 @implementation MPRewardedVideoCustomEvent
-
-- (void)initializeSdkWithParameters:(NSDictionary *)parameters
-{
-    // The default implementation of this method does nothing. Subclasses must override this method
-    // and implement code to initialize the underlying SDK here.
-}
 
 - (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info
 {

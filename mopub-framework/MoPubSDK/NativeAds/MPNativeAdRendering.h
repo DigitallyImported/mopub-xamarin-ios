@@ -1,6 +1,9 @@
 //
 //  MPNativeAdRendering.h
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -12,7 +15,7 @@
 /**
  * The MPNativeAdRendering protocol provides methods for displaying ad content in
  * custom view classes.
- * 
+ *
  * It can be used for both static native ads and native video ads. If you are serving
  * native video ads, you need to implement nativeVideoView.
  */

@@ -1,8 +1,9 @@
 //
 //  MPNativeAdRenderer.h
-//  MoPubSDK
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -23,7 +24,7 @@ typedef CGSize (^MPNativeViewSizeHandler)(CGFloat maximumWidth);
 
 /**
  * The MoPub SDK has a concept of native ad renderer that allows you to render the ad however you want. It also gives you the
- * ability to expose configurable properties through renderer settings objects to the application that influence how you render 
+ * ability to expose configurable properties through renderer settings objects to the application that influence how you render
  * your native custom event's view.
  *
  * Your renderer should implement this protocol. Your renderer is responsible for rendering the network's ad data into a view
@@ -43,7 +44,7 @@ typedef CGSize (^MPNativeViewSizeHandler)(CGFloat maximumWidth);
  * @param rendererSettings Application defined settings that you should store in the configuration object that you
  * construct.
  *
- * @return A configuration object that allows the MoPub SDK to instantiate your renderer with the application 
+ * @return A configuration object that allows the MoPub SDK to instantiate your renderer with the application
  * settings and for the supported ad types.
  */
 + (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id<MPNativeAdRendererSettings>)rendererSettings;
@@ -57,7 +58,7 @@ typedef CGSize (^MPNativeViewSizeHandler)(CGFloat maximumWidth);
 
 /**
  * You must return a native ad view when `-retrieveViewWithAdapter:error:` is called. Ideally, you should create a native view
- * each time this is called as holding onto the view may end up consuming a lot of memory when many ads are being shown. 
+ * each time this is called as holding onto the view may end up consuming a lot of memory when many ads are being shown.
  * However, it is OK to hold a strong reference to the view if you must.
  *
  * @param adapter Your custom event's adapter class that contains the network specific data necessary to render the ad to
@@ -97,7 +98,7 @@ typedef CGSize (^MPNativeViewSizeHandler)(CGFloat maximumWidth);
 
 /**
  *
- * The MoPubSDK will call this method when the user has tapped the ad and will 
+ * The MoPubSDK will call this method when the user has tapped the ad and will
  * invoke the clickthrough action.
  *
  */

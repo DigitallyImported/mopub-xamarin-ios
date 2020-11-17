@@ -1,8 +1,9 @@
 //
 //  MPStreamAdPlacementData.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPStreamAdPlacementData.h"
@@ -55,16 +56,16 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 - (void)initializeDesiredPositionsFromPositioning:(MPAdPositioning *)positioning
 {
     NSArray *fixedPositions = [[positioning.fixedPositions array] sortedArrayUsingSelector:@selector(compare:)];
-    
+
     self.desiredOriginalPositions = [NSMutableDictionary dictionary];
     self.desiredInsertionPositions = [NSMutableDictionary dictionary];
-    
+
     [fixedPositions enumerateObjectsUsingBlock:^(NSIndexPath *position, NSUInteger idx, BOOL *stop) {
         [self insertDesiredPositionsForIndexPath:position];
     }];
-    
+
     //Current behavior only inserts repeating ads following the last fixed position in the table, and they will only be inserted
-    //within the same section as that position. If no fixed positions exist, repeating ads will be placed only in the first section. 
+    //within the same section as that position. If no fixed positions exist, repeating ads will be placed only in the first section.
     if (positioning.repeatingInterval > 1) {
         NSInteger lastInsertionSection = [[fixedPositions lastObject] section];
 
@@ -72,7 +73,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 
         NSUInteger numberOfFixedAds = [desiredOriginalPositions count];
         NSUInteger numberOfRepeatingAds = kMaximumNumberOfAdsPerStream - numberOfFixedAds;
-        
+
         NSInteger startingIndex = [fixedPositions lastObject] ? [(NSIndexPath *)[fixedPositions lastObject] row] : -1;
         for (NSUInteger repeatingAdIndex = 1; repeatingAdIndex <= numberOfRepeatingAds; repeatingAdIndex++) {
             NSInteger adIndexItem = startingIndex + positioning.repeatingInterval * repeatingAdIndex;
@@ -87,7 +88,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSMutableArray *desiredOriginalPositions = [self positioningArrayForSection:indexPath.section inDictionary:self.desiredOriginalPositions];
     NSIndexPath *insertionIndexPath = [NSIndexPath indexPathForRow:indexPath.row - [desiredOriginalPositions count] inSection:indexPath.section];
     [desiredOriginalPositions addObject:[insertionIndexPath copy]];
-    
+
     NSMutableArray *desiredInsertionPositions = [self positioningArrayForSection:indexPath.section inDictionary:self.desiredInsertionPositions];
     [desiredInsertionPositions addObject:[insertionIndexPath copy]];
 }
@@ -95,11 +96,11 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 - (NSUInteger)adjustedNumberOfItems:(NSUInteger)numberOfItems inSection:(NSUInteger)section
 {
     if (numberOfItems <= 0) return 0;
-    
+
     NSIndexPath *pathOfLastItem = [NSIndexPath indexPathForRow:numberOfItems - 1 inSection:section];
     NSMutableArray *originalAdIndexPaths = [self positioningArrayForSection:section inDictionary:self.originalAdIndexPaths];
     NSUInteger numberOfAdsBeforeLastItem = [self indexOfIndexPath:pathOfLastItem inSortedArray:originalAdIndexPaths options:NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual];
-    
+
     return numberOfItems + numberOfAdsBeforeLastItem;
 }
 
@@ -108,10 +109,10 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     if (!indexPath || indexPath.row == NSNotFound) {
         return indexPath;
     }
-    
+
     NSMutableArray *originalAdIndexPaths = [self positioningArrayForSection:indexPath.section inDictionary:self.originalAdIndexPaths];
     NSUInteger numberOfAdsBeforeIndexPath = [self indexOfIndexPath:indexPath inSortedArray:originalAdIndexPaths options:NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual];
-    
+
     return [NSIndexPath indexPathForRow:indexPath.row + numberOfAdsBeforeIndexPath inSection:indexPath.section];
 }
 
@@ -133,11 +134,11 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     if (adjustedIndexPath.section > [self largestSectionIndexContainingAds]) {
         return nil;
     }
-    
+
     NSMutableArray *desiredInsertionPositions = [self.desiredInsertionPositions objectForKey:[NSNumber numberWithUnsignedInteger:adjustedIndexPath.section]];
 
     NSUInteger index = [self indexOfIndexPath:adjustedIndexPath inSortedArray:desiredInsertionPositions options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual];
-    
+
     if (desiredInsertionPositions && (index < [desiredInsertionPositions count])) {
         return [desiredInsertionPositions objectAtIndex:index];
     } else {
@@ -150,7 +151,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 {
     NSMutableArray *desiredInsertionPositions = [self positioningArrayForSection:adjustedIndexPath.section inDictionary:self.desiredInsertionPositions];
     NSUInteger index = [self indexOfIndexPath:adjustedIndexPath inSortedArray:desiredInsertionPositions options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual];
-    
+
     if (index > 0) {
         return desiredInsertionPositions[index - 1];
     } else {
@@ -167,29 +168,29 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSMutableArray *adDataObjects = [self positioningArrayForSection:adjustedIndexPath.section inDictionary:self.adDataObjects];
 
     NSUInteger indexInDesiredArrays = [self indexOfIndexPath:adjustedIndexPath inSortedArray:desiredInsertionPositions options:NSBinarySearchingFirstEqual];
-    
+
     if (indexInDesiredArrays == NSNotFound) {
-        MPLogWarn(@"Attempted to insert an ad at position %@, which is not in the desired array.", adjustedIndexPath);
+        MPLogInfo(@"Attempted to insert an ad at position %@, which is not in the desired array.", adjustedIndexPath);
         return;
     }
-    
+
     NSIndexPath *originalPosition = desiredOriginalPositions[indexInDesiredArrays];
     NSIndexPath *insertionPosition = desiredInsertionPositions[indexInDesiredArrays];
-    
+
     NSUInteger insertionIndex = [self indexOfIndexPath:insertionPosition inSortedArray:adjustedAdIndexPaths options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual];
-    
+
     [originalAdIndexPaths insertObject:originalPosition atIndex:insertionIndex];
     [adjustedAdIndexPaths insertObject:insertionPosition atIndex:insertionIndex];
     [adDataObjects insertObject:data atIndex:insertionIndex];
-    
+
     [desiredOriginalPositions removeObjectAtIndex:indexInDesiredArrays];
     [desiredInsertionPositions removeObjectAtIndex:indexInDesiredArrays];
-    
+
     for (NSUInteger i = insertionIndex + 1; i < [adjustedAdIndexPaths count]; i++) {
         NSIndexPath *newIndexPath = adjustedAdIndexPaths[i];
         adjustedAdIndexPaths[i] = [NSIndexPath indexPathForRow:newIndexPath.row + 1 inSection:newIndexPath.section];
     }
-    
+
     for (NSUInteger j = indexInDesiredArrays; j < [desiredInsertionPositions count]; j++) {
         NSIndexPath *newInsertionPosition = desiredInsertionPositions[j];
         desiredInsertionPositions[j] = [NSIndexPath indexPathForRow:newInsertionPosition.row + 1 inSection:newInsertionPosition.section];
@@ -199,11 +200,11 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 - (NSArray *)adjustedAdIndexPathsInAdjustedRange:(NSRange)range inSection:(NSInteger)section
 {
     NSMutableArray *adjustedIndexPaths = [self positioningArrayForSection:section inDictionary:self.adjustedAdIndexPaths];
-    
+
     NSIndexSet *indexesOfObjectsInRange = [adjustedIndexPaths indexesOfObjectsPassingTest:^BOOL(NSIndexPath *adjustedIndexPath, NSUInteger idx, BOOL *stop) {
         return NSLocationInRange(adjustedIndexPath.row, range);
     }];
-    
+
     return [adjustedIndexPaths objectsAtIndexes:indexesOfObjectsInRange];
 }
 
@@ -214,11 +215,11 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSMutableArray *adDataObjects = [self positioningArrayForSection:section inDictionary:self.adDataObjects];
     NSMutableArray *desiredInsertionPositions = [self positioningArrayForSection:section inDictionary:self.desiredInsertionPositions];
     NSMutableArray *desiredOriginalPositions = [self positioningArrayForSection:section inDictionary:self.desiredOriginalPositions];
-    
+
     NSIndexSet *indexesOfObjectsToRemove = [adjustedAdIndexPaths indexesOfObjectsPassingTest:^BOOL(NSIndexPath *adjustedIndexPath, NSUInteger idx, BOOL *stop) {
         return NSLocationInRange(adjustedIndexPath.row, range);
     }];
-    
+
     if ([indexesOfObjectsToRemove count]) {
         [indexesOfObjectsToRemove enumerateIndexesWithOptions:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop) {
             NSIndexPath *adjustedIndexPathToRemove = adjustedAdIndexPaths[idx];
@@ -232,7 +233,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
             [desiredInsertionPositions insertObject:adjustedIndexPathToRemove atIndex:insertionIndex];
 
         }];
-        
+
         [adjustedAdIndexPaths removeObjectsAtIndexes:indexesOfObjectsToRemove];
         [originalAdIndexPaths removeObjectsAtIndexes:indexesOfObjectsToRemove];
         [adDataObjects removeObjectsAtIndexes:indexesOfObjectsToRemove];
@@ -256,9 +257,9 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 {
     NSMutableArray *adjustedAdIndexPaths = [self positioningArrayForSection:adjustedIndexPath.section inDictionary:self.adjustedAdIndexPaths];
     NSMutableArray *adDataObjects = [self positioningArrayForSection:adjustedIndexPath.section inDictionary:self.adDataObjects];
-    
+
     NSUInteger indexOfIndexPath = [self indexOfIndexPath:adjustedIndexPath inSortedArray:adjustedAdIndexPaths options:NSBinarySearchingFirstEqual];
-    
+
     if (indexOfIndexPath != NSNotFound) {
         return adDataObjects[indexOfIndexPath];
     } else {
@@ -326,7 +327,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 - (void)insertItemsAtIndexPaths:(NSArray *)originalIndexPaths
 {
     originalIndexPaths = [originalIndexPaths sortedArrayUsingSelector:@selector(compare:)];
-    
+
     [originalIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *originalIndexPath, NSUInteger idx, BOOL *stop) {
         NSMutableArray *desiredOriginalPositions = [self positioningArrayForSection:originalIndexPath.section inDictionary:self.desiredOriginalPositions];
         NSMutableArray *originalAdIndexPaths = [self positioningArrayForSection:originalIndexPath.section inDictionary:self.originalAdIndexPaths];
@@ -335,7 +336,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
         for (NSUInteger i = insertionIndex; i < [desiredOriginalPositions count]; i++) {
             [self incrementDesiredIndexPathsAtIndex:i inSection:originalIndexPath.section];
         }
-        
+
         NSUInteger originalInsertionIndex = [self indexOfIndexPath:originalIndexPath inSortedArray:originalAdIndexPaths options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual];
         for (NSUInteger i = originalInsertionIndex; i < [originalAdIndexPaths count]; i++) {
             [self incrementPlacedIndexPathsAtIndex:i inSection:originalIndexPath.section];
@@ -346,10 +347,10 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
 - (void)deleteItemsAtIndexPaths:(NSArray *)originalIndexPaths
 {
     originalIndexPaths = [originalIndexPaths sortedArrayUsingSelector:@selector(compare:)];
-    
+
     __block NSUInteger currentNumberOfAdsInSection = 0;
     __block NSInteger lastSection = [[originalIndexPaths firstObject] section];
-    
+
     [originalIndexPaths enumerateObjectsUsingBlock:^(NSIndexPath *originalIndexPath, NSUInteger idx, BOOL *stop) {
         // Batch deletions are actually performed one at a time. This requires us to shift up the
         // deletion index paths each time a deletion is performed.
@@ -361,22 +362,22 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
             lastSection = originalIndexPath.section;
             currentNumberOfAdsInSection = 0;
         }
-        
+
         NSMutableArray *desiredOriginalPositions = [self positioningArrayForSection:originalIndexPath.section inDictionary:self.desiredOriginalPositions];
         NSMutableArray *originalAdIndexPaths = [self positioningArrayForSection:originalIndexPath.section inDictionary:self.originalAdIndexPaths];
 
         NSIndexPath *indexPathOfItemToDelete = [NSIndexPath indexPathForRow:originalIndexPath.row - currentNumberOfAdsInSection inSection:originalIndexPath.section];
-        
+
         NSUInteger searchIndexInDesired = [self indexOfIndexPath:indexPathOfItemToDelete inSortedArray:desiredOriginalPositions options:NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual];
         for (NSUInteger i = searchIndexInDesired; i < [desiredOriginalPositions count]; i++) {
             [self decrementDesiredIndexPathsAtIndex:i inSection:originalIndexPath.section];
         }
-        
+
         NSUInteger searchIndexInPlaced = [self indexOfIndexPath:indexPathOfItemToDelete inSortedArray:originalAdIndexPaths options:NSBinarySearchingInsertionIndex | NSBinarySearchingLastEqual];
         for (NSUInteger i = searchIndexInPlaced; i < [originalAdIndexPaths count]; i++) {
             [self decrementPlacedIndexPathsAtIndex:i inSection:originalIndexPath.section];
         }
-        
+
         currentNumberOfAdsInSection++;
     }];
 }
@@ -407,7 +408,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSIndexPath *currentDesiredOriginalPosition = desiredOriginalPositions[index];
     NSIndexPath *newDesiredOriginalPosition = [NSIndexPath indexPathForRow:currentDesiredOriginalPosition.row + 1 inSection:currentDesiredOriginalPosition.section];
     desiredOriginalPositions[index] = newDesiredOriginalPosition;
-    
+
     NSIndexPath *currentDesiredInsertionPosition = desiredInsertionPositions[index];
     NSIndexPath *newDesiredInsertionPosition = [NSIndexPath indexPathForRow:currentDesiredInsertionPosition.row + 1 inSection:currentDesiredInsertionPosition.section];
     desiredInsertionPositions[index] = newDesiredInsertionPosition;
@@ -421,7 +422,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSIndexPath *currentOriginalIndexPath = originalAdIndexPaths[index];
     NSIndexPath *newOriginalIndexPath = [NSIndexPath indexPathForRow:currentOriginalIndexPath.row + 1 inSection:currentOriginalIndexPath.section];
     originalAdIndexPaths[index] = newOriginalIndexPath;
-    
+
     NSIndexPath *currentAdjustedIndexPath = adjustedAdIndexPaths[index];
     NSIndexPath *newAdjustedIndexPath = [NSIndexPath indexPathForRow:currentAdjustedIndexPath.row + 1 inSection:currentAdjustedIndexPath.section];
     adjustedAdIndexPaths[index] = newAdjustedIndexPath;
@@ -435,7 +436,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSIndexPath *currentDesiredOriginalPosition = desiredOriginalPositions[index];
     NSIndexPath *newDesiredOriginalPosition = [NSIndexPath indexPathForRow:currentDesiredOriginalPosition.row - 1 inSection:currentDesiredOriginalPosition.section];
     desiredOriginalPositions[index] = newDesiredOriginalPosition;
-    
+
     NSIndexPath *currentDesiredInsertionPosition = desiredInsertionPositions[index];
     NSIndexPath *newDesiredInsertionPosition = [NSIndexPath indexPathForRow:currentDesiredInsertionPosition.row - 1 inSection:currentDesiredInsertionPosition.section];
     desiredInsertionPositions[index] = newDesiredInsertionPosition;
@@ -449,7 +450,7 @@ static const NSUInteger kMaximumNumberOfAdsPerStream = 255;
     NSIndexPath *currentOriginalIndexPath = originalAdIndexPaths[index];
     NSIndexPath *newOriginalIndexPath = [NSIndexPath indexPathForRow:currentOriginalIndexPath.row - 1 inSection:currentOriginalIndexPath.section];
     originalAdIndexPaths[index] = newOriginalIndexPath;
-    
+
     NSIndexPath *currentAdjustedIndexPath = adjustedAdIndexPaths[index];
     NSIndexPath *newAdjustedIndexPath = [NSIndexPath indexPathForRow:currentAdjustedIndexPath.row - 1 inSection:currentAdjustedIndexPath.section];
     adjustedAdIndexPaths[index] = newAdjustedIndexPath;

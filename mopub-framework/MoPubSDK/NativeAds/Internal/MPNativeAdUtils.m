@@ -1,8 +1,9 @@
 //
 //  MPNativeAdUtils.m
-//  MoPubSDK
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativeAdUtils.h"
@@ -16,7 +17,7 @@ NSTimeInterval const kUpdateVisibleCellsInterval = 0.25;
     if (urlString.length == 0) {
         return NO;
     }
-    
+
     NSURL *url = [NSURL URLWithString:urlString];
     if (url) {
         [urlArray addObject:url];

@@ -78,16 +78,16 @@
     self.fbAdView.frame = fbAdFrame;
     [FBAdSettings setMediationService:[NSString stringWithFormat:@"MOPUB_%@", MP_SDK_VERSION]];
     
-    // Load the advanced bid payload.
-    if (adMarkup != nil) {
-        MPLogInfo(@"Loading Facebook banner ad markup");
-        [self.fbAdView loadAdWithBidPayload:adMarkup];
-    }
+//    // Load the advanced bid payload.
+//    if (adMarkup != nil) {
+//        MPLogInfo(@"Loading Facebook banner ad markup");
+//        [self.fbAdView loadAdWithBidPayload:adMarkup];
+//    }
     // Request a banner ad.
-    else {
+//    else {
         MPLogInfo(@"Requesting Facebook banner ad");
         [self.fbAdView loadAd];
-    }
+//    }
 }
 
 - (void)dealloc

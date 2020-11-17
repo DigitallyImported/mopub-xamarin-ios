@@ -1,8 +1,9 @@
 //
 //  MPClientAdPositioning.h
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -52,7 +53,7 @@
  * Tells the positioning object that ads should be displayed evenly throughout a stream using the
  * specified interval.
  *
- * Repeating ads will only appear within a single section. If the receiver has fixed positions, 
+ * Repeating ads will only appear within a single section. If the receiver has fixed positions,
  * the sequence of repeating ads will start to appear following the last registered fixed position.
  * If the receiver does not have any fixed positions, ads will appear regularly starting at
  * `interval`, within the first section.

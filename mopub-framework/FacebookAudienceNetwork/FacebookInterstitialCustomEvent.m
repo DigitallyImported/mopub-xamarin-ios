@@ -45,16 +45,16 @@
     self.fbInterstitialAd.delegate = self;
     [FBAdSettings setMediationService:[NSString stringWithFormat:@"MOPUB_%@", MP_SDK_VERSION]];
 
-    // Load the advanced bid payload.
-    if (adMarkup != nil) {
-        MPLogInfo(@"Loading Facebook interstitial ad markup");
-        [self.fbInterstitialAd loadAdWithBidPayload:adMarkup];
-    }
-    // Request a interstitial ad.
-    else {
+//    // Load the advanced bid payload.
+//    if (adMarkup != nil) {
+//        MPLogInfo(@"Loading Facebook interstitial ad markup");
+//        [self.fbInterstitialAd loadAdWithBidPayload:adMarkup];
+//    }
+//    // Request a interstitial ad.
+//    else {
         MPLogInfo(@"Requesting Facebook interstitial ad");
         [self.fbInterstitialAd loadAd];
-    }
+//    }
 }
 
 - (void)showInterstitialFromRootViewController:(UIViewController *)controller {
