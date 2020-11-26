@@ -449,21 +449,6 @@
 		46ECD6E817E7A29500442BCA /* MPAdAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46ECD6E417E7A29500442BCA /* MPAdAlertManager.m */; };
 		46EDEE6719832A3B00241385 /* MPNativeAdUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EDEE6619832A3B00241385 /* MPNativeAdUtils.m */; };
 		49494249255A3B6200263972 /* VungleSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49494248255A3B6200263972 /* VungleSDK.framework */; };
-		4949425E255A3DCE00263972 /* MoPub-Vungle-Adapters.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 49494251255A3DCD00263972 /* MoPub-Vungle-Adapters.podspec */; };
-		4949425F255A3DCE00263972 /* VungleInstanceMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 49494252255A3DCD00263972 /* VungleInstanceMediationSettings.m */; };
-		49494260255A3DCE00263972 /* VungleInstanceMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 49494252255A3DCD00263972 /* VungleInstanceMediationSettings.m */; };
-		49494262255A3DCE00263972 /* VungleInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49494254255A3DCD00263972 /* VungleInterstitialCustomEvent.h */; };
-		49494263255A3DCE00263972 /* MPVungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49494255255A3DCD00263972 /* MPVungleRouter.h */; };
-		49494264255A3DCE00263972 /* VungleRewardedVideoCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49494256255A3DCD00263972 /* VungleRewardedVideoCustomEvent.h */; };
-		49494266255A3DCE00263972 /* VungleSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49494258255A3DCD00263972 /* VungleSDK.framework */; };
-		49494267255A3DCE00263972 /* VungleSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49494258255A3DCD00263972 /* VungleSDK.framework */; };
-		49494268255A3DCE00263972 /* VungleInstanceMediationSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 49494259255A3DCD00263972 /* VungleInstanceMediationSettings.h */; };
-		49494269255A3DCE00263972 /* VungleRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425A255A3DCD00263972 /* VungleRewardedVideoCustomEvent.m */; };
-		4949426A255A3DCE00263972 /* VungleRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425A255A3DCD00263972 /* VungleRewardedVideoCustomEvent.m */; };
-		4949426B255A3DCE00263972 /* MPVungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425B255A3DCD00263972 /* MPVungleRouter.m */; };
-		4949426C255A3DCE00263972 /* MPVungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425B255A3DCD00263972 /* MPVungleRouter.m */; };
-		4949426D255A3DCE00263972 /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425C255A3DCD00263972 /* VungleInterstitialCustomEvent.m */; };
-		4949426E255A3DCE00263972 /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949425C255A3DCD00263972 /* VungleInterstitialCustomEvent.m */; };
 		49BE3D45255CDC8700DB2CCD /* MoPub-AdMob-Adapters.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3D30255CDC8700DB2CCD /* MoPub-AdMob-Adapters.podspec */; };
 		49BE3D46255CDC8700DB2CCD /* MPGoogleAdMobBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3D31255CDC8700DB2CCD /* MPGoogleAdMobBannerCustomEvent.h */; };
 		49BE3D47255CDC8700DB2CCD /* MPGoogleAdMobNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3D32255CDC8700DB2CCD /* MPGoogleAdMobNativeAdAdapter.m */; };
@@ -512,6 +497,27 @@
 		49BE3D8A255CDCFB00DB2CCD /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BE3D73255CDCFB00DB2CCD /* FBAudienceNetwork.framework */; };
 		49BE3D8B255CDCFB00DB2CCD /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BE3D73255CDCFB00DB2CCD /* FBAudienceNetwork.framework */; };
 		49BE3D8C255CDCFB00DB2CCD /* FacebookRewardedVideoCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3D74255CDCFB00DB2CCD /* FacebookRewardedVideoCustomEvent.h */; };
+		49BE3DED256FFE7D00DB2CCD /* VungleAdapterConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DDD256FFE7B00DB2CCD /* VungleAdapterConfiguration.h */; };
+		49BE3DEE256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DDE256FFE7B00DB2CCD /* VungleRewardedVideoCustomEvent.m */; };
+		49BE3DEF256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DDE256FFE7B00DB2CCD /* VungleRewardedVideoCustomEvent.m */; };
+		49BE3DF0256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DDF256FFE7C00DB2CCD /* VungleInstanceMediationSettings.m */; };
+		49BE3DF1256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DDF256FFE7C00DB2CCD /* VungleInstanceMediationSettings.m */; };
+		49BE3DF2256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE0256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.h */; };
+		49BE3DF3256FFE7D00DB2CCD /* VungleSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BE3DE1256FFE7C00DB2CCD /* VungleSDK.framework */; };
+		49BE3DF4256FFE7D00DB2CCD /* VungleSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BE3DE1256FFE7C00DB2CCD /* VungleSDK.framework */; };
+		49BE3DF5256FFE7D00DB2CCD /* VungleAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE2256FFE7C00DB2CCD /* VungleAdapterConfiguration.m */; };
+		49BE3DF6256FFE7D00DB2CCD /* VungleAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE2256FFE7C00DB2CCD /* VungleAdapterConfiguration.m */; };
+		49BE3DF7256FFE7D00DB2CCD /* VungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE3256FFE7C00DB2CCD /* VungleRouter.h */; };
+		49BE3DF8256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE4256FFE7C00DB2CCD /* VungleRewardedVideoCustomEvent.h */; };
+		49BE3DF9256FFE7D00DB2CCD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DE6256FFE7C00DB2CCD /* LICENSE */; };
+		49BE3DFA256FFE7D00DB2CCD /* MoPub-Vungle-Adapters.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DE7256FFE7C00DB2CCD /* MoPub-Vungle-Adapters.podspec */; };
+		49BE3DFB256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */; };
+		49BE3DFC256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */; };
+		49BE3DFD256FFE7D00DB2CCD /* VungleInstanceMediationSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE9256FFE7C00DB2CCD /* VungleInstanceMediationSettings.h */; };
+		49BE3DFE256FFE7D00DB2CCD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DEA256FFE7C00DB2CCD /* README.md */; };
+		49BE3DFF256FFE7D00DB2CCD /* VungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */; };
+		49BE3E00256FFE7D00DB2CCD /* VungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */; };
+		49BE3E01256FFE7D00DB2CCD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DEC256FFE7D00DB2CCD /* CHANGELOG.md */; };
 		4A2E21301936845D004A7899 /* MPNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E212F1936845D004A7899 /* MPNativeCustomEvent.m */; };
 		4A5968C218CFE71200D0D1AD /* MPCoreInstanceProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5968C118CFE71200D0D1AD /* MPCoreInstanceProvider.m */; };
 		4A71895718D25FC50056F068 /* NSJSONSerialization+MPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A71895618D25FC50056F068 /* NSJSONSerialization+MPAdditions.m */; };
@@ -1096,19 +1102,6 @@
 		46EDEE6519832A3B00241385 /* MPNativeAdUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNativeAdUtils.h; sourceTree = "<group>"; };
 		46EDEE6619832A3B00241385 /* MPNativeAdUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNativeAdUtils.m; sourceTree = "<group>"; };
 		49494248255A3B6200263972 /* VungleSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VungleSDK.framework; path = Vungle/VungleSDK.framework; sourceTree = "<group>"; };
-		49494250255A3DCD00263972 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		49494251255A3DCD00263972 /* MoPub-Vungle-Adapters.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MoPub-Vungle-Adapters.podspec"; sourceTree = "<group>"; };
-		49494252255A3DCD00263972 /* VungleInstanceMediationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleInstanceMediationSettings.m; sourceTree = "<group>"; };
-		49494253255A3DCD00263972 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		49494254255A3DCD00263972 /* VungleInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleInterstitialCustomEvent.h; sourceTree = "<group>"; };
-		49494255255A3DCD00263972 /* MPVungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPVungleRouter.h; sourceTree = "<group>"; };
-		49494256255A3DCD00263972 /* VungleRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
-		49494257255A3DCD00263972 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		49494258255A3DCD00263972 /* VungleSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VungleSDK.framework; sourceTree = "<group>"; };
-		49494259255A3DCD00263972 /* VungleInstanceMediationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleInstanceMediationSettings.h; sourceTree = "<group>"; };
-		4949425A255A3DCD00263972 /* VungleRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
-		4949425B255A3DCD00263972 /* MPVungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPVungleRouter.m; sourceTree = "<group>"; };
-		4949425C255A3DCD00263972 /* VungleInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		49BE3D2F255CDC8700DB2CCD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		49BE3D30255CDC8700DB2CCD /* MoPub-AdMob-Adapters.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MoPub-AdMob-Adapters.podspec"; sourceTree = "<group>"; };
 		49BE3D31255CDC8700DB2CCD /* MPGoogleAdMobBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGoogleAdMobBannerCustomEvent.h; sourceTree = "<group>"; };
@@ -1147,6 +1140,21 @@
 		49BE3D72255CDCFB00DB2CCD /* FacebookNativeAdAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookNativeAdAdapter.h; sourceTree = "<group>"; };
 		49BE3D73255CDCFB00DB2CCD /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		49BE3D74255CDCFB00DB2CCD /* FacebookRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
+		49BE3DDD256FFE7B00DB2CCD /* VungleAdapterConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdapterConfiguration.h; sourceTree = "<group>"; };
+		49BE3DDE256FFE7B00DB2CCD /* VungleRewardedVideoCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRewardedVideoCustomEvent.m; sourceTree = "<group>"; };
+		49BE3DDF256FFE7C00DB2CCD /* VungleInstanceMediationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleInstanceMediationSettings.m; sourceTree = "<group>"; };
+		49BE3DE0256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		49BE3DE1256FFE7C00DB2CCD /* VungleSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VungleSDK.framework; sourceTree = "<group>"; };
+		49BE3DE2256FFE7C00DB2CCD /* VungleAdapterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleAdapterConfiguration.m; sourceTree = "<group>"; };
+		49BE3DE3256FFE7C00DB2CCD /* VungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouter.h; sourceTree = "<group>"; };
+		49BE3DE4256FFE7C00DB2CCD /* VungleRewardedVideoCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRewardedVideoCustomEvent.h; sourceTree = "<group>"; };
+		49BE3DE6256FFE7C00DB2CCD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		49BE3DE7256FFE7C00DB2CCD /* MoPub-Vungle-Adapters.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MoPub-Vungle-Adapters.podspec"; sourceTree = "<group>"; };
+		49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		49BE3DE9256FFE7C00DB2CCD /* VungleInstanceMediationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleInstanceMediationSettings.h; sourceTree = "<group>"; };
+		49BE3DEA256FFE7C00DB2CCD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouter.m; sourceTree = "<group>"; };
+		49BE3DEC256FFE7D00DB2CCD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		4A2E212E1936845D004A7899 /* MPNativeCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNativeCustomEvent.h; sourceTree = "<group>"; };
 		4A2E212F1936845D004A7899 /* MPNativeCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNativeCustomEvent.m; sourceTree = "<group>"; };
 		4A2E213619368773004A7899 /* MPNativeCustomEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNativeCustomEventDelegate.h; sourceTree = "<group>"; };
@@ -1712,6 +1720,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49BE3DF4256FFE7D00DB2CCD /* VungleSDK.framework in Frameworks */,
 				49BE3D57255CDC8700DB2CCD /* GoogleMobileAds.framework in Frameworks */,
 				2AF031C52016770700909F29 /* WebKit.framework in Frameworks */,
 				2AF031C42016770300909F29 /* UIKit.framework in Frameworks */,
@@ -1724,7 +1733,6 @@
 				2AF031BF201676DD00909F29 /* MediaPlayer.framework in Frameworks */,
 				2AF031BE201676D700909F29 /* Foundation.framework in Frameworks */,
 				2AF031BD201676C300909F29 /* CoreTelephony.framework in Frameworks */,
-				49494267255A3DCE00263972 /* VungleSDK.framework in Frameworks */,
 				2AF031BC201676BD00909F29 /* CoreMedia.framework in Frameworks */,
 				2AF031BB201676B400909F29 /* CoreLocation.framework in Frameworks */,
 				2AF031BA201676AF00909F29 /* CoreGraphics.framework in Frameworks */,
@@ -1747,7 +1755,7 @@
 			files = (
 				49BE3D8A255CDCFB00DB2CCD /* FBAudienceNetwork.framework in Frameworks */,
 				49BE3D56255CDC8700DB2CCD /* GoogleMobileAds.framework in Frameworks */,
-				49494266255A3DCE00263972 /* VungleSDK.framework in Frameworks */,
+				49BE3DF3256FFE7D00DB2CCD /* VungleSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1862,29 +1870,22 @@
 		4949424E255A3DCD00263972 /* Vungle */ = {
 			isa = PBXGroup;
 			children = (
-				4949424F255A3DCD00263972 /* MoPub-Vungle-PodSpecs */,
-				49494252255A3DCD00263972 /* VungleInstanceMediationSettings.m */,
-				49494253255A3DCD00263972 /* CHANGELOG.md */,
-				49494254255A3DCD00263972 /* VungleInterstitialCustomEvent.h */,
-				49494255255A3DCD00263972 /* MPVungleRouter.h */,
-				49494256255A3DCD00263972 /* VungleRewardedVideoCustomEvent.h */,
-				49494257255A3DCD00263972 /* README.md */,
-				49494258255A3DCD00263972 /* VungleSDK.framework */,
-				49494259255A3DCD00263972 /* VungleInstanceMediationSettings.h */,
-				4949425A255A3DCD00263972 /* VungleRewardedVideoCustomEvent.m */,
-				4949425B255A3DCD00263972 /* MPVungleRouter.m */,
-				4949425C255A3DCD00263972 /* VungleInterstitialCustomEvent.m */,
+				49BE3DEC256FFE7D00DB2CCD /* CHANGELOG.md */,
+				49BE3DE5256FFE7C00DB2CCD /* MoPub-Vungle-PodSpecs */,
+				49BE3DEA256FFE7C00DB2CCD /* README.md */,
+				49BE3DDD256FFE7B00DB2CCD /* VungleAdapterConfiguration.h */,
+				49BE3DE2256FFE7C00DB2CCD /* VungleAdapterConfiguration.m */,
+				49BE3DE9256FFE7C00DB2CCD /* VungleInstanceMediationSettings.h */,
+				49BE3DDF256FFE7C00DB2CCD /* VungleInstanceMediationSettings.m */,
+				49BE3DE0256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.h */,
+				49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */,
+				49BE3DE4256FFE7C00DB2CCD /* VungleRewardedVideoCustomEvent.h */,
+				49BE3DDE256FFE7B00DB2CCD /* VungleRewardedVideoCustomEvent.m */,
+				49BE3DE3256FFE7C00DB2CCD /* VungleRouter.h */,
+				49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */,
+				49BE3DE1256FFE7C00DB2CCD /* VungleSDK.framework */,
 			);
 			path = Vungle;
-			sourceTree = "<group>";
-		};
-		4949424F255A3DCD00263972 /* MoPub-Vungle-PodSpecs */ = {
-			isa = PBXGroup;
-			children = (
-				49494250255A3DCD00263972 /* LICENSE */,
-				49494251255A3DCD00263972 /* MoPub-Vungle-Adapters.podspec */,
-			);
-			path = "MoPub-Vungle-PodSpecs";
 			sourceTree = "<group>";
 		};
 		49BE3D2D255CDC8700DB2CCD /* AdMob */ = {
@@ -1953,6 +1954,15 @@
 				49BE3D6A255CDCFB00DB2CCD /* MoPub-FacebookAudienceNetwork-Adapters.podspec */,
 			);
 			path = "MoPub-FacebookAudienceNetwork-Podspecs";
+			sourceTree = "<group>";
+		};
+		49BE3DE5256FFE7C00DB2CCD /* MoPub-Vungle-PodSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				49BE3DE6256FFE7C00DB2CCD /* LICENSE */,
+				49BE3DE7256FFE7C00DB2CCD /* MoPub-Vungle-Adapters.podspec */,
+			);
+			path = "MoPub-Vungle-PodSpecs";
 			sourceTree = "<group>";
 		};
 		570A005C19D6206800065388 /* MoPubResources */ = {
@@ -2842,6 +2852,7 @@
 				2AF031E52016B74400909F29 /* MPNativeAdRequest.h in Headers */,
 				2AF031E62016B74400909F29 /* MPNativeAdRequestTargeting.h in Headers */,
 				2AF031E72016B74400909F29 /* MPNativeCustomEvent.h in Headers */,
+				49BE3DED256FFE7D00DB2CCD /* VungleAdapterConfiguration.h in Headers */,
 				2AF031E82016B74400909F29 /* MPNativeCustomEventDelegate.h in Headers */,
 				BC7F42862141CE7E007EC273 /* MPAdTargeting.h in Headers */,
 				2AF031E92016B74400909F29 /* MPServerAdPositioning.h in Headers */,
@@ -2862,7 +2873,6 @@
 				2AF031F52016B78800909F29 /* MOPUBExperimentProvider.h in Headers */,
 				2AF031F62016B78800909F29 /* MOPUBActivityIndicatorView.h in Headers */,
 				2AF031F72016B78800909F29 /* MOPUBAVPlayer.h in Headers */,
-				49494263255A3DCE00263972 /* MPVungleRouter.h in Headers */,
 				2AF031F82016B78800909F29 /* MOPUBAVPlayerView.h in Headers */,
 				2AF031F92016B78800909F29 /* MOPUBFullscreenPlayerViewController.h in Headers */,
 				2AF031FA2016B78800909F29 /* MOPUBNativeVideoAdAdapter.h in Headers */,
@@ -2910,6 +2920,7 @@
 				2AF0321A2016B78800909F29 /* MPNativeCache.h in Headers */,
 				2AF0321B2016B78800909F29 /* MPNativePositionResponseDeserializer.h in Headers */,
 				2AF0321C2016B78800909F29 /* MPNativePositionSource.h in Headers */,
+				49BE3DF7256FFE7D00DB2CCD /* VungleRouter.h in Headers */,
 				2AF0321D2016B78800909F29 /* MPNativeView.h in Headers */,
 				2AF0321E2016B78800909F29 /* MPStreamAdPlacementData.h in Headers */,
 				2AF0321F2016B78800909F29 /* MPStreamAdPlacer.h in Headers */,
@@ -2950,7 +2961,6 @@
 				2AF032452016B78800909F29 /* MPPrivateBannerCustomEventDelegate.h in Headers */,
 				2AF032462016B78800909F29 /* MPBaseInterstitialAdapter.h in Headers */,
 				2AF032472016B78800909F29 /* MPInterstitialAdManager.h in Headers */,
-				49494262255A3DCE00263972 /* VungleInterstitialCustomEvent.h in Headers */,
 				BC11921D207BE949005DF26E /* MPConsentManager.h in Headers */,
 				2AF032482016B78800909F29 /* MPInterstitialAdManagerDelegate.h in Headers */,
 				2AF032492016B78800909F29 /* MPInterstitialCustomEventAdapter.h in Headers */,
@@ -2959,8 +2969,8 @@
 				2AF0324B2016B78800909F29 /* MPPrivateInterstitialCustomEventDelegate.h in Headers */,
 				2AF0324C2016B78800909F29 /* MPAdWebViewAgent.h in Headers */,
 				2AF0324D2016B78800909F29 /* MPHTMLBannerCustomEvent.h in Headers */,
-				49494268255A3DCE00263972 /* VungleInstanceMediationSettings.h in Headers */,
 				2AF0324E2016B78800909F29 /* MPHTMLInterstitialCustomEvent.h in Headers */,
+				49BE3DFD256FFE7D00DB2CCD /* VungleInstanceMediationSettings.h in Headers */,
 				2AF0324F2016B78800909F29 /* MPHTMLInterstitialViewController.h in Headers */,
 				2AF032502016B78800909F29 /* MPWebView.h in Headers */,
 				2AF032512016B78800909F29 /* MPForceableOrientationProtocol.h in Headers */,
@@ -2968,6 +2978,7 @@
 				BC0ADDF720810B3C000ADEA4 /* MPConsentDialogViewController.h in Headers */,
 				2AF032522016B78800909F29 /* MRExpandModalViewController.h in Headers */,
 				2AF032532016B78800909F29 /* MRConstants.h in Headers */,
+				49BE3DF2256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.h in Headers */,
 				2AF032542016B78800909F29 /* MRNativeCommandHandler.h in Headers */,
 				2AF032552016B78800909F29 /* MPMRAIDBannerCustomEvent.h in Headers */,
 				2AF032562016B78800909F29 /* MPMRAIDInterstitialCustomEvent.h in Headers */,
@@ -3013,6 +3024,7 @@
 				2AF032742016B78800909F29 /* MPGeolocationProvider.h in Headers */,
 				2AF032752016B78800909F29 /* MPVASTAd.h in Headers */,
 				2A73E33F226E5851001FEE03 /* MPTableViewAdPlacerDelegate.h in Headers */,
+				49BE3DF8256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.h in Headers */,
 				2AF032762016B78800909F29 /* MPVASTCompanionAd.h in Headers */,
 				2AF032772016B78800909F29 /* MPVASTCreative.h in Headers */,
 				2AF032782016B78800909F29 /* MPVASTDurationOffset.h in Headers */,
@@ -3043,7 +3055,6 @@
 				2AF032862016B78800909F29 /* MPCoreInstanceProvider.h in Headers */,
 				2A73E339226E44F8001FEE03 /* MPInterstitialAdControllerDelegate.h in Headers */,
 				2AF0328A2016B78800909F29 /* MPViewabilityTracker.h in Headers */,
-				49494264255A3DCE00263972 /* VungleRewardedVideoCustomEvent.h in Headers */,
 				2AF0328B2016B78800909F29 /* MPWebView+Viewability.h in Headers */,
 				2AFEE727225C130B00DD82C8 /* MPMoPubAd.h in Headers */,
 				2AFEE723225BC38400DD82C8 /* MPImpressionData.h in Headers */,
@@ -3218,16 +3229,19 @@
 				2A711FE2202267B6007A2412 /* MPMutedBtn@3x.png in Resources */,
 				2A711FE3202267B6007A2412 /* MPPlayBtn.png in Resources */,
 				2A711FE4202267B6007A2412 /* MPPlayBtn@2x.png in Resources */,
-				4949425E255A3DCE00263972 /* MoPub-Vungle-Adapters.podspec in Resources */,
+				49BE3E01256FFE7D00DB2CCD /* CHANGELOG.md in Resources */,
 				2A711FE5202267B6007A2412 /* MPPlayBtn@3x.png in Resources */,
 				2A711FE6202267B6007A2412 /* MPUnmutedBtn.png in Resources */,
 				2A711FE7202267B6007A2412 /* MPUnmutedBtn@2x.png in Resources */,
+				49BE3DFE256FFE7D00DB2CCD /* README.md in Resources */,
 				2A711FE8202267B6007A2412 /* MPUnmutedBtn@3x.png in Resources */,
+				49BE3DF9256FFE7D00DB2CCD /* LICENSE in Resources */,
 				2A711FE9202267B6007A2412 /* MRAID.bundle in Resources */,
 				2A711FEA202267B6007A2412 /* MPCloseButtonX.png in Resources */,
 				2A711FEB202267B6007A2412 /* MPCloseButtonX@2x.png in Resources */,
 				2A711FEC202267B6007A2412 /* MPCloseButtonX@3x.png in Resources */,
 				2A711FED202267B6007A2412 /* MPDAAIcon.png in Resources */,
+				49BE3DFA256FFE7D00DB2CCD /* MoPub-Vungle-Adapters.podspec in Resources */,
 				2A711FEE202267B6007A2412 /* MPDAAIcon@2x.png in Resources */,
 				49BE3D45255CDC8700DB2CCD /* MoPub-AdMob-Adapters.podspec in Resources */,
 				2A711FEF202267B6007A2412 /* MPDAAIcon@3x.png in Resources */,
@@ -3414,7 +3428,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4949426C255A3DCE00263972 /* MPVungleRouter.m in Sources */,
 				2A27020B20214502004A72E6 /* MOPUBExperimentProvider.m in Sources */,
 				2A27020C20214502004A72E6 /* MOPUBActivityIndicatorView.m in Sources */,
 				2A27020D20214502004A72E6 /* MOPUBAVPlayer.m in Sources */,
@@ -3450,19 +3463,20 @@
 				2A27022920214502004A72E6 /* MPMoPubNativeAdAdapter.m in Sources */,
 				2A27022A20214502004A72E6 /* MPMoPubNativeCustomEvent.m in Sources */,
 				2A89F1522236DF3600E03010 /* MPRateLimitManager.m in Sources */,
+				49BE3DF6256FFE7D00DB2CCD /* VungleAdapterConfiguration.m in Sources */,
 				2A27022B20214502004A72E6 /* MPNativeAd+Internal.m in Sources */,
 				2A27022C20214502004A72E6 /* MPNativeAdConfigValues+Internal.m in Sources */,
 				2A27022D20214502004A72E6 /* MPNativeAdConfigValues.m in Sources */,
 				2A27022E20214502004A72E6 /* MPNativeAdData.m in Sources */,
 				BCAD022A20CEE695007DC2B2 /* NSError+MPAdditions.m in Sources */,
 				2A27022F20214502004A72E6 /* MPNativeAdRendererImageHandler.m in Sources */,
+				49BE3DFC256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */,
 				2A27023020214502004A72E6 /* MPNativeAdSource.m in Sources */,
 				49BE3D5B255CDC8700DB2CCD /* MPGoogleAdMobNativeRenderer.m in Sources */,
 				2A27023120214502004A72E6 /* MPNativeAdSourceQueue.m in Sources */,
 				BC7F42892141CE7E007EC273 /* MPAdTargeting.m in Sources */,
 				2A27023220214502004A72E6 /* MPNativeAdUtils.m in Sources */,
 				2A27023320214502004A72E6 /* MPNativeCache.m in Sources */,
-				49494260255A3DCE00263972 /* VungleInstanceMediationSettings.m in Sources */,
 				2A27023420214502004A72E6 /* MPNativePositionResponseDeserializer.m in Sources */,
 				2A27023520214502004A72E6 /* MPNativePositionSource.m in Sources */,
 				2A27023620214502004A72E6 /* MPNativeView.m in Sources */,
@@ -3523,11 +3537,11 @@
 				2A27026720214502004A72E6 /* MPBannerCustomEvent+Internal.m in Sources */,
 				2A27026820214502004A72E6 /* MPBannerAdManager.m in Sources */,
 				2A27026920214502004A72E6 /* MPBannerCustomEventAdapter.m in Sources */,
+				49BE3E00256FFE7D00DB2CCD /* VungleRouter.m in Sources */,
 				2A89F14C2236DF2200E03010 /* MPRateLimitConfiguration.m in Sources */,
 				2A27026A20214502004A72E6 /* MPBaseBannerAdapter.m in Sources */,
 				2A27026B20214502004A72E6 /* MPBaseInterstitialAdapter.m in Sources */,
 				2A27026C20214502004A72E6 /* MPInterstitialAdManager.m in Sources */,
-				4949426E255A3DCE00263972 /* VungleInterstitialCustomEvent.m in Sources */,
 				2A27026D20214502004A72E6 /* MPInterstitialCustomEventAdapter.m in Sources */,
 				BC96D556211CDFB900610174 /* NSDictionary+MPAdditions.m in Sources */,
 				2A27026E20214502004A72E6 /* MPInterstitialViewController.m in Sources */,
@@ -3576,8 +3590,8 @@
 				2A27028F20214502004A72E6 /* MPLogging.m in Sources */,
 				2A27029020214502004A72E6 /* MPReachability.m in Sources */,
 				BC94CC8C20FF97FE00FB018A /* MPURL.m in Sources */,
+				49BE3DF1256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */,
 				49BE3D5F255CDC8700DB2CCD /* MPGoogleAdMobInterstitialCustomEvent.m in Sources */,
-				4949426A255A3DCE00263972 /* VungleRewardedVideoCustomEvent.m in Sources */,
 				2A27029120214502004A72E6 /* MPSessionTracker.m in Sources */,
 				2A27029220214502004A72E6 /* MPStoreKitProvider.m in Sources */,
 				2A27029320214502004A72E6 /* MPTimer.m in Sources */,
@@ -3588,6 +3602,7 @@
 				2A27029920214502004A72E6 /* MPVASTCreative.m in Sources */,
 				49BE3D82255CDCFB00DB2CCD /* FacebookNativeAdAdapter.m in Sources */,
 				2A27029A20214502004A72E6 /* MPVASTDurationOffset.m in Sources */,
+				49BE3DEF256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.m in Sources */,
 				49BE3D76255CDCFB00DB2CCD /* FacebookNativeCustomEvent.m in Sources */,
 				2A27029B20214502004A72E6 /* MPVASTIndustryIcon.m in Sources */,
 				2A27029C20214502004A72E6 /* MPVASTInline.m in Sources */,
@@ -3631,7 +3646,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4949426B255A3DCE00263972 /* MPVungleRouter.m in Sources */,
 				A77FBEF318C533B400531E8A /* MPNativeAdError.m in Sources */,
 				AE515F45171F1B110086B464 /* MPBannerAdManager.m in Sources */,
 				AE515F46171F1B110086B464 /* MPBannerCustomEventAdapter.m in Sources */,
@@ -3667,19 +3681,20 @@
 				A7A1CDD81974783D0082A6FA /* MPCollectionViewAdPlacer.m in Sources */,
 				2AFF1B7A1EC2795500495994 /* MPRealTimeTimer.m in Sources */,
 				57098CDD1A2458D00005A153 /* NSHTTPURLResponse+MPAdditions.m in Sources */,
+				49BE3DF5256FFE7D00DB2CCD /* VungleAdapterConfiguration.m in Sources */,
 				A776A55E1B5DDFE500095706 /* MPVASTIndustryIcon.m in Sources */,
 				BCA77A2E1DCBAFAC0049768E /* NSBundle+MPAdditions.m in Sources */,
 				4AF7F8501A0C194500ABD80D /* MRNativeCommandHandler.m in Sources */,
 				AE515F4F171F1B110086B464 /* MPProgressOverlayView.m in Sources */,
 				AE515F50171F1B110086B464 /* MPURLResolver.m in Sources */,
 				BC7F42872141CE7E007EC273 /* MPAdTargeting.m in Sources */,
+				49BE3DFB256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */,
 				57AC69681BB21FA20053C556 /* MOPUBPlayerManager.m in Sources */,
 				49BE3D5A255CDC8700DB2CCD /* MPGoogleAdMobNativeRenderer.m in Sources */,
 				57ACE4031AA7E8D900A05633 /* MPRewardedVideoAdManager.m in Sources */,
 				B28725EB1B9FB5D200C0D61B /* UIColor+MPAdditions.m in Sources */,
 				B2E47F671C7E362A00DE5EA6 /* MPMoPubRewardedVideoCustomEvent.m in Sources */,
 				46EDEE6719832A3B00241385 /* MPNativeAdUtils.m in Sources */,
-				4949425F255A3DCE00263972 /* VungleInstanceMediationSettings.m in Sources */,
 				BC64EC5A2069977E00CB33A7 /* MPMediationManager.m in Sources */,
 				AE515F52171F1B110086B464 /* MPAdWebViewAgent.m in Sources */,
 				57AC693E1BB21FA20053C556 /* MOPUBAVPlayer.m in Sources */,
@@ -3740,11 +3755,11 @@
 				4AE42F9D18D8FD2100DE4BF6 /* MPNativeCache.m in Sources */,
 				2A89F14A2236DF2200E03010 /* MPRateLimitConfiguration.m in Sources */,
 				578D28881B9A410C002E3905 /* MPStaticNativeAdRendererSettings.m in Sources */,
+				49BE3DFF256FFE7D00DB2CCD /* VungleRouter.m in Sources */,
 				A7A4229E1B603CB400024A3A /* MPVASTTrackingEvent.m in Sources */,
 				AE515F61171F1B110086B464 /* MRCommand.m in Sources */,
 				57D6485D1A0DE39500433CFE /* MPClosableView.m in Sources */,
 				57AC69441BB21FA20053C556 /* MOPUBAVPlayerView.m in Sources */,
-				4949426D255A3DCE00263972 /* VungleInterstitialCustomEvent.m in Sources */,
 				4A71895718D25FC50056F068 /* NSJSONSerialization+MPAdditions.m in Sources */,
 				875390C71B04073F001F0550 /* MPActivityViewControllerHelper+TweetShare.m in Sources */,
 				573A83031B8E488400ED4067 /* MPTableViewAdPlacerCell.m in Sources */,
@@ -3793,8 +3808,8 @@
 				875390C61B04073F001F0550 /* MPActivityViewControllerHelper.m in Sources */,
 				2A501D3F1F68AD5100806177 /* MPNativeAdConfigValues+Internal.m in Sources */,
 				AE515F6B171F1B110086B464 /* MPLogging.m in Sources */,
+				49BE3DF0256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */,
 				49BE3D5E255CDC8700DB2CCD /* MPGoogleAdMobInterstitialCustomEvent.m in Sources */,
-				49494269255A3DCE00263972 /* VungleRewardedVideoCustomEvent.m in Sources */,
 				AE515F6C171F1B110086B464 /* MPReachability.m in Sources */,
 				57AC695C1BB21FA20053C556 /* MOPUBNativeVideoCustomEvent.m in Sources */,
 				AE515F6D171F1B110086B464 /* MPSessionTracker.m in Sources */,
@@ -3805,6 +3820,7 @@
 				57ACE40F1AA7E8D900A05633 /* MPRewardedVideoCustomEvent.m in Sources */,
 				49BE3D81255CDCFB00DB2CCD /* FacebookNativeAdAdapter.m in Sources */,
 				AE515F70171F1B110086B464 /* MPAdConversionTracker.m in Sources */,
+				49BE3DEE256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.m in Sources */,
 				49BE3D75255CDCFB00DB2CCD /* FacebookNativeCustomEvent.m in Sources */,
 				57AC69501BB21FA20053C556 /* MOPUBNativeVideoAdAdapter.m in Sources */,
 				AE515F71171F1B110086B464 /* MPAdView.m in Sources */,
@@ -4167,6 +4183,10 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CURRENT_PROJECT_VERSION = 5.8.0;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vungle",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -4203,6 +4223,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vungle",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
