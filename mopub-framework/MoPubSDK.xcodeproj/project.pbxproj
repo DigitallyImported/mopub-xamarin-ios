@@ -509,15 +509,12 @@
 		49BE3DF6256FFE7D00DB2CCD /* VungleAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE2256FFE7C00DB2CCD /* VungleAdapterConfiguration.m */; };
 		49BE3DF7256FFE7D00DB2CCD /* VungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE3256FFE7C00DB2CCD /* VungleRouter.h */; };
 		49BE3DF8256FFE7D00DB2CCD /* VungleRewardedVideoCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE4256FFE7C00DB2CCD /* VungleRewardedVideoCustomEvent.h */; };
-		49BE3DF9256FFE7D00DB2CCD /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DE6256FFE7C00DB2CCD /* LICENSE */; };
 		49BE3DFA256FFE7D00DB2CCD /* MoPub-Vungle-Adapters.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DE7256FFE7C00DB2CCD /* MoPub-Vungle-Adapters.podspec */; };
 		49BE3DFB256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */; };
 		49BE3DFC256FFE7D00DB2CCD /* VungleInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DE8256FFE7C00DB2CCD /* VungleInterstitialCustomEvent.m */; };
 		49BE3DFD256FFE7D00DB2CCD /* VungleInstanceMediationSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 49BE3DE9256FFE7C00DB2CCD /* VungleInstanceMediationSettings.h */; };
-		49BE3DFE256FFE7D00DB2CCD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DEA256FFE7C00DB2CCD /* README.md */; };
 		49BE3DFF256FFE7D00DB2CCD /* VungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */; };
 		49BE3E00256FFE7D00DB2CCD /* VungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BE3DEB256FFE7C00DB2CCD /* VungleRouter.m */; };
-		49BE3E01256FFE7D00DB2CCD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 49BE3DEC256FFE7D00DB2CCD /* CHANGELOG.md */; };
 		4A2E21301936845D004A7899 /* MPNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E212F1936845D004A7899 /* MPNativeCustomEvent.m */; };
 		4A5968C218CFE71200D0D1AD /* MPCoreInstanceProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5968C118CFE71200D0D1AD /* MPCoreInstanceProvider.m */; };
 		4A71895718D25FC50056F068 /* NSJSONSerialization+MPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A71895618D25FC50056F068 /* NSJSONSerialization+MPAdditions.m */; };
@@ -3229,13 +3226,10 @@
 				2A711FE2202267B6007A2412 /* MPMutedBtn@3x.png in Resources */,
 				2A711FE3202267B6007A2412 /* MPPlayBtn.png in Resources */,
 				2A711FE4202267B6007A2412 /* MPPlayBtn@2x.png in Resources */,
-				49BE3E01256FFE7D00DB2CCD /* CHANGELOG.md in Resources */,
 				2A711FE5202267B6007A2412 /* MPPlayBtn@3x.png in Resources */,
 				2A711FE6202267B6007A2412 /* MPUnmutedBtn.png in Resources */,
 				2A711FE7202267B6007A2412 /* MPUnmutedBtn@2x.png in Resources */,
-				49BE3DFE256FFE7D00DB2CCD /* README.md in Resources */,
 				2A711FE8202267B6007A2412 /* MPUnmutedBtn@3x.png in Resources */,
-				49BE3DF9256FFE7D00DB2CCD /* LICENSE in Resources */,
 				2A711FE9202267B6007A2412 /* MRAID.bundle in Resources */,
 				2A711FEA202267B6007A2412 /* MPCloseButtonX.png in Resources */,
 				2A711FEB202267B6007A2412 /* MPCloseButtonX@2x.png in Resources */,
