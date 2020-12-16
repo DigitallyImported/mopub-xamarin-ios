@@ -523,6 +523,12 @@
 		49E25C02258ABDF800F3170F /* GoogleAdMobAdapterConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E25C00258ABDF700F3170F /* GoogleAdMobAdapterConfiguration.h */; };
 		49E25C03258ABDF800F3170F /* GoogleAdMobAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C01258ABDF700F3170F /* GoogleAdMobAdapterConfiguration.m */; };
 		49E25C04258ABDF800F3170F /* GoogleAdMobAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C01258ABDF700F3170F /* GoogleAdMobAdapterConfiguration.m */; };
+		49E25C07258ABFC000F3170F /* FacebookAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C05258ABFBF00F3170F /* FacebookAdapterConfiguration.m */; };
+		49E25C08258ABFC000F3170F /* FacebookAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C05258ABFBF00F3170F /* FacebookAdapterConfiguration.m */; };
+		49E25C09258ABFC000F3170F /* FacebookAdapterConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E25C06258ABFC000F3170F /* FacebookAdapterConfiguration.h */; };
+		49E25C0C258AC20100F3170F /* FacebookNativeAdRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 49E25C0A258AC20000F3170F /* FacebookNativeAdRenderer.h */; };
+		49E25C0D258AC20100F3170F /* FacebookNativeAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C0B258AC20000F3170F /* FacebookNativeAdRenderer.m */; };
+		49E25C0E258AC20100F3170F /* FacebookNativeAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E25C0B258AC20000F3170F /* FacebookNativeAdRenderer.m */; };
 		4A2E21301936845D004A7899 /* MPNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E212F1936845D004A7899 /* MPNativeCustomEvent.m */; };
 		4A5968C218CFE71200D0D1AD /* MPCoreInstanceProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5968C118CFE71200D0D1AD /* MPCoreInstanceProvider.m */; };
 		4A71895718D25FC50056F068 /* NSJSONSerialization+MPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A71895618D25FC50056F068 /* NSJSONSerialization+MPAdditions.m */; };
@@ -1167,6 +1173,10 @@
 		49E25BFE258ABD6000F3170F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		49E25C00258ABDF700F3170F /* GoogleAdMobAdapterConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAdMobAdapterConfiguration.h; sourceTree = "<group>"; };
 		49E25C01258ABDF700F3170F /* GoogleAdMobAdapterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAdMobAdapterConfiguration.m; sourceTree = "<group>"; };
+		49E25C05258ABFBF00F3170F /* FacebookAdapterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAdapterConfiguration.m; sourceTree = "<group>"; };
+		49E25C06258ABFC000F3170F /* FacebookAdapterConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAdapterConfiguration.h; sourceTree = "<group>"; };
+		49E25C0A258AC20000F3170F /* FacebookNativeAdRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookNativeAdRenderer.h; sourceTree = "<group>"; };
+		49E25C0B258AC20000F3170F /* FacebookNativeAdRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookNativeAdRenderer.m; sourceTree = "<group>"; };
 		4A2E212E1936845D004A7899 /* MPNativeCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNativeCustomEvent.h; sourceTree = "<group>"; };
 		4A2E212F1936845D004A7899 /* MPNativeCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNativeCustomEvent.m; sourceTree = "<group>"; };
 		4A2E213619368773004A7899 /* MPNativeCustomEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPNativeCustomEventDelegate.h; sourceTree = "<group>"; };
@@ -1947,6 +1957,10 @@
 		49BE3D62255CDCFB00DB2CCD /* FacebookAudienceNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				49E25C0A258AC20000F3170F /* FacebookNativeAdRenderer.h */,
+				49E25C0B258AC20000F3170F /* FacebookNativeAdRenderer.m */,
+				49E25C06258ABFC000F3170F /* FacebookAdapterConfiguration.h */,
+				49E25C05258ABFBF00F3170F /* FacebookAdapterConfiguration.m */,
 				49BE3D63255CDCFB00DB2CCD /* FacebookNativeCustomEvent.m */,
 				49BE3D64255CDCFB00DB2CCD /* FacebookInterstitialCustomEvent.m */,
 				49BE3D65255CDCFB00DB2CCD /* FacebookBannerCustomEvent.h */,
@@ -2858,6 +2872,7 @@
 				2AF031D42016B74400909F29 /* MPRewardedVideoReward.h in Headers */,
 				2AF031D62016B74400909F29 /* MPStaticNativeAdRendererSettings.h in Headers */,
 				2AF031D72016B74400909F29 /* MPNativeAdRendererConfiguration.h in Headers */,
+				49E25C0C258AC20100F3170F /* FacebookNativeAdRenderer.h in Headers */,
 				2AF031D82016B74400909F29 /* MPNativeAdRendererSettings.h in Headers */,
 				2AF031D92016B74400909F29 /* MPNativeAdRenderer.h in Headers */,
 				49BE3D89255CDCFB00DB2CCD /* FacebookNativeAdAdapter.h in Headers */,
@@ -3075,6 +3090,7 @@
 				2AF032832016B78800909F29 /* MPVASTTrackingEvent.h in Headers */,
 				2AF032842016B78800909F29 /* MPVASTWrapper.h in Headers */,
 				2A73E337226E43D3001FEE03 /* MPAdViewDelegate.h in Headers */,
+				49E25C09258ABFC000F3170F /* FacebookAdapterConfiguration.h in Headers */,
 				2AF032852016B78800909F29 /* MPVASTTracking.h in Headers */,
 				2A48DF3B229601C1003763C2 /* MPImpressionTrackedNotification.h in Headers */,
 				2AF032862016B78800909F29 /* MPCoreInstanceProvider.h in Headers */,
@@ -3540,6 +3556,7 @@
 				2A27025620214502004A72E6 /* MPAdConfiguration.m in Sources */,
 				2A27025720214502004A72E6 /* MPAdDestinationDisplayAgent.m in Sources */,
 				EC0BF279227CB403003DB141 /* MoPub+Utility.m in Sources */,
+				49E25C0E258AC20100F3170F /* FacebookNativeAdRenderer.m in Sources */,
 				2A27025820214502004A72E6 /* MPAdImpressionTimer.m in Sources */,
 				2A27025920214502004A72E6 /* MPAdServerCommunicator.m in Sources */,
 				2A27025A20214502004A72E6 /* MPAdServerURLBuilder.m in Sources */,
@@ -3615,6 +3632,7 @@
 				BC94CC8C20FF97FE00FB018A /* MPURL.m in Sources */,
 				49BE3DF1256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */,
 				49BE3D5F255CDC8700DB2CCD /* MPGoogleAdMobInterstitialCustomEvent.m in Sources */,
+				49E25C08258ABFC000F3170F /* FacebookAdapterConfiguration.m in Sources */,
 				2A27029120214502004A72E6 /* MPSessionTracker.m in Sources */,
 				2A27029220214502004A72E6 /* MPStoreKitProvider.m in Sources */,
 				2A27029320214502004A72E6 /* MPTimer.m in Sources */,
@@ -3759,6 +3777,7 @@
 				A776A5361B5DDF9900095706 /* MPVASTWrapper.m in Sources */,
 				EC0BF277227CB402003DB141 /* MoPub+Utility.m in Sources */,
 				57ACE3FD1AA7E8D900A05633 /* MPRewardedVideoAdapter.m in Sources */,
+				49E25C0D258AC20100F3170F /* FacebookNativeAdRenderer.m in Sources */,
 				A77FBF0418C5343E00531E8A /* MPImageDownloadQueue.m in Sources */,
 				5758288F1A16F281009C7A85 /* MRController.m in Sources */,
 				57ACE4091AA7E8D900A05633 /* MPRewardedVideo.m in Sources */,
@@ -3834,6 +3853,7 @@
 				AE515F6B171F1B110086B464 /* MPLogging.m in Sources */,
 				49BE3DF0256FFE7D00DB2CCD /* VungleInstanceMediationSettings.m in Sources */,
 				49BE3D5E255CDC8700DB2CCD /* MPGoogleAdMobInterstitialCustomEvent.m in Sources */,
+				49E25C07258ABFC000F3170F /* FacebookAdapterConfiguration.m in Sources */,
 				AE515F6C171F1B110086B464 /* MPReachability.m in Sources */,
 				57AC695C1BB21FA20053C556 /* MOPUBNativeVideoCustomEvent.m in Sources */,
 				AE515F6D171F1B110086B464 /* MPSessionTracker.m in Sources */,
