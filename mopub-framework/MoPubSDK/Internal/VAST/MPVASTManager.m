@@ -1,8 +1,9 @@
 //
 //  MPVASTManager.m
-//  MoPub
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPVASTManager.h"
@@ -24,17 +25,6 @@ static const NSInteger kMaximumWrapperDepth = 10;
 static NSString * const kMPVASTManagerErrorDomain = @"com.mopub.MPVASTManager";
 
 @implementation MPVASTManager
-
-+ (void)fetchVASTWithURL:(NSURL *)URL completion:(void (^)(MPVASTResponse *, NSError *))completion
-{
-    [MPHTTPNetworkSession startTaskWithHttpRequest:[MPURLRequest requestWithURL:URL] responseHandler:^(NSData * _Nonnull data, NSHTTPURLResponse * _Nonnull response) {
-        [MPVASTManager fetchVASTWithData:data completion:completion];
-    } errorHandler:^(NSError * _Nonnull error) {
-        if (completion != nil) {
-            completion(nil, error);
-        }
-    }];
-}
 
 + (void)fetchVASTWithData:(NSData *)data completion:(void (^)(MPVASTResponse *, NSError *))completion
 {

@@ -1,8 +1,9 @@
 //
 //  MPBannerCustomEventDelegate.h
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <UIKit/UIKit.h>
@@ -131,5 +132,21 @@
  * **Important**: In order to obtain accurate metrics, it is your responsibility to call `trackClick` only **once** per ad.
  */
 - (void)trackClick;
+
+/**
+ * Call this method when the banner ad is expanding or resizing from its default size.
+ *
+ * @param event You should pass `self` to allow the MoPub SDK to associate this event with the correct
+ * instance of your custom event.
+ */
+- (void)bannerCustomEventWillExpandAd:(MPBannerCustomEvent *)event;
+
+/**
+ * Call this method when the banner ad is collapsing back to its default size.
+ *
+ * @param event You should pass `self` to allow the MoPub SDK to associate this event with the correct
+ * instance of your custom event.
+ */
+- (void)bannerCustomEventDidCollapseAd:(MPBannerCustomEvent *)event;
 
 @end

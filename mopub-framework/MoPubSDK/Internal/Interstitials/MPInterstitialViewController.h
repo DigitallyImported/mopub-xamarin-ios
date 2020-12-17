@@ -1,11 +1,13 @@
 //
 //  MPInterstitialViewController.h
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <UIKit/UIKit.h>
+#import "MPExtendedHitBoxButton.h"
 #import "MPGlobal.h"
 
 @class CLLocation;
@@ -18,10 +20,10 @@
 
 @property (nonatomic, assign) MPInterstitialCloseButtonStyle closeButtonStyle;
 @property (nonatomic, assign) MPInterstitialOrientationType orientationType;
-@property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, strong) MPExtendedHitBoxButton *closeButton;
 @property (nonatomic, weak) id<MPInterstitialViewControllerDelegate> delegate;
 
-- (void)presentInterstitialFromViewController:(UIViewController *)controller;
+- (void)presentInterstitialFromViewController:(UIViewController *)controller complete:(void(^)(NSError *))complete;
 - (void)dismissInterstitialAnimated:(BOOL)animated;
 - (BOOL)shouldDisplayCloseButton;
 - (void)willPresentInterstitial;

@@ -1,65 +1,32 @@
 //
 //  MPNativeAdRequestTargeting.h
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
-
-@class CLLocation;
+#import "MPAdTargeting.h"
 
 /**
- * The `MPNativeAdRequestTargeting` class is used to attach targeting information to
- * `MPNativeAdRequest` objects.
+ The @c MPNativeAdRequestTargeting class is used to attach targeting information to
+ @c MPNativeAdRequest objects.
  */
-
-@interface MPNativeAdRequestTargeting : NSObject
-
-/** @name Creating a Targeting Object */
+@interface MPNativeAdRequestTargeting : MPAdTargeting
 
 /**
- * Creates and returns an empty MPNativeAdRequestTargeting object.
- *
- * @return A newly initialized MPNativeAdRequestTargeting object.
+ Creates and returns an empty @c MPNativeAdRequestTargeting object.
+ @return A newly initialized @c MPNativeAdRequestTargeting object.
  */
 + (MPNativeAdRequestTargeting *)targeting;
 
-/** @name Targeting Parameters */
-
 /**
- * A string representing a set of non-personally identifiable keywords that should be passed to the MoPub ad server to receive more relevant advertising.
- *
- * Note: If a user is in General Data Protection Regulation (GDPR) region and MoPub doesn't obtain consent from the user, "keywords" will still be sent to the server.
+ A set of defined strings that correspond to assets for the intended native ad
+ object. This set should contain only those assets that will be displayed in the ad.
+
+ The MoPub ad server will attempt to only return the assets in @c desiredAssets.
  */
-
-@property (nonatomic, copy) NSString *keywords;
-
-/**
- * A string representing a set of personally identifiable keywords that should be passed to the MoPub ad server to receive
- * more relevant advertising.
- *
- * Keywords are typically used to target ad campaigns at specific user segments. They should be
- * formatted as comma-separated key-value pairs (e.g. "marital:single,age:24").
- *
- * On the MoPub website, keyword targeting options can be found under the "Advanced Targeting"
- * section when managing campaigns.
-
- * Note: If a user is in General Data Protection Regulation (GDPR) region and MoPub doesn't obtain consent from the user, "userDataKeywords" will not be sent to the server.
- */
-@property (nonatomic, copy) NSString *userDataKeywords;
-
-
-/**
- * A `CLLocation` object representing a user's location that should be passed to the MoPub ad server
- * to receive more relevant advertising.
- */
-@property (nonatomic, copy) CLLocation *location;
-
-/**
- * A set of defined strings that correspond to assets for the intended native ad
- * object. This set should contain only those assets that will be displayed in the ad.
- *
- * The MoPub ad server will attempt to only return the assets in desiredAssets.
- */
-@property (nonatomic, strong) NSSet *desiredAssets;
+@property (nonatomic, strong) NSSet * desiredAssets;
 
 @end

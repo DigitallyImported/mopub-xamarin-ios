@@ -1,5 +1,9 @@
 //
-// Copyright (c) 2013 MoPub. All rights reserved.
+//  MRVideoPlayerManager.m
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MRVideoPlayerManager.h"
@@ -7,8 +11,6 @@
 #import "MPGlobal.h"
 
 @implementation MRVideoPlayerManager
-
-@synthesize delegate = _delegate;
 
 - (id)initWithDelegate:(id<MRVideoPlayerManagerDelegate>)delegate
 {

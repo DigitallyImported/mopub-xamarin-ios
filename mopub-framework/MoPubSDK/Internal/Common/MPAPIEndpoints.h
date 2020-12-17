@@ -1,13 +1,12 @@
 //
 //  MPAPIEndpoints.h
-//  MoPub
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
-
-#define MOPUB_BASE_HOSTNAME                 @"ads.mopub.com"
 
 #define MOPUB_API_PATH_AD_REQUEST           @"/m/ad"
 #define MOPUB_API_PATH_NATIVE_POSITIONING   @"/m/pos"
@@ -17,8 +16,10 @@
 
 @interface MPAPIEndpoints : NSObject
 
+@property (nonatomic, copy, class) NSString * baseHostname;
+@property (nonatomic, copy, readonly, class) NSString * baseURL;
+
 + (void)setUsesHTTPS:(BOOL)usesHTTPS;
-+ (NSString *)baseURL;
-+ (NSString *)baseURLStringWithPath:(NSString *)path;
++ (NSURLComponents *)baseURLComponentsWithPath:(NSString *)path;
 
 @end

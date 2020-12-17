@@ -1,8 +1,9 @@
 //
 //  MPNativeAdSourceQueue.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativeAdSourceQueue.h"
@@ -63,7 +64,7 @@ static NSUInteger const kMaxRetries = sizeof(kAdFetchRetryTimes)/sizeof(kAdFetch
     while (nextAd && ![self isAdAgeValid:nextAd withMaxAge:age]) {
         nextAd = [self dequeueAd];
     }
-    
+
     return nextAd;
 }
 
@@ -87,7 +88,7 @@ static NSUInteger const kMaxRetries = sizeof(kAdFetchRetryTimes)/sizeof(kAdFetch
 - (BOOL)isAdAgeValid:(MPNativeAd *)ad withMaxAge:(NSTimeInterval)maxAge
 {
     NSTimeInterval adAge = [ad.creationDate timeIntervalSinceNow];
-    
+
     return fabs(adAge) < maxAge;
 }
 
@@ -111,16 +112,16 @@ static NSUInteger const kMaxRetries = sizeof(kAdFetchRetryTimes)/sizeof(kAdFetch
     if ([self count] >= kCacheSizeLimit || self.isAdLoading) {
         return;
     }
-    
+
     self.isAdLoading = YES;
-    
+
     MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:self.adUnitIdentifier rendererConfigurations:self.rendererConfigurations];
     adRequest.targeting = self.targeting;
-    
+
     [adRequest startForAdSequence:self.currentSequence withCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
         if (response && !error) {
             self.adFetchRetryCounter = 0;
-            
+
             [self addNativeAd:response];
             self.currentSequence++;
             if ([self count] == 1) {

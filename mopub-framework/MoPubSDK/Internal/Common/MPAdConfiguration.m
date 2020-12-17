@@ -1,59 +1,69 @@
 //
 //  MPAdConfiguration.m
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdConfiguration.h"
 
 #import "MOPUBExperimentProvider.h"
 #import "MPAdServerKeys.h"
-#import "MPConsentManager.h"
 #import "MPConstants.h"
 #import "MPLogging.h"
 #import "MPRewardedVideoReward.h"
 #import "MPViewabilityTracker.h"
 #import "NSJSONSerialization+MPAdditions.h"
 #import "NSString+MPAdditions.h"
+#import "NSDictionary+MPAdditions.h"
 
 #if MP_HAS_NATIVE_PACKAGE
 #import "MPVASTTrackingEvent.h"
 #endif
 
-NSString * const kAdTypeHeaderKey = @"X-Adtype";
-NSString * const kAdUnitWarmingUpHeaderKey = @"X-Warmup";
-NSString * const kClickthroughHeaderKey = @"X-Clickthrough";
-NSString * const kCreativeIdHeaderKey = @"X-CreativeId";
-NSString * const kCustomSelectorHeaderKey = @"X-Customselector";
-NSString * const kCustomEventClassNameHeaderKey = @"X-Custom-Event-Class-Name";
-NSString * const kCustomEventClassDataHeaderKey = @"X-Custom-Event-Class-Data";
-NSString * const kFailUrlHeaderKey = @"X-Failurl";
-NSString * const kHeightHeaderKey = @"X-Height";
-NSString * const kImpressionTrackerHeaderKey = @"X-Imptracker";
-NSString * const kLaunchpageHeaderKey = @"X-Launchpage";
-NSString * const kNativeSDKParametersHeaderKey = @"X-Nativeparams";
-NSString * const kNetworkTypeHeaderKey = @"X-Networktype";
-NSString * const kRefreshTimeHeaderKey = @"X-Refreshtime";
-NSString * const kAdTimeoutHeaderKey = @"X-AdTimeout";
-NSString * const kWidthHeaderKey = @"X-Width";
-NSString * const kDspCreativeIdKey = @"X-DspCreativeid";
-NSString * const kPrecacheRequiredKey = @"X-PrecacheRequired";
-NSString * const kIsVastVideoPlayerKey = @"X-VastVideoPlayer";
+// MACROS
+#define AFTER_LOAD_DURATION_MACRO   @"%%LOAD_DURATION_MS%%"
+#define AFTER_LOAD_RESULT_MACRO   @"%%LOAD_RESULT%%"
 
-NSString * const kInterstitialAdTypeHeaderKey = @"X-Fulladtype";
-NSString * const kOrientationTypeHeaderKey = @"X-Orientation";
+NSString * const kAdTypeMetadataKey = @"x-adtype";
+NSString * const kAdUnitWarmingUpMetadataKey = @"x-warmup";
+NSString * const kClickthroughMetadataKey = @"x-clickthrough";
+NSString * const kCreativeIdMetadataKey = @"x-creativeid";
+NSString * const kCustomEventClassNameMetadataKey = @"x-custom-event-class-name";
+NSString * const kCustomEventClassDataMetadataKey = @"x-custom-event-class-data";
+NSString * const kNextUrlMetadataKey = @"x-next-url";
+NSString * const kFormatMetadataKey = @"adunit-format";
+NSString * const kBeforeLoadUrlMetadataKey = @"x-before-load-url";
+NSString * const kAfterLoadUrlMetadataKey = @"x-after-load-url";
+NSString * const kAfterLoadSuccessUrlMetadataKey = @"x-after-load-success-url";
+NSString * const kAfterLoadFailureUrlMetadataKey = @"x-after-load-fail-url";
+NSString * const kHeightMetadataKey = @"x-height";
+NSString * const kImpressionTrackerMetadataKey = @"x-imptracker"; // Deprecated; "imptrackers" if available
+NSString * const kImpressionTrackersMetadataKey = @"imptrackers";
+NSString * const kNativeSDKParametersMetadataKey = @"x-nativeparams";
+NSString * const kNetworkTypeMetadataKey = @"x-networktype";
+NSString * const kRefreshTimeMetadataKey = @"x-refreshtime";
+NSString * const kAdTimeoutMetadataKey = @"x-ad-timeout-ms";
+NSString * const kWidthMetadataKey = @"x-width";
+NSString * const kDspCreativeIdKey = @"x-dspcreativeid";
+NSString * const kPrecacheRequiredKey = @"x-precacherequired";
+NSString * const kIsVastVideoPlayerKey = @"x-vastvideoplayer";
+NSString * const kImpressionDataMetadataKey = @"impdata";
 
-NSString * const kNativeImpressionMinVisiblePixelsHeaderKey = @"X-Native-Impression-Min-Px"; // The pixels header takes priority over percentage, but percentage is left for backwards compatibility
-NSString * const kNativeImpressionMinVisiblePercentHeaderKey = @"X-Impression-Min-Visible-Percent";
-NSString * const kNativeImpressionVisibleMsHeaderKey = @"X-Impression-Visible-Ms";
-NSString * const kNativeVideoPlayVisiblePercentHeaderKey = @"X-Play-Visible-Percent";
-NSString * const kNativeVideoPauseVisiblePercentHeaderKey = @"X-Pause-Visible-Percent";
-NSString * const kNativeVideoMaxBufferingTimeMsHeaderKey = @"X-Max-Buffer-Ms";
-NSString * const kNativeVideoTrackersHeaderKey = @"X-Video-Trackers";
+NSString * const kInterstitialAdTypeMetadataKey = @"x-fulladtype";
+NSString * const kOrientationTypeMetadataKey = @"x-orientation";
 
-NSString * const kBannerImpressionVisableMsHeaderKey = @"X-Banner-Impression-Min-Ms";
-NSString * const kBannerImpressionMinPixelHeaderKey = @"X-Banner-Impression-Min-Pixels";
+NSString * const kNativeImpressionMinVisiblePixelsMetadataKey = @"x-native-impression-min-px"; // The pixels Metadata takes priority over percentage, but percentage is left for backwards compatibility
+NSString * const kNativeImpressionMinVisiblePercentMetadataKey = @"x-impression-min-visible-percent";
+NSString * const kNativeImpressionVisibleMsMetadataKey = @"x-impression-visible-ms";
+NSString * const kNativeVideoPlayVisiblePercentMetadataKey = @"x-play-visible-percent";
+NSString * const kNativeVideoPauseVisiblePercentMetadataKey = @"x-pause-visible-percent";
+NSString * const kNativeVideoMaxBufferingTimeMsMetadataKey = @"x-max-buffer-ms";
+NSString * const kNativeVideoTrackersMetadataKey = @"x-video-trackers";
+
+NSString * const kBannerImpressionVisableMsMetadataKey = @"x-banner-impression-min-ms";
+NSString * const kBannerImpressionMinPixelMetadataKey = @"x-banner-impression-min-pixels";
 
 NSString * const kAdTypeHtml = @"html";
 NSString * const kAdTypeInterstitial = @"interstitial";
@@ -63,29 +73,31 @@ NSString * const kAdTypeNative = @"json";
 NSString * const kAdTypeNativeVideo = @"json_video";
 
 // rewarded video
-NSString * const kRewardedVideoCurrencyNameHeaderKey = @"X-Rewarded-Video-Currency-Name";
-NSString * const kRewardedVideoCurrencyAmountHeaderKey = @"X-Rewarded-Video-Currency-Amount";
-NSString * const kRewardedVideoCompletionUrlHeaderKey = @"X-Rewarded-Video-Completion-Url";
-NSString * const kRewardedCurrenciesHeaderKey = @"X-Rewarded-Currencies";
+NSString * const kRewardedVideoCurrencyNameMetadataKey = @"x-rewarded-video-currency-name";
+NSString * const kRewardedVideoCurrencyAmountMetadataKey = @"x-rewarded-video-currency-amount";
+NSString * const kRewardedVideoCompletionUrlMetadataKey = @"x-rewarded-video-completion-url";
+NSString * const kRewardedCurrenciesMetadataKey = @"x-rewarded-currencies";
 
 // rewarded playables
-NSString * const kRewardedPlayableDurationHeaderKey = @"X-Rewarded-Duration";
-NSString * const kRewardedPlayableRewardOnClickHeaderKey = @"X-Should-Reward-On-Click";
+NSString * const kRewardedPlayableDurationMetadataKey = @"x-rewarded-duration";
+NSString * const kRewardedPlayableRewardOnClickMetadataKey = @"x-should-reward-on-click";
 
 // native video
 NSString * const kNativeVideoTrackerUrlMacro = @"%%VIDEO_EVENT%%";
-NSString * const kNativeVideoTrackerEventsHeaderKey = @"events";
-NSString * const kNativeVideoTrackerUrlsHeaderKey = @"urls";
+NSString * const kNativeVideoTrackerEventsMetadataKey = @"events";
+NSString * const kNativeVideoTrackerUrlsMetadataKey = @"urls";
 NSString * const kNativeVideoTrackerEventDictionaryKey = @"event";
 NSString * const kNativeVideoTrackerTextDictionaryKey = @"text";
 
 // clickthrough experiment
-NSString * const kClickthroughExperimentBrowserAgent = @"X-Browser-Agent";
+NSString * const kClickthroughExperimentBrowserAgent = @"x-browser-agent";
 static const NSInteger kMaximumVariantForClickthroughExperiment = 2;
 
 // viewability
-NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
+NSString * const kViewabilityDisableMetadataKey = @"x-disable-viewability";
 
+// advanced bidding
+NSString * const kAdvancedBiddingMarkupMetadataKey = @"adm";
 
 @interface MPAdConfiguration ()
 
@@ -93,12 +105,17 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
 @property (nonatomic, strong, readwrite) NSArray *availableRewards;
 @property (nonatomic) MOPUBDisplayAgentType clickthroughExperimentBrowserAgent;
 
-- (MPAdType)adTypeFromHeaders:(NSDictionary *)headers;
-- (NSString *)networkTypeFromHeaders:(NSDictionary *)headers;
-- (NSTimeInterval)refreshIntervalFromHeaders:(NSDictionary *)headers;
-- (NSDictionary *)dictionaryFromHeaders:(NSDictionary *)headers forKey:(NSString *)key;
-- (NSURL *)URLFromHeaders:(NSDictionary *)headers forKey:(NSString *)key;
-- (Class)setUpCustomEventClassFromHeaders:(NSDictionary *)headers;
+@property (nonatomic, copy) NSArray <NSString *> *afterLoadUrlsWithMacros;
+@property (nonatomic, copy) NSArray <NSString *> *afterLoadSuccessUrlsWithMacros;
+@property (nonatomic, copy) NSArray <NSString *> *afterLoadFailureUrlsWithMacros;
+
+- (NSString *)networkTypeFromMetadata:(NSDictionary *)metadata;
+- (NSTimeInterval)refreshIntervalFromMetadata:(NSDictionary *)metadata;
+- (NSDictionary *)dictionaryFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key;
+- (NSURL *)URLFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key;
+- (NSArray <NSURL *> *)URLsFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key;
+- (Class)setUpCustomEventClassFromMetadata:(NSDictionary *)metadata;
+- (MPImpressionData *)impressionDataFromMetadata:(NSDictionary *)metadata;
 
 @end
 
@@ -106,80 +123,90 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
 
 @implementation MPAdConfiguration
 
-- (id)initWithHeaders:(NSDictionary *)headers data:(NSData *)data
+- (instancetype)initWithMetadata:(NSDictionary *)metadata data:(NSData *)data adType:(MPAdType)adType
 {
     self = [super init];
     if (self) {
         self.adResponseData = data;
 
-        self.adType = [self adTypeFromHeaders:headers];
+        self.adType = adType;
+        self.adUnitWarmingUp = [metadata mp_boolForKey:kAdUnitWarmingUpMetadataKey];
 
-        self.adUnitWarmingUp = [[headers objectForKey:kAdUnitWarmingUpHeaderKey] boolValue];
-
-        self.networkType = [self networkTypeFromHeaders:headers];
+        self.networkType = [self networkTypeFromMetadata:metadata];
         self.networkType = self.networkType ? self.networkType : @"";
 
-        self.preferredSize = CGSizeMake([[headers objectForKey:kWidthHeaderKey] floatValue],
-                                        [[headers objectForKey:kHeightHeaderKey] floatValue]);
+        self.preferredSize = CGSizeMake([metadata mp_floatForKey:kWidthMetadataKey],
+                                        [metadata mp_floatForKey:kHeightMetadataKey]);
 
-        self.clickTrackingURL = [self URLFromHeaders:headers
-                                              forKey:kClickthroughHeaderKey];
-        self.impressionTrackingURL = [self URLFromHeaders:headers
-                                                   forKey:kImpressionTrackerHeaderKey];
-        self.failoverURL = [self URLFromHeaders:headers
-                                         forKey:kFailUrlHeaderKey];
-        self.interceptURLPrefix = [self URLFromHeaders:headers
-                                                forKey:kLaunchpageHeaderKey];
+        self.clickTrackingURL = [self URLFromMetadata:metadata
+                                              forKey:kClickthroughMetadataKey];
+        self.nextURL = [self URLFromMetadata:metadata
+                                         forKey:kNextUrlMetadataKey];
+        self.format = [metadata objectForKey:kFormatMetadataKey];
+        self.beforeLoadURL = [self URLFromMetadata:metadata forKey:kBeforeLoadUrlMetadataKey];
+        self.afterLoadUrlsWithMacros = [self URLStringsFromMetadata:metadata forKey:kAfterLoadUrlMetadataKey];
+        self.afterLoadSuccessUrlsWithMacros = [self URLStringsFromMetadata:metadata forKey:kAfterLoadSuccessUrlMetadataKey];
+        self.afterLoadFailureUrlsWithMacros = [self URLStringsFromMetadata:metadata forKey:kAfterLoadFailureUrlMetadataKey];
 
-        self.refreshInterval = [self refreshIntervalFromHeaders:headers];
-        self.adTimeoutInterval = [self timeIntervalFromHeaders:headers forKey:kAdTimeoutHeaderKey];
+        self.refreshInterval = [self refreshIntervalFromMetadata:metadata];
+        self.adTimeoutInterval = [self timeIntervalFromMsmetadata:metadata forKey:kAdTimeoutMetadataKey];
 
+        self.nativeSDKParameters = [self dictionaryFromMetadata:metadata
+                                                        forKey:kNativeSDKParametersMetadataKey];
 
-        self.nativeSDKParameters = [self dictionaryFromHeaders:headers
-                                                        forKey:kNativeSDKParametersHeaderKey];
-        self.customSelectorName = [headers objectForKey:kCustomSelectorHeaderKey];
+        self.orientationType = [self orientationTypeFromMetadata:metadata];
 
-        self.orientationType = [self orientationTypeFromHeaders:headers];
+        self.customEventClass = [self setUpCustomEventClassFromMetadata:metadata];
 
-        self.customEventClass = [self setUpCustomEventClassFromHeaders:headers];
+        self.customEventClassData = [self customEventClassDataFromMetadata:metadata];
 
-        self.customEventClassData = [self customEventClassDataFromHeaders:headers];
+        self.dspCreativeId = [metadata objectForKey:kDspCreativeIdKey];
 
-        self.dspCreativeId = [headers objectForKey:kDspCreativeIdKey];
+        self.precacheRequired = [metadata mp_boolForKey:kPrecacheRequiredKey];
 
-        self.precacheRequired = [[headers objectForKey:kPrecacheRequiredKey] boolValue];
-
-        self.isVastVideoPlayer = [[headers objectForKey:kIsVastVideoPlayerKey] boolValue];
+        self.isVastVideoPlayer = [metadata mp_boolForKey:kIsVastVideoPlayerKey];
 
         self.creationTimestamp = [NSDate date];
 
-        self.creativeId = [headers objectForKey:kCreativeIdHeaderKey];
+        self.creativeId = [metadata objectForKey:kCreativeIdMetadataKey];
 
-        self.headerAdType = [headers objectForKey:kAdTypeHeaderKey];
+        self.metadataAdType = [metadata objectForKey:kAdTypeMetadataKey];
 
-        self.nativeVideoPlayVisiblePercent = [self percentFromHeaders:headers forKey:kNativeVideoPlayVisiblePercentHeaderKey];
+        self.nativeVideoPlayVisiblePercent = [self percentFromMetadata:metadata forKey:kNativeVideoPlayVisiblePercentMetadataKey];
 
-        self.nativeVideoPauseVisiblePercent = [self percentFromHeaders:headers forKey:kNativeVideoPauseVisiblePercentHeaderKey];
+        self.nativeVideoPauseVisiblePercent = [self percentFromMetadata:metadata forKey:kNativeVideoPauseVisiblePercentMetadataKey];
 
-        self.nativeImpressionMinVisiblePixels = [[self adAmountFromHeaders:headers key:kNativeImpressionMinVisiblePixelsHeaderKey] floatValue];
+        self.nativeImpressionMinVisiblePixels = [[self adAmountFromMetadata:metadata key:kNativeImpressionMinVisiblePixelsMetadataKey] floatValue];
 
-        self.nativeImpressionMinVisiblePercent = [self percentFromHeaders:headers forKey:kNativeImpressionMinVisiblePercentHeaderKey];
+        self.nativeImpressionMinVisiblePercent = [self percentFromMetadata:metadata forKey:kNativeImpressionMinVisiblePercentMetadataKey];
 
-        self.nativeImpressionMinVisibleTimeInterval = [self timeIntervalFromMsHeaders:headers forKey:kNativeImpressionVisibleMsHeaderKey];
+        self.nativeImpressionMinVisibleTimeInterval = [self timeIntervalFromMsmetadata:metadata forKey:kNativeImpressionVisibleMsMetadataKey];
 
-        self.nativeVideoMaxBufferingTime = [self timeIntervalFromMsHeaders:headers forKey:kNativeVideoMaxBufferingTimeMsHeaderKey];
+        self.nativeVideoMaxBufferingTime = [self timeIntervalFromMsmetadata:metadata forKey:kNativeVideoMaxBufferingTimeMsMetadataKey];
 #if MP_HAS_NATIVE_PACKAGE
-        self.nativeVideoTrackers = [self nativeVideoTrackersFromHeaders:headers key:kNativeVideoTrackersHeaderKey];
+        self.nativeVideoTrackers = [self nativeVideoTrackersFromMetadata:metadata key:kNativeVideoTrackersMetadataKey];
 #endif
 
-        self.impressionMinVisibleTimeInSec = [self timeIntervalFromMsHeaders:headers forKey:kBannerImpressionVisableMsHeaderKey];
-        self.impressionMinVisiblePixels = [[self adAmountFromHeaders:headers key:kBannerImpressionMinPixelHeaderKey] floatValue];
+        self.impressionMinVisibleTimeInSec = [self timeIntervalFromMsmetadata:metadata forKey:kBannerImpressionVisableMsMetadataKey];
+        self.impressionMinVisiblePixels = [[self adAmountFromMetadata:metadata key:kBannerImpressionMinPixelMetadataKey] floatValue];
+
+        self.impressionData = [self impressionDataFromMetadata:metadata];
+
+        // Organize impression tracking URLs
+        NSArray <NSURL *> * URLs = [self URLsFromMetadata:metadata forKey:kImpressionTrackersMetadataKey];
+        // Check to see if the array actually contains URLs
+        if (URLs.count > 0) {
+            self.impressionTrackingURLs = URLs;
+        } else {
+            // If the array does not contain URLs, take the old `x-imptracker` URL and save that into an array instead.
+            self.impressionTrackingURLs = [self URLsFromMetadata:metadata forKey:kImpressionTrackerMetadataKey];
+        }
 
         // rewarded video
 
-        // Attempt to parse the multiple currency header first since this will take
+        // Attempt to parse the multiple currency Metadata first since this will take
         // precedence over the older single currency approach.
-        self.availableRewards = [self parseAvailableRewardsFromHeaders:headers];
+        self.availableRewards = [self parseAvailableRewardsFromMetadata:metadata];
         if (self.availableRewards != nil) {
             // Multiple currencies exist. We will select the first entry in the list
             // as the default selected reward.
@@ -195,11 +222,11 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
             }
         }
         // Multiple currencies are not available; attempt to process single currency
-        // headers.
+        // metadata.
         else {
-            NSString *currencyName = [headers objectForKey:kRewardedVideoCurrencyNameHeaderKey] ?: kMPRewardedVideoRewardCurrencyTypeUnspecified;
+            NSString *currencyName = [metadata objectForKey:kRewardedVideoCurrencyNameMetadataKey] ?: kMPRewardedVideoRewardCurrencyTypeUnspecified;
 
-            NSNumber *currencyAmount = [self adAmountFromHeaders:headers key:kRewardedVideoCurrencyAmountHeaderKey];
+            NSNumber *currencyAmount = [self adAmountFromMetadata:metadata key:kRewardedVideoCurrencyAmountMetadataKey];
             if (currencyAmount.integerValue <= 0) {
                 currencyAmount = @(kMPRewardedVideoRewardCurrencyAmountUnspecified);
             }
@@ -209,52 +236,45 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
             self.selectedReward = reward;
         }
 
-        self.rewardedVideoCompletionUrl = [headers objectForKey:kRewardedVideoCompletionUrlHeaderKey];
+        self.rewardedVideoCompletionUrl = [metadata objectForKey:kRewardedVideoCompletionUrlMetadataKey];
 
         // rewarded playables
-        self.rewardedPlayableDuration = [self timeIntervalFromHeaders:headers forKey:kRewardedPlayableDurationHeaderKey];
-        self.rewardedPlayableShouldRewardOnClick = [[headers objectForKey:kRewardedPlayableRewardOnClickHeaderKey] boolValue];
+        self.rewardedPlayableDuration = [self timeIntervalFromMetadata:metadata forKey:kRewardedPlayableDurationMetadataKey];
+        self.rewardedPlayableShouldRewardOnClick = [[metadata objectForKey:kRewardedPlayableRewardOnClickMetadataKey] boolValue];
 
         // clickthrough experiment
-        self.clickthroughExperimentBrowserAgent = [self clickthroughExperimentVariantFromHeaders:headers forKey:kClickthroughExperimentBrowserAgent];
+        self.clickthroughExperimentBrowserAgent = [self clickthroughExperimentVariantFromMetadata:metadata forKey:kClickthroughExperimentBrowserAgent];
         [MOPUBExperimentProvider setDisplayAgentFromAdServer:self.clickthroughExperimentBrowserAgent];
 
         // viewability
-        NSString * disabledViewabilityValue = [headers objectForKey:kViewabilityDisableHeaderKey];
-        NSNumber * disabledViewabilityVendors = disabledViewabilityValue != nil ? [disabledViewabilityValue safeIntegerValue] : nil;
-        if (disabledViewabilityVendors != nil &&
-            [disabledViewabilityVendors integerValue] >= MPViewabilityOptionNone &&
-            [disabledViewabilityVendors integerValue] <= MPViewabilityOptionAll) {
-            MPViewabilityOption vendorsToDisable = (MPViewabilityOption)([disabledViewabilityVendors integerValue]);
+        NSInteger disabledViewabilityValue = [metadata mp_integerForKey:kViewabilityDisableMetadataKey];
+
+        if (disabledViewabilityValue != 0 &&
+            disabledViewabilityValue >= MPViewabilityOptionNone &&
+            disabledViewabilityValue <= MPViewabilityOptionAll) {
+            MPViewabilityOption vendorsToDisable = (MPViewabilityOption)disabledViewabilityValue;
             [MPViewabilityTracker disableViewability:vendorsToDisable];
         }
 
-        // consent
-        [[MPConsentManager sharedManager] forceStatusShouldForceExplicitNo:[headers[kForceExplicitNoKey] boolValue]
-                                                   shouldInvalidateConsent:[headers[kInvalidateConsentKey] boolValue]
-                                                    shouldReacquireConsent:[headers[kReacquireConsentKey] boolValue]
-                                              shouldForceGDPRApplicability:[headers[kForceGDPRAppliesKey] boolValue]
-                                                       consentChangeReason:headers[kConsentChangedReasonKey]
-                                                   shouldBroadcast:YES];
+        // advanced bidding
+        self.advancedBidPayload = [metadata objectForKey:kAdvancedBiddingMarkupMetadataKey];
     }
     return self;
 }
 
-- (Class)setUpCustomEventClassFromHeaders:(NSDictionary *)headers
+- (Class)setUpCustomEventClassFromMetadata:(NSDictionary *)metadata
 {
-    NSString *customEventClassName = [headers objectForKey:kCustomEventClassNameHeaderKey];
+    NSString *customEventClassName = [metadata objectForKey:kCustomEventClassNameMetadataKey];
 
     NSMutableDictionary *convertedCustomEvents = [NSMutableDictionary dictionary];
-    if (self.adType == MPAdTypeBanner) {
+    if (self.adType == MPAdTypeInline) {
         [convertedCustomEvents setObject:@"MPGoogleAdMobBannerCustomEvent" forKey:@"admob_native"];
-        [convertedCustomEvents setObject:@"MPMillennialBannerCustomEvent" forKey:@"millennial_native"];
         [convertedCustomEvents setObject:@"MPHTMLBannerCustomEvent" forKey:@"html"];
         [convertedCustomEvents setObject:@"MPMRAIDBannerCustomEvent" forKey:@"mraid"];
         [convertedCustomEvents setObject:@"MOPUBNativeVideoCustomEvent" forKey:@"json_video"];
         [convertedCustomEvents setObject:@"MPMoPubNativeCustomEvent" forKey:@"json"];
-    } else if (self.adType == MPAdTypeInterstitial) {
+    } else if (self.adType == MPAdTypeFullscreen) {
         [convertedCustomEvents setObject:@"MPGoogleAdMobInterstitialCustomEvent" forKey:@"admob_full"];
-        [convertedCustomEvents setObject:@"MPMillennialInterstitialCustomEvent" forKey:@"millennial_full"];
         [convertedCustomEvents setObject:@"MPHTMLInterstitialCustomEvent" forKey:@"html"];
         [convertedCustomEvents setObject:@"MPMRAIDInterstitialCustomEvent" forKey:@"mraid"];
         [convertedCustomEvents setObject:@"MPMoPubRewardedVideoCustomEvent" forKey:@"rewarded_video"];
@@ -267,7 +287,7 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
     Class customEventClass = NSClassFromString(customEventClassName);
 
     if (customEventClassName && !customEventClass) {
-        MPLogWarn(@"Could not find custom event class named %@", customEventClassName);
+        MPLogInfo(@"Could not find custom event class named %@", customEventClassName);
     }
 
     return customEventClass;
@@ -275,11 +295,26 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
 
 
 
-- (NSDictionary *)customEventClassDataFromHeaders:(NSDictionary *)headers
+- (NSDictionary *)customEventClassDataFromMetadata:(NSDictionary *)metadata
 {
-    NSDictionary *result = [self dictionaryFromHeaders:headers forKey:kCustomEventClassDataHeaderKey];
-    if (!result) {
-        result = [self dictionaryFromHeaders:headers forKey:kNativeSDKParametersHeaderKey];
+    // Parse out custom event data if its present
+    NSDictionary *result = [self dictionaryFromMetadata:metadata forKey:kCustomEventClassDataMetadataKey];
+    if (result != nil) {
+        // Inject the unified ad unit format into the custom data so that
+        // all adapters (including mediated ones) can differentiate between
+        // banner and medium rectangle formats.
+        // The key `adunit_format` is used to denote the format, which is the same as the
+        // key for impression level revenue data since they represent the same information.
+        NSString *format = [metadata objectForKey:kFormatMetadataKey];
+        if (format.length > 0) {
+            NSMutableDictionary *dictionary = [result mutableCopy];
+            dictionary[kImpressionDataAdUnitFormatKey] = format;
+            result = dictionary;
+        }
+    }
+    // No custom event data found; this is probably a native ad payload.
+    else {
+        result = [self dictionaryFromMetadata:metadata forKey:kNativeSDKParametersMetadataKey];
     }
     return result;
 }
@@ -300,131 +335,208 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
     return _adResponseHTMLString;
 }
 
-- (NSString *)clickDetectionURLPrefix
+- (NSArray <NSURL *> *)afterLoadUrlsWithLoadDuration:(NSTimeInterval)duration loadResult:(MPAfterLoadResult)result
 {
-    return self.interceptURLPrefix.absoluteString ? self.interceptURLPrefix.absoluteString : @"";
+    NSArray <NSString *> * afterLoadUrls = [self concatenateBaseUrlArray:self.afterLoadUrlsWithMacros
+                                                    withConditionalArray:(result == MPAfterLoadResultAdLoaded ? self.afterLoadSuccessUrlsWithMacros : self.afterLoadFailureUrlsWithMacros)];
+
+    // No URLs to generate
+    if (afterLoadUrls == nil || afterLoadUrls.count == 0) {
+        return nil;
+    }
+
+    NSMutableArray * urls = [NSMutableArray arrayWithCapacity:afterLoadUrls.count];
+
+    for (NSString * urlString in afterLoadUrls) {
+        // Skip if the URL length is 0
+        if (urlString.length == 0) {
+            continue;
+        }
+
+        // Generate the ad server value from the enumeration. If the result type failed to
+        // match, we should not process this any further.
+        NSString * resultString = nil;
+        switch (result) {
+            case MPAfterLoadResultError: resultString = @"error"; break;
+            case MPAfterLoadResultTimeout: resultString = @"timeout"; break;
+            case MPAfterLoadResultAdLoaded: resultString = @"ad_loaded"; break;
+            case MPAfterLoadResultMissingAdapter: resultString = @"missing_adapter"; break;
+            default: return nil;
+        }
+
+        // Convert the duration to milliseconds
+        NSString * durationMs = [NSString stringWithFormat:@"%llu", (unsigned long long)(duration * 1000)];
+
+        // Replace the macros
+        NSString * expandedUrl = [urlString stringByReplacingOccurrencesOfString:AFTER_LOAD_DURATION_MACRO withString:durationMs];
+        expandedUrl = [expandedUrl stringByReplacingOccurrencesOfString:AFTER_LOAD_RESULT_MACRO withString:resultString];
+
+        // Add to array (@c URLWithString may return @c nil, so check before appending to the array)
+        NSURL * url = [NSURL URLWithString:expandedUrl];
+        if (url != nil) {
+            [urls addObject:url];
+        }
+    }
+
+    return urls.count > 0 ? urls : nil;
+}
+
+- (BOOL)isMraidAd
+{
+    return [self.metadataAdType isEqualToString:kAdTypeMraid];
 }
 
 #pragma mark - Private
 
-- (MPAdType)adTypeFromHeaders:(NSDictionary *)headers
-{
-    NSString *adTypeString = [headers objectForKey:kAdTypeHeaderKey];
-
-    if ([adTypeString isEqualToString:@"interstitial"] || [adTypeString isEqualToString:@"rewarded_video"] || [adTypeString isEqualToString:@"rewarded_playable"]) {
-        return MPAdTypeInterstitial;
-    } else if (adTypeString &&
-               [headers objectForKey:kOrientationTypeHeaderKey]) {
-        return MPAdTypeInterstitial;
-    } else if (adTypeString) {
-        return MPAdTypeBanner;
-    } else {
-        return MPAdTypeUnknown;
+- (NSArray *)concatenateBaseUrlArray:(NSArray *)baseArray withConditionalArray:(NSArray *)conditionalArray {
+    if (baseArray == nil && conditionalArray == nil) {
+        return nil;
     }
+
+    if (baseArray == nil) {
+        return conditionalArray;
+    }
+
+    if (conditionalArray == nil) {
+        return baseArray;
+    }
+
+    return [baseArray arrayByAddingObjectsFromArray:conditionalArray];
 }
 
-- (NSString *)networkTypeFromHeaders:(NSDictionary *)headers
+- (NSString *)networkTypeFromMetadata:(NSDictionary *)metadata
 {
-    NSString *adTypeString = [headers objectForKey:kAdTypeHeaderKey];
+    NSString *adTypeString = [metadata objectForKey:kAdTypeMetadataKey];
     if ([adTypeString isEqualToString:@"interstitial"]) {
-        return [headers objectForKey:kInterstitialAdTypeHeaderKey];
+        return [metadata objectForKey:kInterstitialAdTypeMetadataKey];
     } else {
         return adTypeString;
     }
 }
 
-- (NSURL *)URLFromHeaders:(NSDictionary *)headers forKey:(NSString *)key
+- (NSURL *)URLFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSString *URLString = [headers objectForKey:key];
+    NSString *URLString = [metadata objectForKey:key];
     return URLString ? [NSURL URLWithString:URLString] : nil;
 }
 
-- (NSDictionary *)dictionaryFromHeaders:(NSDictionary *)headers forKey:(NSString *)key
+/**
+ Reads the value at key @c key from dictionary @c metadata. If the value is a @c NSString that is convertable to
+ @c NSURL, it will be converted into an @c NSURL, inserted into an array, and returned. If the value is a @c NSArray,
+ each @c NSString in the array that is convertable to @c NSURL will be converted and all returned in an array, with all
+ other objects scrubbed. If the value from @c metadata is @c nil, not an @c NSString, not an @c NSArray, an @c NSString
+ that cannot be converted to @c NSURL, or an @c NSArray that does not contain NSURL-convertable strings, this method
+ will return @c nil.
+ @remark This method converts all @c NSStrings into @c NSURLs, where possible. If this behavior is not desired,
+ use @c URLStringsFromMetadata:forkey: instead.
+ @param metadata the @c NSDictionary to read from
+ @param key the @c the key to look up in @c metadata
+ @return @c NSArray of @c NSURL contained at key @c key, or @c nil
+ */
+- (NSArray <NSURL *> *)URLsFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key {
+    NSArray <NSString *> * URLStrings = [self URLStringsFromMetadata:metadata forKey:key];
+    if (URLStrings == nil) {
+        return nil;
+    }
+
+    // Convert the strings into NSURLs and save in a new array
+    NSMutableArray <NSURL *> * URLs = [NSMutableArray arrayWithCapacity:URLStrings.count];
+    for (NSString * URLString in URLStrings) {
+        // @c URLWithString may return @c nil, so check before appending to the array
+        NSURL * URL = [NSURL URLWithString:URLString];
+        if (URL != nil) {
+            [URLs addObject:URL];
+        }
+    }
+
+    return URLs.count > 0 ? URLs : nil;
+}
+
+/**
+ Reads the value at key @c key from dictionary @c metadata. If the value is a @c NSString, it will be inserted into
+ an array and returned. If the value is a @c NSArray, the @c NSStrings contained in that array will be all be returned
+ in an array, with any object that is not an @c NSString scrubbed. If the value from @c metadata is @c nil, not an
+ @c NSString, not an @c NSArray, or an @c NSArray that does not contain strings, this method will return @c nil.
+ @remark This method does not convert the @c NSStrings into @c NSURLs. Use @c URLsFromMetadata:forKey: for that instead.
+ @param metadata the @c NSDictionary to read from
+ @param key the @c the key to look up in @c metadata
+ @return @c NSArray of @c NSStrings contained at key @c key, or @c nil
+ */
+- (NSArray <NSString *> *)URLStringsFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key {
+    NSObject * value = metadata[key];
+
+    if (value == nil) {
+        return nil;
+    }
+
+    if ([value isKindOfClass:[NSString class]]) {
+        NSString * string = (NSString *)value;
+        return string.length > 0 ? @[string] : nil;
+    }
+
+    if ([value isKindOfClass:[NSArray class]]) {
+        NSArray * objects = (NSArray *)value;
+        NSMutableArray <NSString *> * URLStrings = [NSMutableArray arrayWithCapacity:objects.count];
+        for (NSObject * object in objects) {
+            if ([object isKindOfClass:[NSString class]]) {
+                [URLStrings addObject:(NSString *)object];
+            }
+        }
+        return URLStrings.count > 0 ? URLStrings : nil;
+    }
+
+    return nil;
+}
+
+- (NSDictionary *)dictionaryFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSData *data = [(NSString *)[headers objectForKey:key] dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *JSONFromHeaders = nil;
+    NSData *data = [(NSString *)[metadata objectForKey:key] dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *JSONFromMetadata = nil;
     if (data) {
-        JSONFromHeaders = [NSJSONSerialization mp_JSONObjectWithData:data options:NSJSONReadingMutableContainers clearNullObjects:YES error:nil];
+        JSONFromMetadata = [NSJSONSerialization mp_JSONObjectWithData:data options:NSJSONReadingMutableContainers clearNullObjects:YES error:nil];
     }
-    return JSONFromHeaders;
+    return JSONFromMetadata;
 }
 
-- (NSTimeInterval)refreshIntervalFromHeaders:(NSDictionary *)headers
+- (NSTimeInterval)refreshIntervalFromMetadata:(NSDictionary *)metadata
 {
-    NSString *intervalString = [headers objectForKey:kRefreshTimeHeaderKey];
-    NSTimeInterval interval = -1;
-    if (intervalString) {
-        interval = [intervalString doubleValue];
-        if (interval < MINIMUM_REFRESH_INTERVAL) {
-            interval = MINIMUM_REFRESH_INTERVAL;
-        }
+    NSTimeInterval interval = [metadata mp_doubleForKey:kRefreshTimeMetadataKey defaultValue:MINIMUM_REFRESH_INTERVAL];
+    if (interval < MINIMUM_REFRESH_INTERVAL) {
+        interval = MINIMUM_REFRESH_INTERVAL;
     }
     return interval;
 }
 
-- (NSTimeInterval)timeIntervalFromHeaders:(NSDictionary *)headers forKey:(NSString *)key
+- (NSTimeInterval)timeIntervalFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSString *intervalString = [headers objectForKey:key];
-    NSTimeInterval interval = -1;
-    if (intervalString) {
-        int parsedInt = -1;
-        BOOL isNumber = [[NSScanner scannerWithString:intervalString] scanInt:&parsedInt];
-        if (isNumber && parsedInt >= 0) {
-            interval = parsedInt;
-        }
-    }
-
+    NSTimeInterval interval = [metadata mp_doubleForKey:key defaultValue:-1];
     return interval;
 }
 
-- (NSTimeInterval)timeIntervalFromMsHeaders:(NSDictionary *)headers forKey:(NSString *)key
+- (NSTimeInterval)timeIntervalFromMsmetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSString *msString = [headers objectForKey:key];
-    NSTimeInterval interval = -1;
-    if (msString) {
-        int parsedInt = -1;
-        BOOL isNumber = [[NSScanner scannerWithString:msString] scanInt:&parsedInt];
-        if (isNumber && parsedInt >= 0) {
-            interval = parsedInt / 1000.0f;
-        }
+    NSTimeInterval interval = [metadata mp_doubleForKey:key defaultValue:-1];
+    if (interval >= 0) {
+        interval /= 1000.0f;
     }
-
     return interval;
 }
 
-- (NSInteger)percentFromHeaders:(NSDictionary *)headers forKey:(NSString *)key
+- (NSInteger)percentFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSString *percentString = [headers objectForKey:key];
-    NSInteger percent = -1;
-    if (percentString) {
-        int parsedInt = -1;
-        BOOL isNumber = [[NSScanner scannerWithString:percentString] scanInt:&parsedInt];
-        if (isNumber && parsedInt >= 0 && parsedInt <= 100) {
-            percent = parsedInt;
-        }
-    }
+    return [metadata mp_integerForKey:key defaultValue:-1];
 
-    return percent;
 }
 
-- (NSNumber *)adAmountFromHeaders:(NSDictionary *)headers key:(NSString *)key
+- (NSNumber *)adAmountFromMetadata:(NSDictionary *)metadata key:(NSString *)key
 {
-    NSString *amountString = [headers objectForKey:key];
-    NSNumber *amount = @(-1);
-    if (amountString) {
-        int parsedInt = -1;
-        BOOL isNumber = [[NSScanner scannerWithString:amountString] scanInt:&parsedInt];
-        if (isNumber && parsedInt >= 0) {
-            amount = @(parsedInt);
-        }
-    }
-
-    return amount;
+    NSInteger amount = [metadata mp_integerForKey:key defaultValue:-1];
+    return @(amount);
 }
 
-- (MPInterstitialOrientationType)orientationTypeFromHeaders:(NSDictionary *)headers
+- (MPInterstitialOrientationType)orientationTypeFromMetadata:(NSDictionary *)metadata
 {
-    NSString *orientation = [headers objectForKey:kOrientationTypeHeaderKey];
+    NSString *orientation = [metadata objectForKey:kOrientationTypeMetadataKey];
     if ([orientation isEqualToString:@"p"]) {
         return MPInterstitialOrientationTypePortrait;
     } else if ([orientation isEqualToString:@"l"]) {
@@ -435,15 +547,15 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
 }
 
 #if MP_HAS_NATIVE_PACKAGE
-- (NSDictionary *)nativeVideoTrackersFromHeaders:(NSDictionary *)headers key:(NSString *)key
+- (NSDictionary *)nativeVideoTrackersFromMetadata:(NSDictionary *)metadata key:(NSString *)key
 {
-    NSDictionary *dictFromHeader = [self dictionaryFromHeaders:headers forKey:key];
-    if (!dictFromHeader) {
+    NSDictionary *dictFromMetadata = [self dictionaryFromMetadata:metadata forKey:key];
+    if (!dictFromMetadata) {
         return nil;
     }
     NSMutableDictionary *videoTrackerDict = [NSMutableDictionary new];
-    NSArray *events = dictFromHeader[kNativeVideoTrackerEventsHeaderKey];
-    NSArray *urls = dictFromHeader[kNativeVideoTrackerUrlsHeaderKey];
+    NSArray *events = dictFromMetadata[kNativeVideoTrackerEventsMetadataKey];
+    NSArray *urls = dictFromMetadata[kNativeVideoTrackerUrlsMetadataKey];
     NSSet *supportedEvents = [NSSet setWithObjects:MPVASTTrackingEventTypeStart, MPVASTTrackingEventTypeFirstQuartile, MPVASTTrackingEventTypeMidpoint,  MPVASTTrackingEventTypeThirdQuartile, MPVASTTrackingEventTypeComplete, nil];
     for (NSString *event in events) {
         if (![supportedEvents containsObject:event]) {
@@ -474,10 +586,10 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
 
 #endif
 
-- (NSArray *)parseAvailableRewardsFromHeaders:(NSDictionary *)headers {
-    // The X-Rewarded-Currencies header key doesn't exist. This is probably
+- (NSArray *)parseAvailableRewardsFromMetadata:(NSDictionary *)metadata {
+    // The X-Rewarded-Currencies Metadata key doesn't exist. This is probably
     // not a rewarded ad.
-    NSDictionary * currencies = [self dictionaryFromHeaders:headers forKey:kRewardedCurrenciesHeaderKey];
+    NSDictionary * currencies = [metadata objectForKey:kRewardedCurrenciesMetadataKey];
     if (currencies == nil) {
         return nil;
     }
@@ -486,7 +598,7 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
     // This is an error.
     NSArray * rewards = [currencies objectForKey:@"rewards"];
     if (rewards.count == 0) {
-        MPLogError(@"No available rewards found.");
+        MPLogDebug(@"No available rewards found.");
         return nil;
     }
 
@@ -503,16 +615,11 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
     return availableRewards;
 }
 
-- (MOPUBDisplayAgentType)clickthroughExperimentVariantFromHeaders:(NSDictionary *)headers forKey:(NSString *)key
+- (MOPUBDisplayAgentType)clickthroughExperimentVariantFromMetadata:(NSDictionary *)metadata forKey:(NSString *)key
 {
-    NSString *variantString = [headers objectForKey:key];
-    NSInteger variant = 0;
-    if (variantString) {
-        int parsedInt = -1;
-        BOOL isNumber = [[NSScanner scannerWithString:variantString] scanInt:&parsedInt];
-        if (isNumber && parsedInt >= 0 && parsedInt <= kMaximumVariantForClickthroughExperiment) {
-            variant = parsedInt;
-        }
+    NSInteger variant = [metadata mp_integerForKey:key];
+    if (variant > kMaximumVariantForClickthroughExperiment) {
+        variant = -1;
     }
 
     return variant;
@@ -524,6 +631,17 @@ NSString * const kViewabilityDisableHeaderKey = @"X-Disable-Viewability";
         return NO;
     }
     return YES;
+}
+
+- (MPImpressionData *)impressionDataFromMetadata:(NSDictionary *)metadata
+{
+    NSDictionary * impressionDataDictionary = metadata[kImpressionDataMetadataKey];
+    if (impressionDataDictionary == nil) {
+        return nil;
+    }
+
+    MPImpressionData * impressionData = [[MPImpressionData alloc] initWithDictionary:impressionDataDictionary];
+    return impressionData;
 }
 
 @end

@@ -1,8 +1,9 @@
 //
 //  MPAdPositioning.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPAdPositioning.h"
@@ -21,7 +22,7 @@
     if (self) {
         _fixedPositions = [[NSMutableOrderedSet alloc] init];
     }
-    
+
     return self;
 }
 

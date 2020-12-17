@@ -1,6 +1,9 @@
 //
 //  MPNativeAdRendererImageHandler.m
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativeAdRendererImageHandler.h"
@@ -68,11 +71,7 @@
                                                       UIImage *image = [UIImage imageWithData:[[MPNativeCache sharedCache] retrieveDataForKey:imageURL.absoluteString]];
 
                                                       [strongSelf safeMainQueueSetImage:image intoImageView:imageView];
-                                                  } else {
-                                                      MPLogDebug(@"Failed to download %@ on cache miss. Giving up for now.", imageURL);
                                                   }
-                                              } else {
-                                                  MPLogInfo(@"MPNativeAd deallocated before loadImageForURL:intoImageView: download completion block was called");
                                               }
                                           }];
         }
@@ -86,7 +85,7 @@
             MPLogDebug(@"Cell was recycled. Don't bother setting the image.");
             return;
         }
-        
+
         if (image) {
             imageView.image = image;
         }

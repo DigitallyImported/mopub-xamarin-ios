@@ -15,7 +15,7 @@
 #endif
 
 
-@interface FacebookAdvancedBidder : NSObject<MPAdvancedBidder>
+@interface FacebookAdvancedBidder : NSObject
 @property (nonatomic, copy, readonly) NSString * creativeNetworkName;
 @property (nonatomic, copy, readonly) NSString * token;
 @end

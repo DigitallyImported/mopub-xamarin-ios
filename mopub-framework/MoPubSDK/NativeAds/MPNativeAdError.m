@@ -1,6 +1,9 @@
 //
 //  MPNativeAdError.m
-//  Copyright (c) 2013 MoPub. All rights reserved.
+//
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativeAdError.h"
@@ -11,7 +14,7 @@ NSError *MPNativeAdNSErrorForInvalidAdServerResponse(NSString *reason) {
     if (reason.length == 0) {
         reason = @"Invalid ad server response";
     }
-    
+
     return [NSError errorWithDomain:MoPubNativeAdsSDKDomain code:MPNativeAdErrorInvalidServerResponse userInfo:@{NSLocalizedDescriptionKey : [reason copy]}];
 }
 

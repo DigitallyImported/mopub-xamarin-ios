@@ -1,8 +1,9 @@
 //
 //  MPNativeAd+Internal.m
-//  MoPubSDK
 //
-//  Copyright (c) 2015 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
@@ -15,7 +16,9 @@
 @dynamic impressionTrackerURLs;
 @dynamic clickTrackerURLs;
 @dynamic creationDate;
+@dynamic adUnitID;
 @dynamic renderer;
+@dynamic configuration;
 @dynamic associatedView;
 @dynamic adAdapter;
 

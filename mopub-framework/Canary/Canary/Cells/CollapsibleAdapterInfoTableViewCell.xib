@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CollapsibleAdapterInfoTableViewCell" rowHeight="155" id="J48-Gb-MaK" customClass="CollapsibleAdapterInfoTableViewCell" customModule="Canary" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="155"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="J48-Gb-MaK" id="QQR-o4-H9L">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="154.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2SB-Nr-olZ">
+                        <rect key="frame" x="8" y="8" width="359" height="86"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="500" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ATI-rD-xLI">
+                        <rect key="frame" x="8" y="98" width="359" height="48.5"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4fb-Vk-Hce">
+                                <rect key="frame" x="0.0" y="0.0" width="359" height="13.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="Adapter Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfi-3t-a4Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8WL-lR-7xO">
+                                        <rect key="frame" x="112" y="0.0" width="247" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3p-dL-mEL">
+                                <rect key="frame" x="0.0" y="17.5" width="359" height="13.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="Network SDK Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDA-VV-mnG">
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ecc-K2-q5h">
+                                        <rect key="frame" x="112" y="0.0" width="247" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jGn-b2-4SU">
+                                <rect key="frame" x="0.0" y="35" width="359" height="13.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="Has Bidding Token?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ug-rJ-QzK">
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xb1-4l-rvX">
+                                        <rect key="frame" x="112" y="0.0" width="247" height="13.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="8Ug-rJ-QzK" firstAttribute="width" secondItem="Jfi-3t-a4Q" secondAttribute="width" id="LRK-ep-XPm"/>
+                            <constraint firstItem="TDA-VV-mnG" firstAttribute="width" secondItem="Jfi-3t-a4Q" secondAttribute="width" id="Zz1-uX-k46"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ATI-rD-xLI" secondAttribute="trailing" constant="8" id="6L7-i0-Avd"/>
+                    <constraint firstItem="2SB-Nr-olZ" firstAttribute="top" secondItem="QQR-o4-H9L" secondAttribute="top" constant="8" id="H4S-Mx-Tua"/>
+                    <constraint firstAttribute="trailing" secondItem="2SB-Nr-olZ" secondAttribute="trailing" constant="8" id="MBm-qT-kEU"/>
+                    <constraint firstItem="2SB-Nr-olZ" firstAttribute="leading" secondItem="QQR-o4-H9L" secondAttribute="leading" constant="8" id="TaS-Kc-ACz"/>
+                    <constraint firstItem="ATI-rD-xLI" firstAttribute="leading" secondItem="QQR-o4-H9L" secondAttribute="leading" constant="8" id="avh-43-Rr7"/>
+                    <constraint firstAttribute="bottom" secondItem="ATI-rD-xLI" secondAttribute="bottom" constant="8" id="gjj-tF-6TI"/>
+                    <constraint firstItem="ATI-rD-xLI" firstAttribute="top" secondItem="2SB-Nr-olZ" secondAttribute="bottom" constant="4" id="uPE-oj-3TX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="adapterVersionLabel" destination="8WL-lR-7xO" id="OTx-ij-6FY"/>
+                <outlet property="hasBiddingTokenLabel" destination="xb1-4l-rvX" id="iFn-kS-xu8"/>
+                <outlet property="networkSdkVersionLabel" destination="Ecc-K2-q5h" id="g89-sD-bkd"/>
+                <outlet property="stackView" destination="ATI-rD-xLI" id="Oqy-hj-xfY"/>
+                <outlet property="stackViewTopConstraint" destination="uPE-oj-3TX" id="2x1-xR-efE"/>
+                <outlet property="titleLabel" destination="2SB-Nr-olZ" id="rZD-9g-aN6"/>
+            </connections>
+            <point key="canvasLocation" x="16.800000000000001" y="-170.46476761619192"/>
+        </tableViewCell>
+    </objects>
+</document>

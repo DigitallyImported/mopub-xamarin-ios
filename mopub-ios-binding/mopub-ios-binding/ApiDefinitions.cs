@@ -243,8 +243,8 @@ namespace MoPubSDK
         int LogLevel { get; set; }
 
         // @property (assign, nonatomic) BOOL enableAdvancedBidding;
-        [Export("enableAdvancedBidding")]
-        bool EnableAdvancedBidding { get; set; }
+        //[Export("enableAdvancedBidding")]
+        //bool EnableAdvancedBidding { get; set; }
 
         // -(void)initializeSdkWithConfiguration:(id)configuration completion:(void (^ _Nullable)(void))completionBlock;
         [Export("initializeSdkWithConfiguration:completion:")]
@@ -469,16 +469,16 @@ namespace MoPubSDK
         string AdUnitIdForAppInitialization { get; set; }
 
         // @property (nonatomic, strong) NSArray<Class> * _Nullable advancedBidders;
-        [NullAllowed, Export("advancedBidders", ArgumentSemantic.Strong)]
-        Class[] AdvancedBidders { get; set; }
+        //[NullAllowed, Export("advancedBidders", ArgumentSemantic.Strong)]
+        //Class[] AdvancedBidders { get; set; }
 
         // @property (nonatomic, strong) NSArray<id> * _Nullable globalMediationSettings;
         [NullAllowed, Export("globalMediationSettings", ArgumentSemantic.Strong)]
         NSObject[] GlobalMediationSettings { get; set; }
 
         // @property (nonatomic, strong) NSArray<Class> * _Nullable mediatedNetworks;
-        [NullAllowed, Export("mediatedNetworks", ArgumentSemantic.Strong)]
-        Class[] MediatedNetworks { get; set; }
+        //[NullAllowed, Export("mediatedNetworks", ArgumentSemantic.Strong)]
+        //Class[] MediatedNetworks { get; set; }
 
         // -(instancetype _Nonnull)initWithAdUnitIdForAppInitialization:(NSString * _Nonnull)adUnitId __attribute__((objc_designated_initializer));
         [Export("initWithAdUnitIdForAppInitialization:")]

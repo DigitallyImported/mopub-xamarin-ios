@@ -1,8 +1,9 @@
 //
 //  NSHTTPURLResponse+MPAdditions.m
-//  MoPubSDK
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "NSHTTPURLResponse+MPAdditions.h"
@@ -17,7 +18,7 @@ NSString * const kMoPubHTTPHeaderContentType = @"Content-Type";
     NSStringEncoding encoding = NSUTF8StringEncoding;
 
     if (![contentType length]) {
-        MPLogWarn(@"Attempting to set string encoding from nil %@", kMoPubHTTPHeaderContentType);
+        MPLogInfo(@"Attempting to set string encoding from nil %@", kMoPubHTTPHeaderContentType);
         return encoding;
     }
 

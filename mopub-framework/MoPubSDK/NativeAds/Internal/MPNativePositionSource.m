@@ -1,8 +1,9 @@
 //
 //  MPNativePositionSource.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPNativePositionSource.h"
@@ -15,6 +16,7 @@
 #import "MPAPIEndpoints.h"
 #import "MPHTTPNetworkSession.h"
 #import "MPURLRequest.h"
+#import "MPAdServerURLBuilder.h"
 
 static NSString * const kPositioningSourceErrorDomain = @"com.mopub.iossdk.positioningsource";
 static const NSTimeInterval kMaximumRetryInterval = 60.0;
@@ -33,9 +35,6 @@ static const CGFloat kRetryIntervalBackoffMultiplier = 2.0;
 @property (nonatomic, assign) NSTimeInterval minimumRetryInterval;
 @property (nonatomic, assign) NSTimeInterval retryInterval;
 @property (nonatomic, assign) NSUInteger retryCount;
-
-- (NSURL *)serverURLWithAdUnitIdentifier:(NSString *)identifier;
-
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +75,7 @@ static const CGFloat kRetryIntervalBackoffMultiplier = 2.0;
 
     MPLogInfo(@"Requesting ad positions for native ad unit (%@).", identifier);
 
-    MPURLRequest *request = [[MPURLRequest alloc] initWithURL:[self serverURLWithAdUnitIdentifier:identifier]];
+    MPURLRequest *request = [[MPURLRequest alloc] initWithURL:[MPAdServerURLBuilder nativePositionUrlForAdUnitId:identifier]];
     [self.task cancel];
     self.task = [self httpTaskWithRequest:request];
 }
@@ -101,6 +100,12 @@ static const CGFloat kRetryIntervalBackoffMultiplier = 2.0;
     } errorHandler:^(NSError * _Nonnull error) {
         __typeof__(self) strongSelf = weakSelf;
 
+        // MPNativePositionSource was deallocated during a networking
+        // operation. Do nothing.
+        if (strongSelf == nil) {
+            return;
+        }
+
         if (strongSelf.retryInterval >= strongSelf.maximumRetryInterval) {
             strongSelf.completionHandler(nil, error);
             strongSelf.completionHandler = nil;
@@ -113,24 +118,13 @@ static const CGFloat kRetryIntervalBackoffMultiplier = 2.0;
     return task;
 }
 
-- (NSURL *)serverURLWithAdUnitIdentifier:(NSString *)identifier
-{
-    NSString *URLString = [NSString stringWithFormat:@"%@?id=%@&v=%@&nv=%@&udid=%@",
-                           [MPAPIEndpoints baseURLStringWithPath:MOPUB_API_PATH_NATIVE_POSITIONING],
-                           identifier,
-                           MP_SERVER_VERSION,
-                           MP_SDK_VERSION,
-                           [MPIdentityProvider identifier]];
-    return [NSURL URLWithString:URLString];
-}
-
 - (void)retryLoadingPositions
 {
     self.retryCount++;
 
     MPLogInfo(@"Retrying positions (retry attempt #%lu).", (unsigned long)self.retryCount);
 
-    MPURLRequest *request = [[MPURLRequest alloc] initWithURL:[self serverURLWithAdUnitIdentifier:self.adUnitIdentifier]];
+    MPURLRequest *request = [[MPURLRequest alloc] initWithURL:[MPAdServerURLBuilder nativePositionUrlForAdUnitId:self.adUnitIdentifier]];
     [self.task cancel];
     self.task = [self httpTaskWithRequest:request];
 }

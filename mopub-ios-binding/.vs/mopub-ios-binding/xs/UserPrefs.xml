@@ -1,0 +1,28 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="mopub-ios-binding/ApiDefinitions.cs">
+    <Files>
+      <File FileName="mopub-ios-binding/ApiDefinitions.cs" Line="41" Column="29" />
+      <File FileName="mopub-ios-binding/MoPub.framework.linkwith.cs" />
+      <File FileName="mopub-ios-binding/StructsAndEnums.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="mopub-ios-binding" expanded="True">
+            <Node name="mopub-ios-binding" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="NativeReferenceFolder" expanded="True" />
+              <Node name="StructsAndEnums.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

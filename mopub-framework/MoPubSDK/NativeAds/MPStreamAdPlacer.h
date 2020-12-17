@@ -1,15 +1,16 @@
 //
 //  MPStreamAdPlacer.h
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "MPStreamAdPlacerDelegate.h"
 #import "MPClientAdPositioning.h"
 
-@protocol MPStreamAdPlacerDelegate;
 @protocol MPNativeAdRendering;
 @class MPNativeAdRequestTargeting;
 @class MPNativeAd;
@@ -24,7 +25,7 @@
  * should first consider whether the `UITableViewAdPlacer` or `UICollectionViewAdPlacer` classes are
  * sufficient for your use case before choosing to use this class.
  *
- * @discussion Your app's first responsibility when creating a stream ad placer is to communicate 
+ * @discussion Your app's first responsibility when creating a stream ad placer is to communicate
  * the state of your stream. Specifically, you must provide it with the count of the
  * original content items in your stream using -setItemCount:forSection:, so that it can determine
  * where and how many ads should appear. Additionally, you must also make sure to notify the ad
@@ -46,7 +47,7 @@
  * Use -renderAdAtIndexPath:inView: to populate a view with the contents of an ad.
  */
 
-@interface MPStreamAdPlacer : NSObject
+@interface MPStreamAdPlacer : NSObject <MPMoPubAdPlacer>
 
 /**
  * An array of `NSIndexPath` objects representing the positions of items that are currently visible
@@ -149,7 +150,7 @@
  * If the specified index path does not identify a content item, but rather an ad, this method
  * will return nil.
  *
- * @param indexPath An index path object identifying an item in the stream, after ads have been 
+ * @param indexPath An index path object identifying an item in the stream, after ads have been
  * inserted.
  */
 - (NSIndexPath *)originalIndexPathForAdjustedIndexPath:(NSIndexPath *)indexPath;
@@ -170,7 +171,7 @@
  * If a specified index path does not identify a content item, but rather an ad, it will not be
  * included in the result.
  *
- * @param indexPaths An array of index path objects each identifying an item in the stream, after 
+ * @param indexPaths An array of index path objects each identifying an item in the stream, after
  * ads have been inserted.
  */
 - (NSArray *)originalIndexPathsForAdjustedIndexPaths:(NSArray *)indexPaths;
@@ -237,36 +238,5 @@
  * @param newSection The destination index for the section.
  */
 - (void)moveSection:(NSInteger)section toSection:(NSInteger)newSection;
-
-@end
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@protocol MPStreamAdPlacerDelegate <NSObject>
-
-@optional
-- (void)adPlacer:(MPStreamAdPlacer *)adPlacer didLoadAdAtIndexPath:(NSIndexPath *)indexPath;
-- (void)adPlacer:(MPStreamAdPlacer *)adPlacer didRemoveAdsAtIndexPaths:(NSArray *)indexPaths;
-
-/*
- * This method is called when a native ad, placed by the stream ad placer, will present a modal view controller.
- *
- * @param placer The stream ad placer that contains the ad displaying the modal.
- */
-- (void)nativeAdWillPresentModalForStreamAdPlacer:(MPStreamAdPlacer *)adPlacer;
-
-/*
- * This method is called when a native ad, placed by the stream ad placer, did dismiss its modal view controller.
- *
- * @param placer The stream ad placer that contains the ad that dismissed the modal.
- */
-- (void)nativeAdDidDismissModalForStreamAdPlacer:(MPStreamAdPlacer *)adPlacer;
-
-/*
- * This method is called when a native ad, placed by the stream ad placer, will cause the app to background due to user interaction with the ad.
- *
- * @param placer The stream ad placer that contains the ad causing the app to background.
- */
-- (void)nativeAdWillLeaveApplicationFromStreamAdPlacer:(MPStreamAdPlacer *)adPlacer;
 
 @end

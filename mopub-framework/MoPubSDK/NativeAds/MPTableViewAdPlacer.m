@@ -1,8 +1,9 @@
 //
 //  MPTableViewAdPlacer.m
-//  MoPub
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPTableViewAdPlacer.h"
@@ -81,8 +82,11 @@ static NSString * const kTableViewAdPlacerReuseIdentifier = @"MPTableViewAdPlace
 - (void)loadAdsForAdUnitID:(NSString *)adUnitID targeting:(MPNativeAdRequestTargeting *)targeting
 {
     if (!self.insertionTimer) {
-        self.insertionTimer = [MPTimer timerWithTimeInterval:kUpdateVisibleCellsInterval target:self selector:@selector(updateVisibleCells) repeats:YES];
-        self.insertionTimer.runLoopMode = NSRunLoopCommonModes;
+        self.insertionTimer = [MPTimer timerWithTimeInterval:kUpdateVisibleCellsInterval
+                                                      target:self
+                                                    selector:@selector(updateVisibleCells)
+                                                     repeats:YES
+                                                 runLoopMode:NSRunLoopCommonModes];
         [self.insertionTimer scheduleNow];
     }
     [self.streamAdPlacer loadAdsForAdUnitID:adUnitID targeting:targeting];
@@ -142,6 +146,14 @@ static NSString * const kTableViewAdPlacerReuseIdentifier = @"MPTableViewAdPlace
 {
     if ([self.delegate respondsToSelector:@selector(nativeAdWillLeaveApplicationFromTableViewAdPlacer:)]) {
         [self.delegate nativeAdWillLeaveApplicationFromTableViewAdPlacer:self];
+    }
+}
+
+- (void)mopubAdPlacer:(id<MPMoPubAdPlacer>)adPlacer didTrackImpressionForAd:(id<MPMoPubAd>)ad withImpressionData:(MPImpressionData *)impressionData {
+    if ([self.delegate respondsToSelector:@selector(mopubAdPlacer:didTrackImpressionForAd:withImpressionData:)]) {
+        [self.delegate mopubAdPlacer:self
+             didTrackImpressionForAd:ad
+                  withImpressionData:impressionData];
     }
 }
 
@@ -418,6 +430,54 @@ static NSString * const kTableViewAdPlacerReuseIdentifier = @"MPTableViewAdPlace
         NSIndexPath *origPath = [self.streamAdPlacer originalIndexPathForAdjustedIndexPath:indexPath];
         [delegate tableView:tableView performAction:action forRowAtIndexPath:origPath withSender:sender];
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:viewForHeaderInSection:)]) {
+        return [self.originalDelegate tableView:tableView viewForHeaderInSection:section];
+    }
+
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:viewForFooterInSection:)]) {
+        return [self.originalDelegate tableView:tableView viewForFooterInSection:section];
+    }
+
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)]) {
+        return [self.originalDelegate tableView:tableView heightForHeaderInSection:section];
+    }
+
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:estimatedHeightForHeaderInSection:)]) {
+        return [self.originalDelegate tableView:tableView estimatedHeightForHeaderInSection:section];
+    }
+
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:heightForFooterInSection:)]) {
+        return [self.originalDelegate tableView:tableView heightForFooterInSection:section];
+    }
+
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section {
+    if ([self.originalDelegate respondsToSelector:@selector(tableView:estimatedHeightForFooterInSection:)]) {
+        return [self.originalDelegate tableView:tableView estimatedHeightForFooterInSection:section];
+    }
+
+    return 0;
 }
 
 #pragma mark - Method Forwarding

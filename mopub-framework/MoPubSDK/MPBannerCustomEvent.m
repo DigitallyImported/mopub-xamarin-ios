@@ -1,15 +1,14 @@
 //
 //  MPBannerCustomEvent.m
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPBannerCustomEvent.h"
 
 @implementation MPBannerCustomEvent
-
-@synthesize delegate;
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {

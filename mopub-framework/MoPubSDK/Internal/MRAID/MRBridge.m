@@ -1,12 +1,14 @@
 //
 //  MRBridge.m
-//  MoPubSDK
 //
-//  Copyright (c) 2014 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MRBridge.h"
 #import "MPConstants.h"
+#import "MPCoreInstanceProvider+MRAID.h"
 #import "MPLogging.h"
 #import "NSURL+MPAdditions.h"
 #import "MPGlobal.h"
@@ -48,24 +50,19 @@ static NSString * const kMraidURLScheme = @"mraid";
 - (void)loadHTMLString:(NSString *)HTML baseURL:(NSURL *)baseURL
 {
     // Bail out if we can't locate mraid.js.
-    if (![self MRAIDScriptPath]) {
+    if (![[MPCoreInstanceProvider sharedProvider] isMraidJavascriptAvailable]) {
         NSError *error = [NSError errorWithDomain:MoPubMRAIDAdsSDKDomain code:MRErrorMRAIDJSNotFound userInfo:nil];
         [self.delegate bridge:self didFailLoadingWebView:self.webView error:error];
         return;
     }
 
     if (HTML) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            // Execute the javascript in the web view directly.
-            NSString *mraidString = [NSString stringWithContentsOfFile:[self MRAIDScriptPath] encoding:NSUTF8StringEncoding error:nil];
-
-            // Once done loading from the file, execute the javascript and load the html into the web view.
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.webView evaluateJavaScript:mraidString completionHandler:^(id result, NSError *error){
-                    [self.webView disableJavaScriptDialogs];
-                    [self.webView loadHTMLString:HTML baseURL:baseURL];
-                }];
-            });
+        // Execute the javascript in the web view directly.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.webView evaluateJavaScript:[[MPCoreInstanceProvider sharedProvider] mraidJavascript] completionHandler:^(id result, NSError *error){
+                [self.webView disableJavaScriptDialogs];
+                [self.webView loadHTMLString:HTML baseURL:baseURL];
+            }];
         });
     }
 }
@@ -162,7 +159,7 @@ static NSString * const kMraidURLScheme = @"mraid";
                                    withString:@" "
                                       options:NSLiteralSearch
                                         range:NSMakeRange(0, [urlString length])];
-        MPLogDebug(@"Web console: %@", urlString);
+        MPLogEvent([MPLogEvent javascriptConsoleLogWithMessage:urlString]);
         return NO;
     }
 
@@ -216,12 +213,6 @@ static NSString * const kMraidURLScheme = @"mraid";
 }
 
 #pragma mark - Private
-
-- (NSString *)MRAIDScriptPath
-{
-    MRBundleManager *bundleManager = [MRBundleManager sharedManager];
-    return [bundleManager mraidPath];
-}
 
 - (void)executeJavascript:(NSString *)javascript, ...
 {

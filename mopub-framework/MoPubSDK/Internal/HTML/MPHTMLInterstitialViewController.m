@@ -1,8 +1,9 @@
 //
 //  MPHTMLInterstitialViewController.m
-//  MoPub
 //
-//  Copyright (c) 2012 MoPub, Inc. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPHTMLInterstitialViewController.h"
@@ -19,10 +20,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation MPHTMLInterstitialViewController
-
-@synthesize delegate = _delegate;
-@synthesize backingViewAgent = _backingViewAgent;
-@synthesize backingView = _backingView;
 
 - (void)dealloc
 {
@@ -102,11 +99,13 @@
 
 #pragma mark - Autorotation
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self.backingViewAgent forceRedraw];
+    } completion:nil];
 
-    [self.backingViewAgent rotateToOrientation:self.interfaceOrientation];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 #pragma mark - MPAdWebViewAgentDelegate

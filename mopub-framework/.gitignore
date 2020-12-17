@@ -13,6 +13,5 @@ xcuserdata
 DerivedData
 *.xcuserstate
 
-*.framework
 Pods
 xcshareddata

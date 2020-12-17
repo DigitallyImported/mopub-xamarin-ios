@@ -1,9 +1,9 @@
 //
 //  MPBaseInterstitialAdapter.m
-//  MoPub
 //
-//  Created by Nafis Jamal on 4/27/11.
-//  Copyright 2011 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import "MPBaseInterstitialAdapter.h"
@@ -11,6 +11,7 @@
 #import "MPGlobal.h"
 #import "MPAnalyticsTracker.h"
 #import "MPCoreInstanceProvider.h"
+#import "MPError.h"
 #import "MPTimer.h"
 #import "MPConstants.h"
 
@@ -24,10 +25,6 @@
 @end
 
 @implementation MPBaseInterstitialAdapter
-
-@synthesize delegate = _delegate;
-@synthesize configuration = _configuration;
-@synthesize timeoutTimer = _timeoutTimer;
 
 - (id)initWithDelegate:(id<MPInterstitialAdapterDelegate>)delegate
 {
@@ -51,20 +48,18 @@
     self.delegate = nil;
 }
 
-- (void)getAdWithConfiguration:(MPAdConfiguration *)configuration
+- (void)getAdWithConfiguration:(MPAdConfiguration *)configuration targeting:(MPAdTargeting *)targeting
 {
     // To be implemented by subclasses.
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)_getAdWithConfiguration:(MPAdConfiguration *)configuration
+- (void)_getAdWithConfiguration:(MPAdConfiguration *)configuration targeting:(MPAdTargeting *)targeting
 {
     self.configuration = configuration;
 
     [self startTimeoutTimer];
-
-    MPBaseInterstitialAdapter *strongSelf = self;
-    [strongSelf getAdWithConfiguration:configuration];
+    [self getAdWithConfiguration:configuration targeting:targeting];
 }
 
 - (void)startTimeoutTimer
@@ -73,11 +68,10 @@
             self.configuration.adTimeoutInterval : INTERSTITIAL_TIMEOUT_INTERVAL;
 
     if (timeInterval > 0) {
-        self.timeoutTimer = [[MPCoreInstanceProvider sharedProvider] buildMPTimerWithTimeInterval:timeInterval
-                                                                                       target:self
-                                                                                     selector:@selector(timeout)
-                                                                                      repeats:NO];
-
+        self.timeoutTimer = [MPTimer timerWithTimeInterval:timeInterval
+                                                    target:self
+                                                  selector:@selector(timeout)
+                                                   repeats:NO];
         [self.timeoutTimer scheduleNow];
     }
 }
@@ -89,7 +83,9 @@
 
 - (void)timeout
 {
-    [self.delegate adapter:self didFailToLoadAdWithError:nil];
+    NSError * error = [NSError errorWithCode:MOPUBErrorAdRequestTimedOut localizedDescription:@"Interstitial ad request timed out"];
+    [self.delegate adapter:self didFailToLoadAdWithError:error];
+    self.delegate = nil;
 }
 
 #pragma mark - Presentation
@@ -103,12 +99,13 @@
 
 - (void)trackImpression
 {
-    [[[MPCoreInstanceProvider sharedProvider] sharedMPAnalyticsTracker] trackImpressionForConfiguration:self.configuration];
+    [[MPAnalyticsTracker sharedTracker] trackImpressionForConfiguration:self.configuration];
+    [self.delegate interstitialDidReceiveImpressionEventForAdapter:self];
 }
 
 - (void)trackClick
 {
-    [[[MPCoreInstanceProvider sharedProvider] sharedMPAnalyticsTracker] trackClickForConfiguration:self.configuration];
+    [[MPAnalyticsTracker sharedTracker] trackClickForConfiguration:self.configuration];
 }
 
 @end

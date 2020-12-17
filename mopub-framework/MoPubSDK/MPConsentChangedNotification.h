@@ -1,14 +1,15 @@
 //
 //  MPConsentChangedNotification.h
-//  MoPubSDK
 //
-//  Copyright © 2018 MoPub. All rights reserved.
+//  Copyright 2018-2019 Twitter, Inc.
+//  Licensed under the MoPub SDK License Agreement
+//  http://www.mopub.com/legal/sdk-license-agreement/
 //
 
 #import <Foundation/Foundation.h>
 
 /**
- Notification fire whenever the current consent status has changed. The payload
+ Notification fired whenever the current consent status has changed. The payload
  will be included in the @NSNotification.userInfo dictionary.
  */
 extern NSString * const kMPConsentChangedNotification;

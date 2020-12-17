@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Banners</key>
+	<dict>
+		<key>class</key>
+		<string>BannerAdViewController</string>
+		<key>ad_units</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>HTML Banner</string>
+				<key>adUnitId</key>
+				<string>0ac59b0996d947309c33f59d6676399f</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>MRAID Banner</string>
+				<key>adUnitId</key>
+				<string>ef078b27e11c49bbb87080617a69b970</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>HTML Medium Rectangle</string>
+				<key>adUnitId</key>
+				<string>2aae44d2ab91424d9850870af33e5af7</string>
+				<key>override_class</key>
+				<string>MediumRectangleAdViewController</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Interstitials</key>
+	<dict>
+		<key>class</key>
+		<string>InterstitialAdViewController</string>
+		<key>ad_units</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>HTML Interstitial</string>
+				<key>adUnitId</key>
+				<string>4f117153f5c24fa6a3a92b818a5eb630</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>MRAID Interstitial</string>
+				<key>adUnitId</key>
+				<string>9f2859c6726447aa9eaaa43a35ae8682</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Rewarded</key>
+	<dict>
+		<key>class</key>
+		<string>RewardedAdViewController</string>
+		<key>ad_units</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Rewarded Video</string>
+				<key>adUnitId</key>
+				<string>8f000bd5e00246de9c789eed39ff6096</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Rewarded Rich Media</string>
+				<key>adUnitId</key>
+				<string>98c29e015e7346bd9c380b1467b33850</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Native</key>
+	<dict>
+		<key>class</key>
+		<string>NativeAdViewController</string>
+		<key>ad_units</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>Native</string>
+				<key>adUnitId</key>
+				<string>76a3fefaced247959582d2d2df6f4757</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Native Video</string>
+				<key>adUnitId</key>
+				<string>b2b67c2a8c0944eda272ed8e4ddf7ed4</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Native Collection</string>
+				<key>adUnitId</key>
+				<string>76a3fefaced247959582d2d2df6f4757</string>
+				<key>override_class</key>
+				<string>NativeAdCollectionViewController</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Native Table</string>
+				<key>adUnitId</key>
+				<string>76a3fefaced247959582d2d2df6f4757</string>
+				<key>override_class</key>
+				<string>NativeAdTableViewController</string>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Native Video Table</string>
+				<key>adUnitId</key>
+				<string>b2b67c2a8c0944eda272ed8e4ddf7ed4</string>
+				<key>override_class</key>
+				<string>NativeAdTableViewController</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>
