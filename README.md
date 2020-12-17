@@ -1,10 +1,10 @@
 This repository is used to create the mopub xamarin bindings for iOS. It currently has support for GoogleAdMob, Facebook banner ads and Vungle and Facebook video (interstitial) ads.
 
 Version info:
-* MoPub version 5.1.0 [github](https://github.com/mopub/mopub-ios-sdk)
-* GoogleAdMob version 7.31.0 [googleAdMob](https://firebase.google.com/docs/admob/ios/download)
-* Vungle version 6.2.0 [website](https://v.vungle.com/sdk)
-* Facebook Audience Network 4.28.1 [website](https://developers.facebook.com/docs/ios)
+* MoPub version 5.8.0 [github](https://github.com/mopub/mopub-ios-sdk)
+* GoogleAdMob version 7.39.0 [googleAdMob](https://firebase.google.com/docs/admob/ios/download)
+* Vungle version 6.3.2 [website](https://v.vungle.com/sdk)
+* Facebook Audience Network 5.2.0.0 [website](https://developers.facebook.com/docs/ios)
 
 The MoPub folder contains 2 sub projects: one is Xcode project for building the MoPub framework which is then used in the second subproject which is a binding into the C# .dll library. The Xcode project is setup to build framework and uses MopubSDK source code provided by Mopub. Also Mopub supports other ads providers that are interacted via plugins and require corresponding SDK frameworks being downloaded from the providers and copied into the Mopab Xcode project. Taking into acount this structure the update process will consist of the following steps:
 
